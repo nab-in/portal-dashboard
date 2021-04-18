@@ -14,6 +14,9 @@ export default function Home() {
         <MainContents>
           <div className="metrics__showcase">
             <MetricsCard title="Total Number of Jobs" number={88} />
+            <MetricsCard title="Total Number of Jobs" number={88} />
+            <MetricsCard title="Total Number of Jobs" number={88} />
+            <MetricsCard title="Total Number of Jobs" number={1190088} />
           </div>
         </MainContents>
         <SubContents></SubContents>
