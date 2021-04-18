@@ -2,6 +2,7 @@
 
 header.dashboard__header
     position: fixed
+    max-width: 1650px
     top: 0
     height: 60px
     width: calc( 100% - 250px )
@@ -9,6 +10,7 @@ header.dashboard__header
     margin-left: 250px
     box-shadow: 0px 4px 20px 5px rgba(0, 0, 0, 0.1)
     transition: .35s
+    z-index: 6
     .container
         height: 100%
         padding: 0 2rem
@@ -66,6 +68,7 @@ header.dashboard__header
                 top: 50px
                 right: 0
                 transform: translateX(100%)
+                opacity: 0
                 min-width: 250px
                 padding: 1rem 0
                 background: #FFFFFF
@@ -73,6 +76,7 @@ header.dashboard__header
                 transition: .35s
                 &.open
                     transform: translateX(0)
+                    opacity: 1
                 .profile
                     justify-content: center
                     padding: 1rem

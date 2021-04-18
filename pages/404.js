@@ -1,7 +1,13 @@
+import MainContents from "../components/templates/MainContents"
+import SubContents from "../components/templates/SubContents"
+
 export default function Custom404() {
   return (
-    <div className="container">
-      <h1>page not found</h1>
+    <div>
+      <div className="content">
+        <MainContents></MainContents>
+        <SubContents></SubContents>
+      </div>
     </div>
   )
 }

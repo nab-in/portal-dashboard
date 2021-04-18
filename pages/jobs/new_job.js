@@ -1,8 +1,8 @@
 import React from "react"
-import MainContents from "../components/templates/MainContents"
-import SubContents from "../components/templates/SubContents"
+import MainContents from "../../components/templates/MainContents"
+import SubContents from "../../components/templates/SubContents"
 
-const profile = () => {
+const new_job = () => {
   return (
     <div>
       <div className="content">
@@ -13,4 +13,4 @@ const profile = () => {
   )
 }
 
-export default profile
+export default new_job

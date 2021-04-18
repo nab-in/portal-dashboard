@@ -12,6 +12,10 @@
         background: #003049
         height: 100%
         width: 100%
+        overflow-y: auto
+        overflow-x: hidden
+        &::-webkit-scrollbar
+            width: 0
     .burger
         display: none
         z-index: 10
@@ -29,6 +33,7 @@
             width: 130px
             position: relative
     nav
+
         ul
             padding: 20px 0
             li

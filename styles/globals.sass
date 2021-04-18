@@ -24,7 +24,21 @@ ul
     width: 100%
     max-width: 1900px
     margin: auto
-    height: 100%
     position: relative
-    // left: 50%
-    // transform: translateX(-50%)
+
+::-webkit-scrollbar
+    width: .8em
+    padding: .3rem
+    background-color: lightgray
+::-webkit-scrollbar-thumb
+    background-color: gray
+    border-radius: .4rem
+
+.content
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))
+    grid-auto-flow: dense
+    grid-column-gap: 3rem
+    margin: 2rem 0
+    padding: 0 2rem
+    position: relative
