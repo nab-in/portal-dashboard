@@ -16,6 +16,12 @@ header.dashboard__header
         display: flex
         justify-content: flex-end
         align-items: center
+        .logo__container
+            display: none
+        .right__nav
+            display: flex
+            align-items: center
+            height: 100%
         .notify
             padding-left: .8rem
             margin-right: 2.8rem
@@ -35,6 +41,7 @@ header.dashboard__header
                 align-items: center
                 border-radius: 50%
         .profile
+            height: 100%
             display: flex
             align-items: center
             cursor: pointer
@@ -92,7 +99,7 @@ header.dashboard__header
         width: calc(100% - 200px)
         margin-left: 200px
 
-@media screen and ( max-width: 767px )
+@media screen and ( max-width: 768px )
     header.dashboard__header
         width: calc(100% - 70px)
         margin-left: 70px
@@ -101,6 +108,20 @@ header.dashboard__header
             margin-left: 70px
         .container
             padding: 0 1rem
+            justify-content: space-between
+            align-items: center
+            .logo__container
+                height: 60px
+                width: 130px
+                position: relative
+                padding: 15px 0
+                display: flex
+                justify-content: flex-start
+                transition: .35s
+                .logo
+                    height: 30px
+                    width: 100px
+                    position: relative
 
 @media screen and ( max-width: 480px )
     header.dashboard__header
@@ -109,3 +130,17 @@ header.dashboard__header
         &.full__width
             width: 100%
             margin-left: 0
+        .container
+            .notify
+                margin-right: 2rem
+            .profile
+                display: flex
+                align-items: center
+                cursor: pointer
+                .dp__container
+                    margin-right: .8rem
+                .name
+                    span
+                        display: none
+                    .icon
+                        margin-left: 0rem

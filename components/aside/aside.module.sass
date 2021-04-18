@@ -6,14 +6,108 @@
     position: sticky
     left: 0
     top: 0
-    background: #003049
     transition: .35s
+    z-index: 9
+    .wrapper
+        background: #003049
+        height: 100%
+        width: 100%
+    .burger
+        display: none
+        z-index: 10
+        box-shadow: 3px 4px 15px 3px rgba(0, 0, 0, 0.15)
+    .logo__container
+        height: 60px
+        width: 130px
+        position: relative
+        padding: 15px 20px
+        display: flex
+        justify-content: flex-start
+        transition: .35s
+        .logo
+            height: 30px
+            width: 130px
+            position: relative
+    nav
+        ul
+            padding: 20px 0
+            li
+                height: 50px
+                margin: 15px 0
+                a
+                    display: flex
+                    justify-content: flex-start
+                    align-items: center
+                    padding: 0 20px
+                    width: 100%
+                    height: 100%
+                    line-height: 50px
+                    transition: .35s
+                    overflow: hidden
+                    font-size: 1rem
+                    color: #E2E8EC
+                    position: relative
+                    &:hover, &.active
+                        background: rgba(226, 232, 236, 0.1)
+                        text-decoration: none
+                    &.active
+                        &::before, &::after
+                            content: ""
+                            position: absolute
+                            top: 0
+                            height: 100%
+                        &::before
+                            left: 0
+                            width: 3px
+                            background: $secondary
+                        &::after
+                            right: 0
+                            width: 0
+                            height: 0
+                            border-style: solid
+                            border-width: 25px 15px 25px 0
+                            border-color: transparent #E2E8EC transparent transparent
+                    .icon
+                        margin-right: 15px
+                        font-size: 24px
+                    span
+                        transition: .2s
 
 @media screen and ( max-width: 1900px )
     .aside
         position: fixed
         &.open
             width: 70px
+            .burger
+                transform: rotateZ(180deg)
+            .logo__container
+                transform: translateX(calc( 70px + 2rem - 20px ))
+            nav
+                ul
+                    li
+                        a
+                            justify-content: center
+                            padding: 0
+                            .icon
+                                margin-right: 0
+                                font-size: 1.5rem
+                            span
+                                display: none
+        .burger
+            background: $secondary
+            position: absolute
+            height: 40px
+            width: 40px
+            border-radius: 50%
+            display: flex
+            justify-content: center
+            align-items: center
+            color: white
+            font-size: 1.3rem
+            left: calc( 100% - 20px )
+            top: 10px
+            transition: .35s
+            cursor: pointer
 
 @media screen and ( max-width: 992px )
     .aside
@@ -22,8 +116,66 @@
 @media screen and ( max-width: 768px )
     .aside
         width: 70px
+        .burger
+            top: 60px
+        .logo__container
+            opacity: 0
+        nav
+            ul
+                li
+                    a
+                        justify-content: center
+                        padding: 0
+                        .icon
+                            margin-right: 0
+                            font-size: 1.5rem
+                        span
+                            display: none
         &.open
             width: 200px
+            .logo__container
+                opacity: 1
+                transform: translateX(0)
+            nav
+                ul
+                    padding: 20px 0
+                    li
+                        height: 50px
+                        margin: 15px 0
+                        a
+                            display: flex
+                            justify-content: flex-start
+                            align-items: center
+                            padding: 0 20px
+                            width: 100%
+                            height: 100%
+                            line-height: 50px
+                            transition: .35s
+                            overflow: hidden
+                            font-size: 1rem
+                            color: #E2E8EC
+                            position: relative
+                            &:hover, &.active
+                                background: rgba(226, 232, 236, 0.1)
+                                text-decoration: none
+                            &.active
+                                &::before, &::after
+                                    content: ""
+                                    position: absolute
+                                    top: 0
+                                    height: 100%
+                                &::before
+                                    left: 0
+                                    width: 3px
+                                    background: $secondary
+                                &::after
+                                    display: none
+                            .icon
+                                margin-right: 15px
+                                font-size: 24px
+                            span
+                                transition: .2s
+                                display: inline-block
 
 @media screen and ( max-width: 480px )
     .aside
@@ -33,6 +185,4 @@
             width: 250px
             transform: translateX(0)
         .burger
-            position: fixed
-            top: 0
-            left: 100%
+            left: calc( 100% + .5rem )

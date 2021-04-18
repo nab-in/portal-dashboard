@@ -40,81 +40,95 @@ const Header = ({ navOpen }) => {
       }
     >
       <div className={styles.container}>
-        <div className={styles.notify} onClick={() => setNotify(true)}>
-          <Link href="/notifications">
-            <a>
-              <FaBell className={styles.icon} />
-              {0 < number && number <= 99 && <span>{number}</span>}
-              {number > 99 && <span>99+</span>}
-            </a>
-          </Link>
-        </div>
-        <div
-          className={styles.profile}
-          onClick={() => setOpen(!open)}
-          ref={node}
-        >
-          <div className={styles.dp__container}>
+        <div className={styles.logo__container}>
+          <div className={styles.logo}>
             <Image
-              src={`/assets/images/dp.jpeg`}
-              alt={`dp`}
-              height={40}
-              width={40}
-              objectFit="cover"
+              src={`/assets/images/logo.png`}
+              alt={`logo`}
+              layout="fill"
+              objectFit="contain"
             />
           </div>
-          <div className={styles.name}>
-            <span>John Doe</span>
-            <FaAngleDown className={styles.icon} />
+        </div>
+        <div className={styles.right__nav}>
+          <div className={styles.notify} onClick={() => setNotify(true)}>
+            <Link href="/notifications">
+              <a>
+                <FaBell className={styles.icon} />
+                {0 < number && number <= 99 && <span>{number}</span>}
+                {number > 99 && <span>99+</span>}
+              </a>
+            </Link>
           </div>
           <div
-            className={
-              open ? `${styles.dropdown} ${styles.open}` : `${styles.dropdown}`
-            }
+            className={styles.profile}
+            onClick={() => setOpen(!open)}
+            ref={node}
           >
-            <div className={styles.profile}>
-              <div className={styles.dp__container}>
-                <Image
-                  src={`/assets/images/dp.jpeg`}
-                  alt={`dp`}
-                  height={40}
-                  width={40}
-                  objectFit="cover"
-                />
-              </div>
-              <div className={styles.name}>
-                <span>John Doe</span>
-              </div>
+            <div className={styles.dp__container}>
+              <Image
+                src={`/assets/images/dp.jpeg`}
+                alt={`dp`}
+                height={40}
+                width={40}
+                objectFit="cover"
+              />
             </div>
-            <nav>
-              <ul>
-                <li>
-                  <Link href="/">
-                    <a>Dashboard</a>
-                  </Link>
-                </li>
+            <div className={styles.name}>
+              <span>John Doe</span>
+              <FaAngleDown className={styles.icon} />
+            </div>
+            <div
+              className={
+                open
+                  ? `${styles.dropdown} ${styles.open}`
+                  : `${styles.dropdown}`
+              }
+            >
+              <div className={styles.profile}>
+                <div className={styles.dp__container}>
+                  <Image
+                    src={`/assets/images/dp.jpeg`}
+                    alt={`dp`}
+                    height={40}
+                    width={40}
+                    objectFit="cover"
+                  />
+                </div>
+                <div className={styles.name}>
+                  <span>John Doe</span>
+                </div>
+              </div>
+              <nav>
                 <ul>
                   <li>
-                    <Link href="/jobs">
-                      <a>Jobs</a>
+                    <Link href="/">
+                      <a>Dashboard</a>
                     </Link>
                   </li>
+                  <ul>
+                    <li>
+                      <Link href="/jobs">
+                        <a>Jobs</a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/drafts">
+                        <a>Drafts</a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/profile">
+                        <a>Profile</a>
+                      </Link>
+                    </li>
+                  </ul>
                   <li>
-                    <Link href="/drafts">
-                      <a>Drafts</a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/profile">
-                      <a>Profile</a>
-                    </Link>
+                    <a href="#!">Logout</a>
                   </li>
                 </ul>
-                <li>
-                  <a href="#!">Logout</a>
-                </li>
-              </ul>
-            </nav>
+              </nav>
+            </div>
           </div>
         </div>
       </div>
