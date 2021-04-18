@@ -34,11 +34,27 @@ ul
     background-color: gray
     border-radius: .4rem
 
+.metrics__showcase
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    justify-content: space-between
+    gap: 15px
+    margin-bottom: 3rem
+
+.bread__crumb
+    margin-bottom: 1.5rem
+    span
+        margin-right: .4rem
+
 .content
-    display: grid
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))
-    grid-auto-flow: dense
-    grid-column-gap: 3rem
     margin: 2rem 0
-    padding: 0 2rem
+    padding: 0 1.5rem
     position: relative
+
+@media screen and ( max-width:768px)
+    body
+        background: $bg
+    .content
+        margin: 2rem 0
+        padding: 2rem 1rem

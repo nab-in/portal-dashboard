@@ -77,7 +77,6 @@ let urls = [
 // let isCompany = "company"
 // let isAdmin = "admin"
 const Aside = ({ navOpen, handleNav, isMobile, setnavOpen }) => {
-  console.log(isMobile)
   urls = urls.filter((el) => el.type == "company" || el.type == "")
   return (
     <aside
