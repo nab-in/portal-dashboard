@@ -191,3 +191,10 @@
             transform: translateX(0)
         .burger
             left: calc( 100% + .5rem )
+        nav
+            ul
+                li
+                    a
+                        &.active
+                            &::before, &::after
+                                display: none
