@@ -1,4 +1,6 @@
 import Head from "next/head"
+import MainContents from "../components/templates/MainContents"
+import SubContents from "../components/templates/SubContents"
 
 export default function Home() {
   return (
@@ -7,7 +9,10 @@ export default function Home() {
         <title>Portal Dashboard</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Portal dashboard</h1>
+      <div className="content">
+        <MainContents></MainContents>
+        <SubContents></SubContents>
+      </div>
     </div>
   )
 }
