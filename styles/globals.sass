@@ -35,10 +35,13 @@ ul
     border-radius: .4rem
 
 .content
-    display: grid
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))
-    grid-auto-flow: dense
-    grid-column-gap: 3rem
     margin: 2rem 0
-    padding: 0 2rem
+    padding: 0 1.5rem
     position: relative
+
+@media screen and ( max-width:768px)
+    body
+        background: $bg
+    .content
+        margin: 2rem 0
+        padding: 2rem 1rem
