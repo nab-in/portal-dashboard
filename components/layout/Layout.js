@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
         <Aside navOpen={navOpen} handleNav={handleNav} />
         {isMobile && (
           <div
-            className={!navOpen ? "backdrop" : ""}
+            className={!navOpen ? `${styles.backdrop}` : ""}
             onClick={() => setnavOpen(true)}
           ></div>
         )}

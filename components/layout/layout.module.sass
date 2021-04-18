@@ -4,5 +4,42 @@
         width: calc( 100% - 250px )
         margin-top: 60px
         min-height: calc( 100vh - 60px )
-        // height: 150vh
         overflow-y: auto
+        transition: .35s
+
+.backdrop
+    position: fixed
+    top: 0
+    left: 0
+    background: rgba(0, 0, 0, .2)
+    height: 100vh
+    width: 100%
+    z-index: 8
+    overflow: hidden
+
+@media screen and ( max-width: 1900px )
+    .layout
+        display: block
+        main.main
+            margin-left: 250px
+            &.full__width
+                width: calc( 100% - 70px )
+                margin-left: 70px
+
+@media screen and ( max-width: 992px )
+    .layout
+        main.main
+            width: calc( 100% - 200px )
+            margin-left: 200px
+
+@media screen and ( max-width: 768px )
+    .layout
+        main.main
+            width: calc( 100% - 70px )
+            margin-left: 70px
+
+@media screen and ( max-width: 480px )
+    .layout
+        main.main
+            width: 100%
+            margin-left: 0

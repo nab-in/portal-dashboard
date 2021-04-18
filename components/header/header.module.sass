@@ -8,9 +8,10 @@ header.dashboard__header
     background: white
     margin-left: 250px
     box-shadow: 0px 4px 20px 5px rgba(0, 0, 0, 0.1)
+    transition: .35s
     .container
         height: 100%
-        width: 95%
+        padding: 0 2rem
         margin: 0 auto
         display: flex
         justify-content: flex-end
@@ -98,6 +99,8 @@ header.dashboard__header
         &.full__width
             width: calc(100% - 70px)
             margin-left: 70px
+        .container
+            padding: 0 1rem
 
 @media screen and ( max-width: 480px )
     header.dashboard__header
