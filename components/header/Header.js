@@ -1,77 +1,122 @@
-import React, { useState } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { FaAngleDown } from "react-icons/fa"
-import { BsBell } from "react-icons/bs"
+import { FaAngleDown, FaBell } from "react-icons/fa"
 import styles from "./header.module.sass"
+
+// detect outside click hook
+let useClickOutside = (handler) => {
+  let node = useRef()
+  useEffect(() => {
+    let handle = (e) => {
+      if (!node.current.contains(e.target)) {
+        handler()
+      }
+    }
+    document.addEventListener("mousedown", handle)
+    return () => {
+      document.removeEventListener("mousedown", handle)
+    }
+  })
+  return node
+}
 
 const Header = ({ navOpen }) => {
   const [open, setOpen] = useState(false)
+  const [notify, setNotify] = useState(false)
+  let number = 5
+
+  // check if outside is clicked
+  let node = useClickOutside(() => {
+    setOpen(false)
+  })
+
   return (
     <header
-      className={navOpen ? "dashboard-header" : "dashboard-header full-width"}
+      className={
+        navOpen
+          ? `${styles.dashboard__header}`
+          : `${styles.dashboard__header} ${styles.full__width}`
+      }
     >
-      <div className="container">
-        <div className="logo-container">
-          <div className="logo">
-            {/* <Link href="/">
-              {/* <img src={logo} alt="Kodemunit logo" className="logo" /> */}
-            {/* </Link> */}
+      <div className={styles.container}>
+        <div className={styles.notify} onClick={() => setNotify(true)}>
+          <Link href="/notifications">
+            <a>
+              <FaBell className={styles.icon} />
+              {0 < number && number <= 99 && <span>{number}</span>}
+              {number > 99 && <span>99+</span>}
+            </a>
+          </Link>
+        </div>
+        <div
+          className={styles.profile}
+          onClick={() => setOpen(!open)}
+          ref={node}
+        >
+          <div className={styles.dp__container}>
+            <Image
+              src={`/assets/images/dp.jpeg`}
+              alt={`dp`}
+              height={40}
+              width={40}
+              objectFit="cover"
+            />
+          </div>
+          <div className={styles.name}>
+            <span>John Doe</span>
+            <FaAngleDown className={styles.icon} />
+          </div>
+          <div
+            className={
+              open ? `${styles.dropdown} ${styles.open}` : `${styles.dropdown}`
+            }
+          >
+            <div className={styles.profile}>
+              <div className={styles.dp__container}>
+                <Image
+                  src={`/assets/images/dp.jpeg`}
+                  alt={`dp`}
+                  height={40}
+                  width={40}
+                  objectFit="cover"
+                />
+              </div>
+              <div className={styles.name}>
+                <span>John Doe</span>
+              </div>
+            </div>
+            <nav>
+              <ul>
+                <li>
+                  <Link href="/">
+                    <a>Dashboard</a>
+                  </Link>
+                </li>
+                <ul>
+                  <li>
+                    <Link href="/jobs">
+                      <a>Jobs</a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/drafts">
+                      <a>Drafts</a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/profile">
+                      <a>Profile</a>
+                    </Link>
+                  </li>
+                </ul>
+                <li>
+                  <a href="#!">Logout</a>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
-        <nav>
-          <span className="role nav-link">
-            <Link href="/dashboard/notifications" className="alerts">
-              <BsBell className="icon" />
-              {/* {number && <span>{number}</span>} */}
-            </Link>
-          </span>{" "}
-          &nbsp;
-          <a
-            href="#!"
-            className="user-name nav-link"
-            // onTap={() => setOpen(!open)}
-          >
-            <span className="nav-link">John Doe</span>
-            <FaAngleDown className="icon" />
-          </a>
-          <ul className={open ? "dropdown show" : "dropdown"}>
-            <li>
-              <a href="#!" onClick={() => setOpen(false)}>
-                Name
-              </a>
-            </li>
-            <li>
-              <span>admin</span>
-            </li>
-            <li onClick={() => setOpen(false)}>
-              <Link href="/profile">Profile</Link>
-            </li>
-            <li>
-              <a
-                href="#!"
-                onClick={() => {
-                  logout()
-                  setOpen(false)
-                }}
-              >
-                Logout
-              </a>
-            </li>
-          </ul>
-          <div className="profile-image">
-            {/* {user && user.data && (
-          <img
-            src={user.data.dp_path ? user.data.dp_path : dp_img}
-            alt="profile/dp"
-            loading="lazy"
-            style={{
-              objectFit: "cover",
-            }}
-          />
-        )} */}
-          </div>
-        </nav>
       </div>
     </header>
   )

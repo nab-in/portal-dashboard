@@ -18,20 +18,22 @@ const Layout = ({ children }) => {
   return (
     <div className="dashboard">
       <Header navOpen={navOpen} />
-      <Aside navOpen={navOpen} handleNav={handleNav} />
-      {isMobile && (
-        <div
-          className={!navOpen ? "backdrop" : ""}
-          onClick={() => setnavOpen(true)}
-        ></div>
-      )}
-      <main
-        className={
-          navOpen ? `${styles.main}` : `${styles.main} ${styles.full__width}`
-        }
-      >
-        {children}
-      </main>
+      <div className={styles.layout}>
+        <Aside navOpen={navOpen} handleNav={handleNav} />
+        {isMobile && (
+          <div
+            className={!navOpen ? "backdrop" : ""}
+            onClick={() => setnavOpen(true)}
+          ></div>
+        )}
+        <main
+          className={
+            navOpen ? `${styles.main}` : `${styles.main} ${styles.full__width}`
+          }
+        >
+          {children}
+        </main>
+      </div>
     </div>
   )
 }

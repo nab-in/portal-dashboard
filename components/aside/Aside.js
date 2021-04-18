@@ -1,8 +1,12 @@
 import React from "react"
 import styles from "./aside.module.sass"
 
-const Aside = () => {
-  return <div>Aside dashboard</div>
+const Aside = ({ navOpen, handleNav }) => {
+  return (
+    <aside className={styles.aside}>
+      <div onClick={handleNav}>Click me</div>
+    </aside>
+  )
 }
 
 export default Aside

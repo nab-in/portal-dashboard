@@ -1,1 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap')
 
+@import "./_colors"
+
+*
+    padding: 0
+    margin: 0
+    box-sizing: border-box
+    font-family: 'Lato', sans-serif
+
+a
+    text-decoration: none
+    color: $primary
+    &.dark_bg
+        color: #E2E8EC
+    &:hover
+        text-decoration: underline
+
+ul
+    list-style: none
+
+.dashboard
+    background: $bg
+    width: 100%
+    max-width: 1900px
+    margin: auto
+    height: 100%
+    position: relative
+    // left: 50%
+    // transform: translateX(-50%)
