@@ -19,7 +19,7 @@ const Layout = ({ children }) => {
     <div className="dashboard">
       <Header navOpen={navOpen} />
       <div className={styles.layout}>
-        <Aside navOpen={navOpen} handleNav={handleNav} />
+        <Aside navOpen={navOpen} handleNav={handleNav} isMobile={isMobile} />
         {isMobile && (
           <div
             className={!navOpen ? `${styles.backdrop}` : ""}

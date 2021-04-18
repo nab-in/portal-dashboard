@@ -11,11 +11,12 @@
     position: fixed
     top: 0
     left: 0
-    background: rgba(0, 0, 0, .2)
+    background: rgba(0, 0, 0, .6)
     height: 100vh
     width: 100%
     z-index: 8
     overflow: hidden
+    transition: .35s
 
 @media screen and ( max-width: 1900px )
     .layout
@@ -43,3 +44,6 @@
         main.main
             width: 100%
             margin-left: 0
+            &.full__width
+                width: 100%
+                margin-left: 0

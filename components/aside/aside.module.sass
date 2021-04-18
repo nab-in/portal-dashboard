@@ -6,14 +6,52 @@
     position: sticky
     left: 0
     top: 0
-    background: #003049
     transition: .35s
+    z-index: 9
+    .wrapper
+        background: #003049
+        height: 100%
+        width: 100%
+    .burger
+        display: none
+        z-index: 10
+    .logo__container
+        height: 60px
+        width: 130px
+        position: relative
+        padding: 15px 20px
+        display: flex
+        justify-content: flex-start
+        transition: .35s
+        .logo
+            height: 30px
+            width: 130px
+            position: relative
 
 @media screen and ( max-width: 1900px )
     .aside
         position: fixed
         &.open
             width: 70px
+            .burger
+                transform: rotateZ(180deg)
+            .logo__container
+                transform: translateX(calc( 70px + 2rem - 20px ))
+        .burger
+            background: $secondary
+            position: absolute
+            height: 40px
+            width: 40px
+            border-radius: 50%
+            display: flex
+            justify-content: center
+            align-items: center
+            color: white
+            font-size: 1.3rem
+            left: calc( 100% - 20px )
+            top: 10px
+            transition: .35s
+            cursor: pointer
 
 @media screen and ( max-width: 992px )
     .aside
@@ -22,17 +60,31 @@
 @media screen and ( max-width: 768px )
     .aside
         width: 70px
+        .burger
+            top: 70px
+        .wrapper
+            z-index: initial
+        .logo__container
+            transform: translateX(calc( 70px - 20px + 1rem))
+            z-index: -1
         &.open
             width: 200px
+            .logo__container
+                transform: translateX(calc( 70px - 20px + 1rem))
 
 @media screen and ( max-width: 480px )
     .aside
         width: 250px
         transform: translateX(-250px)
+        .logo__container
+            transform: translateX(calc(250px - 20px + 1rem))
+            z-index: -1
         &.open
             width: 250px
             transform: translateX(0)
+            .logo__container
+                transform: translateX(calc( 1rem - 20px ))
+                z-index: -1
         .burger
-            position: fixed
-            top: 0
-            left: 100%
+            // top: 70px
+            left: calc( 100% + .5rem )
