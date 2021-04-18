@@ -1,6 +1,7 @@
 import Head from "next/head"
 import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
+import MetricsCard from "../components/metricsCard/MetricsCard"
 
 export default function Home() {
   return (
@@ -10,7 +11,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="content">
-        <MainContents></MainContents>
+        <MainContents>
+          <div className="metrics__showcase">
+            <MetricsCard title="Total Number of Jobs" number={88} />
+          </div>
+        </MainContents>
         <SubContents></SubContents>
       </div>
     </div>

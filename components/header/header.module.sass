@@ -97,6 +97,24 @@ header.dashboard__header
         &.full__width
             width: calc(100% - 70px)
             margin-left: 70px
+            .container
+                justify-content: space-between
+                .logo__container
+                    display: flex
+        .container
+            .logo__container
+                height: 60px
+                width: 130px
+                position: relative
+                padding: 15px 0
+                display: flex
+                justify-content: flex-start
+                transition: .35s
+                display: none
+                .logo
+                    height: 30px
+                    width: 100px
+                    position: relative
 
 @media screen and ( max-width: 992px )
     header.dashboard__header
