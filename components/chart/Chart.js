@@ -54,7 +54,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 }
 
 let Subtitle = ({title}) => {
-  return <div>{title} from {data[0].date} to {data[data.length - 1].date}</div>
+  return <div>From {data[0].date} to {data[data.length - 1].date}</div>
 }
 
 const Chart = ({ title }) => {

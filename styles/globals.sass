@@ -19,6 +19,111 @@ a
 ul
     list-style: none
 
+.btn
+    padding: .5rem 3rem
+    min-width: 150px
+    cursor: pointer
+    font-size: 1rem
+    display: flex
+    justify-content: center
+    align-items: center
+    &.span__full
+        width: 100%
+    &.btn-primary
+        background: $secondary
+        color: white
+        box-shadow: 5px 4px 25px 5px rgba(0, 0, 0, 0.1)
+        font-weight: 700
+        transition: .2s
+        &:hover
+            box-shadow: none
+            text-decoration: none
+
+.card
+    border: 1px solid #BBBBBB
+    background: white
+    transition: .3s
+    &:hover
+        box-shadow: 4px 4px 25px 5px rgba(0, 0, 0, 0.15)
+        border-color: white
+
+.badge
+    padding: .3rem .7rem
+    max-width: 120px
+    border-radius: 5px
+    display: inline-flex
+    justify-content: center
+    align-items: center
+    font-size: .9rem
+    &.unverified
+        background: #E2E8EC
+        color: $primary
+    &.verified
+        background: $primary
+        color: #E2E8EC
+        .icon
+            margin-left: .7rem
+
+.filter__criteria
+    .criteria
+        margin-bottom: .7rem
+        display: flex
+        align-items: flex-start
+        font-size: .9rem
+        &__title
+            display: inline-block
+            white-space: nowrap
+            padding: .2rem 0
+            margin: .3rem 0
+            margin-right: 1rem
+        &__showcase
+            display: flex
+            align-items: center
+            flex-wrap: wrap
+            span
+                display: flex
+                align-items: center
+                justify-content: center
+                flex-wrap: wrap
+                padding: .2rem .5rem
+                border-radius: 8px
+                margin: .3rem .5rem .3rem 0
+                background: #E2E8EC
+                color: $primary
+                .close
+                    margin: 0
+                    cursor: pointer
+                    padding: .2rem
+                    margin-left: 1rem
+                    .icon
+                        color: red
+
+.stars
+    $percent: calc(var(--rating) / 5 * 100%)
+    display: inline-block
+    font-size: .9rem
+    font-family: Times // make sure ★ appears correctly
+    line-height: 1
+    color: $primary
+    margin-bottom: .7rem
+    &::before
+        content: '★★★★★'
+        letter-spacing: 3px
+        background: linear-gradient(90deg, $secondary calc( var(--rating) / 5 * 100% ), white calc( var(--rating) / 5 * 100% ))
+        -webkit-background-clip: text
+        -webkit-text-stroke-width: 1px
+        -webkit-text-stroke-color: $secondary
+        -webkit-text-fill-color: transparent
+    &.bg__stars
+        margin-bottom: 0
+        transform: scale(1.2)
+        &::before
+            background: linear-gradient(90deg, $secondary calc( var(--rating) / 5 * 100% ), transparent calc( var(--rating) / 5 * 100% ))
+            -webkit-background-clip: text
+            -webkit-text-stroke-width: 1px
+            -webkit-text-stroke-color: $secondary
+            -webkit-text-fill-color: transparent
+
 .dashboard
     background: $bg
     width: 100%
@@ -50,7 +155,8 @@ ul
 .content
     margin: 2rem 0
     padding: 0 1.5rem
-    position: relative
+    // position: relative
+    min-height: calc( 100vh - 150px )
 
 @media screen and ( max-width:768px)
     body

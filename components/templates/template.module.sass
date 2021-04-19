@@ -1,10 +1,16 @@
 .main__content
     width: calc( 100% - 280px )
+    float: left
+    padding-right: 2rem
 .sub__content
     width: 280px
-    position: fixed
+    // height: calc( 100px - 60px )
+    float: right
+    position: sticky
     right: 0
     top: 60px
+    // padding: 2rem 0 0
+    // padding-right: 1rem
 
 @media screen and ( max-width: 992px )
     .main__content
@@ -15,8 +21,10 @@
 @media screen and ( max-width: 768px )
     .main__content
         width: 100%
+        padding-right: 0
     .sub__content
         width: 100%
         position: relative
         top: 0
         margin-top: 2rem
+        padding: 0
