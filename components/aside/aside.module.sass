@@ -84,7 +84,7 @@
         &.open
             width: 70px
             .burger
-                transform: rotateZ(180deg)
+                transform: rotateZ(0)
             .logo__container
                 transform: translateX(calc( 70px + 2rem - 20px ))
             nav
@@ -113,6 +113,7 @@
             top: 10px
             transition: .35s
             cursor: pointer
+            transform: rotateZ(180deg)
 
 @media screen and ( max-width: 992px )
     .aside
@@ -123,6 +124,7 @@
         width: 70px
         .burger
             top: 70px
+            transform: rotateZ(0)
         .logo__container
             opacity: 0
         nav
@@ -138,6 +140,8 @@
                             display: none
         &.open
             width: 200px
+            .burger
+                transform: rotateZ(180deg)
             .logo__container
                 opacity: 1
                 transform: translateX(0)
