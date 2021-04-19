@@ -6,7 +6,7 @@ const data = [
   {
     name: moment("12-3-2021", 'DD/MM/YYYY').format("dd"),
     date: "12-3-2021",
-    value: 300,
+    value: 150,
   },
   {
     name: moment("13-3-2021", 'DD/MM/YYYY').format("dd"),
@@ -31,7 +31,7 @@ const data = [
   {
     name: moment("17-3-2021", 'DD/MM/YYYY').format("dd"),
     date: "17-3-2021",
-    value: 800,
+    value: 200,
   },
   {
     name: moment("18-3-2021", 'DD/MM/YYYY').format("dd"),

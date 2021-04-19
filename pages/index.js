@@ -27,7 +27,7 @@ export default function Home() {
             <MetricsCard title="Total Number of Jobs" number={88} />
             <MetricsCard title="Total Number of Jobs" number={1190088} />
           </div>
-          <Chart title="Applications from 17.02.2021 to 15.03.2021" />
+          <Chart title="Applications" />
         </MainContents>
         <SubContents></SubContents>
       </div>
