@@ -1,0 +1,31 @@
+@import "../../styles/_colors"
+
+.form_control
+    display: flex
+    flex-direction: column
+    width: 100%
+    margin: 1.3rem 0
+    transition: .2s
+    label
+        margin-bottom: .7rem
+        color: $primary
+    input, textarea
+        transition: .25s ease-in
+        height: 35px
+        background: white
+        border: none
+        border: 1px solid $primary
+        font-size: 1rem
+        resize: none
+        padding: 1rem 1rem
+        &:focus
+            outline: none !important
+            border-color: $primary
+            box-shadow: 2px 2px 7px 2px rgba(0, 80, 122,.4)
+        &::placeholder
+            font-size: .8rem
+            color: gray
+    textarea
+        height: auto
+        min-height: 150px
+        margin-top: .6rem
