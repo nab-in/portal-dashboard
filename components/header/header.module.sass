@@ -63,33 +63,36 @@ header.dashboard__header
                     text-overflow: ellipsis
                 .icon
                     margin-left: .8rem
-            .dropdown
-                position: absolute
-                top: 50px
-                right: 0
-                transform: translateX(100%)
-                opacity: 0
-                min-width: 250px
-                padding: 1rem 0
-                background: #FFFFFF
-                box-shadow: 2px 4px 15px 15px rgba(0, 0, 0, 0.05)
-                transition: .35s
-                &.open
-                    transform: translateX(0)
-                    opacity: 1
-                .profile
-                    justify-content: center
-                    padding: 1rem
-                    .dp__container
-                        margin-right: 1rem
+        .dropdown
+            position: absolute
+            top: 50px
+            right: 0
+            transform: translateX(100%)
+            opacity: 0
+            min-width: 250px
+            padding: 1rem 0
+            background: #FFFFFF
+            box-shadow: 2px 4px 15px 15px rgba(0, 0, 0, 0.05)
+            transition: .35s
+            &.open
+                transform: translateX(0)
+                opacity: 1
+            .profile
+                justify-content: center
+                align-items: canter
+                flex-direction: column
+                padding: 1rem
+                .dp__container
+                    margin-right: 0
+                    margin-bottom: 1rem
+            ul
+                li
+                    a
+                        padding: .7rem 1rem
+                        display: flex
                 ul
-                    li
-                        a
-                            padding: .7rem 1rem
-                            display: flex
-                    ul
-                        border-top: 1px solid#D9D9D9
-                        border-bottom: 1px solid#D9D9D9
+                    border-top: 1px solid#D9D9D9
+                    border-bottom: 1px solid#D9D9D9
 
 @media screen and ( max-width: 1900px )
     header.dashboard__header
