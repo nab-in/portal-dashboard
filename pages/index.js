@@ -1,9 +1,13 @@
 import Head from "next/head"
 import Link from "next/link"
+import dynamic from 'next/dynamic'
 import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
 import MetricsCard from "../components/metricsCard/MetricsCard"
-import Chart from "../components/chart/Chart"
+const Chart = dynamic(
+    () => import('../components/chart/Chart'),
+    { ssr: false }
+  )
 
 export default function Home() {
   return (
