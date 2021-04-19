@@ -10,126 +10,42 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts"
+import moment from "moment"
 import styles from "./chart.module.sass"
+import data from "../../data/chart.js"
 
-const data = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-]
+// calculating total number of values
+let number = (item) => {
+    return item.value
+  }
+
+  let sum = (prev, next) => {
+    return prev + next
+  }
+
+  let totalNumber = 0
+  if (data) totalNumber = data.map(number).reduce(sum, 0)
 
 const CustomTooltip = ({ active, payload, label }) => {
+  let date = payload[0]?.payload.date
   if (active && payload && payload.length) {
     return (
       <div
         className={styles.custom__tooltip}
         style={{
-          background: "#E2E8EC",
+          background: "white",
           padding: "1rem",
+          fontSize: "12px",
           borderRadius: "5px",
           boxShadow: "2px 4px 10px 3px rgba(0, 0, 0, 0.15)",
         }}
       >
-        <p className={styles.label}>{`${label} : ${payload[0].value}`}</p>
+        <p className={styles.label} style={{
+          marginBottom: ".5rem"
+        }}>{moment(date, "DD/MM/YYYY").format("dddd MMMM D, yyyy")}</p>
+        <p>
+          {payload[0].value} Applicants
+        </p>
       </div>
     )
   }
@@ -137,40 +53,52 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null
 }
 
-let Subtitle = () => {
-  return <div className="badge">Filter By</div>
+let Subtitle = ({title}) => {
+  return <div>{title} from {data[0].date} to {data[data.length - 1].date}</div>
 }
-
-let Text = ({ text }) => <text style={{ marginTop: "2rem" }}>{text}</text>
 
 const Chart = ({ title }) => {
   return (
     <div className={styles.chart}>
       <Card title={title}>
-      <Subtitle />
-      <div className={styles.chart__display}>
-        <ResponsiveContainer width={800} minWidth="100%" height={400}>
+      <Subtitle title={title} />
+      <div className={styles.chart__display} style={{
+        margin: "2rem 0"
+      }}>
           <BarChart
-            width="100%"
+            width={700}
             height={300}
             data={data}
             margin={{
-              top: 5,
+              top: 10,
               right: 30,
-              left: 20,
-              bottom: 5,
+              left: -25,
+              bottom: 10,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="0 0" />
             <XAxis
               dataKey="name"
-              label={<Text text="Applications/Day" />}
+              fontSize={12}
             />
-            <YAxis label="Text" />
+            <YAxis  fontSize={12}/>
             <Tooltip content={<CustomTooltip />} />
-            <Bar dataKey="pv" barSize={20} fill="#007CA9" />
+            <Bar dataKey="value" barSize={15} fill="#007CA9" />
           </BarChart>
-        </ResponsiveContainer>
+        </div>
+        <div className={styles.metrics}>
+          <div style={{
+            marginBottom: "1rem",
+            marginTop: "-1rem",
+            fontSize: "1.2rem"
+          }}>
+            <span style={{
+              marginRight: ".7rem"
+            }}>{totalNumber}</span> 
+            <span>
+              Applicants
+            </span>
+          </div>
         </div>
       </Card>
     </div>
