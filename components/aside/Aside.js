@@ -90,7 +90,7 @@ const Aside = ({ navOpen, handleNav, isMobile, setnavOpen }) => {
           <div className={styles.logo}>
             {isMobile ? (
               <Image
-                src={`/assets/images/logo_bg.png`}
+                src={`/assets/images/logobg.png`}
                 alt={`logo`}
                 layout="fill"
                 objectFit="contain"
@@ -99,7 +99,7 @@ const Aside = ({ navOpen, handleNav, isMobile, setnavOpen }) => {
               <Image
                 src={
                   navOpen && !isMobile
-                    ? `/assets/images/logo_bg.png`
+                    ? `/assets/images/logobg.png`
                     : `/assets/images/logo.png`
                 }
                 alt={`logo`}
