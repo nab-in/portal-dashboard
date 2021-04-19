@@ -51,9 +51,9 @@ const RelatedJobs = () => {
                     </p>
                   </div>
                   <div className={styles.company__info}>
-                    <p>
+                    {/* <p>
                       Company name: <span>{company.name}</span>
-                    </p>
+                    </p> */}
                     <p>
                       Job Type: <span>{job_type}</span>
                     </p>

@@ -1,11 +1,10 @@
 @import "../../styles/_colors"
 
 .card
-    padding: 2rem .5rem
+    padding: 2rem 1rem
     background: white
     margin: 2rem 0
     overflow-y: auto
-    // height: 100
     box-shadow: 5px 4px 30px 5px rgba(0, 0, 0, 0.15)
     h2
         font-size: clamp(1.3rem, 3vw, 1.5rem)
@@ -58,11 +57,10 @@
                     order: 2
                     margin-top: 1.5rem
                     .time__details
-                        padding-right: 1rem
-                        border-right: 1px solid #BBBBBB
+                        // padding-right: 1rem
                     .company__info
                         display: block
-                        padding-left: 1rem
+                        padding-left: 0
                 .title
                     order: 1
                     margin: 0
@@ -70,7 +68,26 @@
 @media screen and ( max-width: 820px )
     .card
         box-shadow: none
-        padding: 2rem 0 0
+        .showcase
+            article
+                .basic__info
+                    flex-wrap: wrap
+                    .time__details
+                        padding-right: 0
+                        border-right: none
+                        width: calc( 100% - 100px )
+                        margin-bottom: 1rem
+                    .company__info
+                        display: flex
+                        flex-wrap: wrap
+                        padding-left: 0
+                        width: 100%
+                        p
+                            margin-right: 2rem
+
+@media screen and ( max-width: 768px )
+    .card
+        margin: 0 0 2rem
         .showcase
             article
                 .basic__info
