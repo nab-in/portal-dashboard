@@ -61,10 +61,10 @@ const Header = ({ navOpen }) => {
             </Link>
           </div>
           <div
-            className={styles.profile}
-            onClick={() => setOpen(!open)}
+            className={styles.profile__container}
             ref={node}
           >
+          <div onClick={() => setOpen(!open)} className={styles.profile}>
             <div className={styles.dp__container}>
               <Image
                 src={`/assets/images/dp.jpeg`}
@@ -77,6 +77,7 @@ const Header = ({ navOpen }) => {
             <div className={styles.name}>
               <span>John Doe</span>
               <FaAngleDown className={styles.icon} />
+            </div>
             </div>
             <div
               className={
@@ -96,7 +97,7 @@ const Header = ({ navOpen }) => {
                   />
                 </div>
                 <div className={styles.name}>
-                  <span>John Doe</span>
+                John Doe
                 </div>
               </div>
               <nav>

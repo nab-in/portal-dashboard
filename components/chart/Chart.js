@@ -141,13 +141,13 @@ let Subtitle = () => {
   return <div className="badge">Filter By</div>
 }
 
-let Text = ({ text }) => <p style={{ marginTop: "2rem" }}>{text}</p>
+let Text = ({ text }) => <text style={{ marginTop: "2rem" }}>{text}</text>
 
 const Chart = ({ title }) => {
   return (
     <div className={styles.chart}>
       <Card title={title} subtitle={<Subtitle />}>
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width={500} height={400}>
           <BarChart
             width={500}
             height={300}
@@ -162,8 +162,7 @@ const Chart = ({ title }) => {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey="name"
-              // label={<Text text="Applications/Day" />}
-              label="Text"
+              label={<Text text="Applications/Day" />}
             />
             <YAxis label="Text" />
             <Tooltip content={<CustomTooltip />} />
