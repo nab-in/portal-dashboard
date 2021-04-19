@@ -35,7 +35,7 @@ export default function Home() {
         </MainContents>
         <SubContents>
           <Link href="/jobs/new_job">
-            <a className="btn btn-primary">Add New Job</a>
+            <a className="sub_btn btn btn-primary">Add New Job</a>
           </Link>
           <RecentJobs />
         </SubContents>
