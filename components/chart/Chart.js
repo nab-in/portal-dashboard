@@ -146,10 +146,12 @@ let Text = ({ text }) => <text style={{ marginTop: "2rem" }}>{text}</text>
 const Chart = ({ title }) => {
   return (
     <div className={styles.chart}>
-      <Card title={title} subtitle={<Subtitle />}>
-        <ResponsiveContainer width={500} height={400}>
+      <Card title={title}>
+      <Subtitle />
+      <div className={styles.chart__display}>
+        <ResponsiveContainer width={800} minWidth="100%" height={400}>
           <BarChart
-            width={500}
+            width="100%"
             height={300}
             data={data}
             margin={{
@@ -169,6 +171,7 @@ const Chart = ({ title }) => {
             <Bar dataKey="pv" barSize={20} fill="#007CA9" />
           </BarChart>
         </ResponsiveContainer>
+        </div>
       </Card>
     </div>
   )

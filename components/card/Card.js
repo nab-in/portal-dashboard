@@ -7,7 +7,6 @@ const Card = ({ title, subtitle, children }) => {
       <header className={styles.header}>
         <h2>
           {title}
-          {subtitle}
         </h2>
       </header>
       <article>{children}</article>
