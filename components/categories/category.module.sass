@@ -1,0 +1,121 @@
+@import "../../styles/_colors"
+
+.category
+    height: 40px
+    min-width: 200px
+    max-width: 100%
+    flex-grow: 1
+    margin: 1rem 0
+    position: relative
+    color: $primary
+    form
+        display: flex
+        align-items: center
+        justify-content: center
+        border: 1px solid $primary
+        height: 37px
+        margin: 2rem 0 1rem
+        .btn__primary
+            width: 50px
+            min-width: 50px
+            height: 35px
+            padding: 0
+            &:focus
+                box-shadow: none
+        input
+            // width: calc( 100% - 50px )
+    button
+        padding: 0 1rem
+        background: #E2E8EC
+        font-weight: bold
+        display: flex
+        width: 100%
+        height: 100%
+        align-items: center
+        justify-content: center
+        cursor: pointer
+        color: $primary
+        .icon
+            margin-left: 1.2rem
+            font-size: .9rem
+        &:focus
+            box-shadow: 0 0 0 3px white, 0 0 0 6px #E2E8EC
+    .dropdown
+        position: absolute
+        top: 45px
+        left: 50%
+        transform: translateX(-50%)
+        background: #ffffff
+        width: 110%
+        display: none
+        z-index: 5
+        padding: 1rem 1rem
+        box-shadow: 4px 4px 15px 10px rgba(0, 0, 0, 0.08)
+        border-radius: 10px
+        text-align: left
+        &.open
+            display: block
+        .sub__category
+            padding: .7rem 0
+            border-bottom: 1px solid #BBBBBB
+            cursor: pointer
+            .label
+                color: $primary
+                line-height: 1.5rem
+                cursor: pointer
+                position: relative
+                display: flex
+                align-items: center
+                position: relative
+                &::before
+                    display: none
+                    content: ""
+                    position: absolute
+                    height: 16px
+                    width: 16px
+                    margin-right: 1rem
+                    float: left
+                    border: 2px solid $primary
+                    border-radius: 3px
+                    transition: 0.15s all ease-out
+                    border-radius: 3px
+                span
+                    margin-left: 0
+                svg
+                    stroke: white
+                    stroke-width: 3px
+                    height: 0 //Firefox fix
+                    width: 20px
+                    position: absolute
+                    left: 0
+                    top: 0
+                    stroke-dasharray: 108 //Firefox fix
+            &.checked
+                .label
+                    &::before
+                        background: $primary
+                    svg
+                        height: 20px
+                        animation: draw-checkbox ease-in-out 0.2s forwards
+                        path
+                            height: 100%
+                            width: 100%
+
+@keyframes draw-checkbox
+    0%
+        stroke-dashoffset: 14
+
+    100%
+        stroke-dashoffset: 0
+
+@media screen and ( max-width: 767px )
+    .category
+        margin: .7rem 0
+        min-width: 400px
+        max-width: 100%
+
+@media screen and ( max-width: 520px )
+    .category
+        margin: .7rem 0
+        min-width: 250px
+        max-width: 100%

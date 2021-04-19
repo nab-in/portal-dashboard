@@ -15,6 +15,11 @@ a
         color: #E2E8EC
     &:hover
         text-decoration: underline
+
+input, textarea, button
+    &:focus
+        outline: none !important
+
 button
     background: none
     border: none
@@ -101,6 +106,12 @@ ul
                     .icon
                         color: red
 
+.form__control__filter
+    width: calc( 100% - 50px ) !important
+    input
+        border: none !important
+        padding: .3rem !important
+
 .stars
     $percent: calc(var(--rating) / 5 * 100%)
     display: inline-block
@@ -159,6 +170,8 @@ ul
     margin: 2rem 0
     padding: 0 1.5rem
     min-height: calc( 100vh - 150px )
+    .mobile__link
+        display: none
 
 @media screen and ( max-width:768px)
     body
@@ -168,6 +181,10 @@ ul
     .content
         margin: 2rem 0
         padding: 2rem 1rem
+        .mobile__link
+            display: flex
+            justify-content: flex-end
+            margin-bottom: 1rem
         .sub__content
             .btn
                 display: none

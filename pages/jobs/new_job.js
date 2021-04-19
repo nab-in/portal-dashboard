@@ -3,6 +3,7 @@ import Link from "next/link"
 import UploadJobs from "../../components/jobs/UploadJobs"
 import MainContents from "../../components/templates/MainContents"
 import SubContents from "../../components/templates/SubContents"
+import Filter from "../../components/filter/Filter"
 
 const new_job = () => {
   const handleChange = (e) => {}
@@ -24,9 +25,11 @@ const new_job = () => {
             <span>/</span>
             <span>New</span>
           </div>
-          <UploadJobs handleChange={handleChange} handleSubmit={handleSubmit}/>
+          <UploadJobs handleChange={handleChange} handleSubmit={handleSubmit} />
         </MainContents>
-        <SubContents></SubContents>
+        <SubContents>
+          <Filter />
+        </SubContents>
       </div>
     </div>
   )

@@ -22,9 +22,11 @@ const Input = ({
           : `${styles.form_control} ${inputClass}`
       }
     >
-      <label htmlFor={id} className="text-primary">
-        {title}
-      </label>
+      {title && (
+        <label htmlFor={id} className="text-primary">
+          {title}
+        </label>
+      )}
       {textarea ? (
         <textarea
           name={name}

@@ -20,6 +20,11 @@ export default function Home() {
             <span>Home</span>
             <span>/</span>
           </div>
+          <div className="mobile__link">
+            <Link href="/jobs/new_job">
+              <a>Add New Job</a>
+            </Link>
+          </div>
           <div className="metrics__showcase">
             <MetricsCard title="Total Number of Jobs" number={88} />
             <MetricsCard title="Total Number of Jobs" number={88} />
