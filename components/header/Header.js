@@ -111,15 +111,15 @@ setOpen(false)}
                   </li>
                   <ul>
                     <li>
-                      <Link href="/jobs" onClick={()=>
-setOpen(false)}>
-                        <a>Jobs</a>
+                      <Link href="/jobs">
+                        <a onClick={()=>
+setOpen(false)} >Jobs</a>
                       </Link>
                     </li>
                     <li>
-                      <Link href="/drafts" onClick={()=>
-setOpen(false)}>
-                        <a>Drafts</a>
+                      <Link href="/drafts">
+                        <a onClick={()=>
+setOpen(false)} >Drafts</a>
                       </Link>
                     </li>
                     <li>
