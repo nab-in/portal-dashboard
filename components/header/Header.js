@@ -104,23 +104,28 @@ const Header = ({ navOpen }) => {
                 <ul>
                   <li>
                     <Link href="/">
-                      <a>Dashboard</a>
+                      <a onClick={()=>
+setOpen(false)}
+>Dashboard</a>
                     </Link>
                   </li>
                   <ul>
                     <li>
-                      <Link href="/jobs">
+                      <Link href="/jobs" onClick={()=>
+setOpen(false)}>
                         <a>Jobs</a>
                       </Link>
                     </li>
                     <li>
-                      <Link href="/drafts">
+                      <Link href="/drafts" onClick={()=>
+setOpen(false)}>
                         <a>Drafts</a>
                       </Link>
                     </li>
                     <li>
                       <Link href="/profile">
-                        <a>Profile</a>
+                        <a onClick={()=>
+setOpen(false)} >Profile</a>
                       </Link>
                     </li>
                   </ul>
