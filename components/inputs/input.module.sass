@@ -9,14 +9,14 @@
     label
         margin-bottom: .7rem
         color: $primary
-    input, textarea
+    input
         transition: .25s ease-in
         height: 35px
         background: white
         border: none
         border: 1px solid $primary
         font-size: 1rem
-        resize: none
+        // resize: none
         padding: 1rem 1rem
         &:focus
             outline: none !important
@@ -29,3 +29,13 @@
         height: auto
         min-height: 150px
         margin-top: .6rem
+    .expandable__textarea
+        border: 1px solid $primary
+        padding: 1rem 1rem
+        width: 100%
+        min-height: 150px
+        overflow: hidden
+        &:focus
+            outline: none !important
+            border-color: $primary
+            box-shadow: 2px 2px 7px 2px rgba(0, 80, 122,.4)

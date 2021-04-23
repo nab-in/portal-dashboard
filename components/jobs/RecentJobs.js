@@ -7,7 +7,7 @@ import styles from "./recent_jobs.module.sass"
 const RelatedJobs = () => {
   return (
     <div className={styles.card}>
-      <h2>Related Jobs</h2>
+      <h2>Recent Jobs</h2>
       <div className={styles.showcase}>
         {jobs
           .slice(2, 5)
