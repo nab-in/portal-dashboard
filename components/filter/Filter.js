@@ -9,7 +9,7 @@ const Filter = () => {
   let [selected, setSelected] = useState([])
   return (
     <div className={styles.card}>
-      <h2>Select Parent Category</h2>
+      <h2>Add Job Category</h2>
       {categories.length > 0 && (
         <Categories
           categories={categories}
