@@ -60,24 +60,21 @@ const Header = ({ navOpen }) => {
               </a>
             </Link>
           </div>
-          <div
-            className={styles.profile__container}
-            ref={node}
-          >
-          <div onClick={() => setOpen(!open)} className={styles.profile}>
-            <div className={styles.dp__container}>
-              <Image
-                src={`/assets/images/dp.jpeg`}
-                alt={`dp`}
-                height={40}
-                width={40}
-                objectFit="cover"
-              />
-            </div>
-            <div className={styles.name}>
-              <span>John Doe</span>
-              <FaAngleDown className={styles.icon} />
-            </div>
+          <div className={styles.profile__container} ref={node}>
+            <div onClick={() => setOpen(!open)} className={styles.profile}>
+              <div className={styles.dp__container}>
+                <Image
+                  src={`/assets/images/dp.jpeg`}
+                  alt={`dp`}
+                  height={40}
+                  width={40}
+                  objectFit="cover"
+                />
+              </div>
+              <div className={styles.name}>
+                <span>John Doe</span>
+                <FaAngleDown className={styles.icon} />
+              </div>
             </div>
             <div
               className={
@@ -96,36 +93,29 @@ const Header = ({ navOpen }) => {
                     objectFit="cover"
                   />
                 </div>
-                <div className={styles.name}>
-                John Doe
-                </div>
+                <div className={styles.name}>John Doe</div>
               </div>
               <nav>
                 <ul>
                   <li>
                     <Link href="/">
-                      <a onClick={()=>
-setOpen(false)}
->Dashboard</a>
+                      <a onClick={() => setOpen(false)}>Dashboard</a>
                     </Link>
                   </li>
                   <ul>
                     <li>
                       <Link href="/jobs">
-                        <a onClick={()=>
-setOpen(false)} >Jobs</a>
+                        <a onClick={() => setOpen(false)}>Jobs</a>
                       </Link>
                     </li>
                     <li>
                       <Link href="/drafts">
-                        <a onClick={()=>
-setOpen(false)} >Drafts</a>
+                        <a onClick={() => setOpen(false)}>Drafts</a>
                       </Link>
                     </li>
                     <li>
                       <Link href="/profile">
-                        <a onClick={()=>
-setOpen(false)} >Profile</a>
+                        <a onClick={() => setOpen(false)}>Profile</a>
                       </Link>
                     </li>
                   </ul>

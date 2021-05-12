@@ -6,7 +6,10 @@ import SubContents from "../../components/templates/SubContents"
 import Filter from "../../components/filter/Filter"
 
 const new_job = () => {
-  const handleChange = (e) => {}
+  const handleChange = (e) => {
+    let { name, value } = e.target
+    console.log(name, value)
+  }
   const handleSubmit = (e) => {
     e.preventDefault()
   }

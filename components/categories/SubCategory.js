@@ -17,8 +17,6 @@ const SubCategory = ({ sub, selected, setSelected, category }) => {
     )
   }
 
-  console.log(selectCopy[categoryIndex])
-
   // toggling sub category
   const toggleSubCategory = () => {
     // if category exists this run
@@ -74,10 +72,6 @@ const SubCategory = ({ sub, selected, setSelected, category }) => {
       setChecked(true)
     }
   }, [selected])
-
-  // console.log(subCategoryIndex)
-
-  // console.log(checked, categoryIndex)
 
   return (
     <div

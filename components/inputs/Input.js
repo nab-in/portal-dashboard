@@ -28,14 +28,16 @@ const Input = ({
         </label>
       )}
       {textarea ? (
-        // <textarea
-        //   name={name}
-        //   placeholder={placeholder}
-        //   value={value}
-        //   id={id}
-        //   onChange={(e) => handleChange(e)}
-        // />
-        <div className={styles.expandable__textarea} role="textbox" contentEditable />
+        <div
+          className={styles.expandable__textarea}
+          role="textbox"
+          contentEditable
+          value={value}
+          id={id}
+          placeholder={placeholder}
+          name={name}
+          onChange={(e) => handleChange(e)}
+        />
       ) : (
         <input
           type={type}
