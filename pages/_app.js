@@ -1,12 +1,14 @@
 import "../styles/globals.sass"
-import "../styles/globals.sass"
+import { AuthProvider } from "../context/auth"
 import Layout from "../components/layout/Layout"
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <AuthProvider>
+       <Layout>
+          <Component {...pageProps} />
+       </Layout>
+    </AuthProvider>
   )
 }
 
