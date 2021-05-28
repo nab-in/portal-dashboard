@@ -1,0 +1,17 @@
+@import "../../../../styles/_colorsVariables"
+
+.accordion
+    p
+        display: flex
+        justify-content: space-between
+        align-items: center
+        cursor: pointer
+        strong
+            color: $primary
+    .accordion__content
+        overflow: auto
+        transition: max-height 0.35s ease, min-height 0.35s ease
+        margin: 1rem 0
+        &::-webkit-scrollbar
+            width: 0px
+            background: transparent

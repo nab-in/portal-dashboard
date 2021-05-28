@@ -1,0 +1,54 @@
+@import "../../../styles/_colorsVariables"
+
+.img__upload
+    z-index: 1
+    padding: 2rem 1rem 0
+    form
+        display: flex
+        justify-content: center
+        align-items: center
+        flex-direction: column
+    input
+        display: none
+    label
+        display: flex
+        align-items: center
+        justify-content: center
+        height: 120px
+        width: 120px
+        .img__container
+            height: 120px
+            width: 120px
+            background: #E2E8EC
+            position: relative
+            cursor: pointer
+            .img__cover
+                position: absolute
+                top: 0
+                left: 0
+                height: 120px
+                width: 120px
+                transition: .3s
+                background: rgba(0, 0, 0, .3)
+            &:hover
+                .img__cover
+                    background: rgba(0, 0, 0, .7)
+            img
+                height: 100%
+                width: 100%
+                object-fit: contain
+            .icon
+                position: absolute
+                bottom: -10px
+                right: -10%
+                font-size: 24px
+                color: $secondary
+            .default
+                display: flex
+                justify-content: center
+                align-items: center
+                height: 100%
+                width: 100%
+                text-transform: uppercase
+                font-size: 5rem
+                color: $primary
