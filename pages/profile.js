@@ -2,12 +2,11 @@ import React from "react"
 import Link from "next/Link"
 import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
-import Error from "../components/error/Error"
-import {useAuthState} from "../context/auth"
+import Profile from "../components/profile_template/profile/Profile"
 
 const profile = () => {
-
-  let {user, isAuthenticated} = useAuthState()
+  
+  // let { id, title, bio, about, website, cv, location } = details;
 
   return (
     <div>
@@ -28,10 +27,11 @@ const profile = () => {
 
           {/* Display all users depending on who logged in */}
 
-          
+        <Profile/>
+
         </MainContents>
         <SubContents>
-          <Link href="#">
+          <Link href="/components/profile_template/Edit-Profile">
             <a className="sub_btn btn btn-primary">Edit Profile</a>
           </Link>
         </SubContents>
