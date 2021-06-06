@@ -5,7 +5,16 @@ import SubContents from "../components/templates/SubContents"
 import Profile from "../components/profile_template/profile/Profile"
 
 const profile = () => {
-  
+  let details = {
+    id: 1,
+    title: "Software developer",
+    bio: "bio",
+    about: "about",
+    website: "site.com",
+    cv: "",
+    location: "dar",
+  }
+
   // let { id, title, bio, about, website, cv, location } = details;
 
   return (
@@ -27,8 +36,7 @@ const profile = () => {
 
           {/* Display all users depending on who logged in */}
 
-        <Profile/>
-
+          <Profile details={details} />
         </MainContents>
         <SubContents>
           <Link href="/components/profile_template/Edit-Profile">
