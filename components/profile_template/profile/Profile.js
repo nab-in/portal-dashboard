@@ -11,7 +11,7 @@ const Profile = ({ details }) => {
   let { id, title, bio, about, website, cv, location } = details
   return (
     <div className={styles.profile}>
-      <div title="About">
+      <div title="About" className={styles.display__profile}>
         <article className={styles.contents}>
           {title && <Card title="Title" content={title} />}
           {bio && <Card title="Bio" content={bio} />}

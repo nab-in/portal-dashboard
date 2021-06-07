@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Button from '../../../buttons/FormButton'
 import Input from '../../../inputs/Input'
 import Settings from '../settings/Settings'
