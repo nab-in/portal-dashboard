@@ -34,9 +34,10 @@ const profile = () => {
             </Link>
           </div>
 
-          {/* Display all users depending on who logged in */}
+          {/* Display users depending on who logged in */}
 
-          <Profile details={details} />
+        <Profile details={details} />
+
         </MainContents>
         <SubContents>
           <Link href="/components/profile_template/Edit-Profile">
