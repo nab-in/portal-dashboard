@@ -1,5 +1,6 @@
 import styles from "./profile.module.sass"
 
+
 let Card = ({ title, content, url }) => (
   <div className={styles.card}>
     <h3>{title}</h3>
