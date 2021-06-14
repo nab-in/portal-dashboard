@@ -3,6 +3,7 @@ import Link from "next/link";
 import MainContents from "../components/templates/MainContents";
 import SubContents from "../components/templates/SubContents";
 import Draftcard from "../components/cards/Draftcard";
+import jobs from "../data/jobs";
 
 const drafts = () => {
   return (
@@ -16,24 +17,17 @@ const drafts = () => {
             <span>/</span>
             <span>Drafts</span>
           </div>
-          <Draftcard
-            title={"Job one in the drafts"}
-            posted={"2 days ago"}
-            deadline={"In 28 days"}
-            link={"/"}
-          ></Draftcard>
-          <Draftcard
-            title={"Job two in the drafts"}
-            posted={"2 days ago"}
-            deadline={"In 28 days"}
-            link={"/"}
-          ></Draftcard>
-          <Draftcard
-            title={"Job three in the drafts"}
-            posted={"2 days ago"}
-            deadline={"In 28 days"}
-            link={"/"}
-          ></Draftcard>
+
+          {jobs.map((job) => {
+            return (
+              <Draftcard
+                title={job.title}
+                posted={job.created_at}
+                deadline={job.close_date}
+                link={`/jobs/${job.id}`}
+              ></Draftcard>
+            );
+          })}
         </MainContents>
 
         <SubContents>
