@@ -16,13 +16,17 @@ const Draftcard = ({ title, posted, deadline, link }) => {
         </p>
       </div>
       <div className={styles.draftcard_right}>
-        <p>
-          <Link href={link}>Edit</Link>
-        </p>
-        <p>
-          <Link href={link}>Preview</Link>
-        </p>
-        <FormButton styles={""} text={"Publish"}></FormButton>
+        <div className={styles.links}>
+          <p>
+            <Link href={link}>Edit</Link>
+          </p>
+          <p>
+            <Link href={link}>Preview</Link>
+          </p>
+        </div>
+        <div className={styles.button}>
+          <FormButton btnClass={"btn-primary"} text={"Publish"}></FormButton>
+        </div>
       </div>
     </div>
   );
