@@ -1,5 +1,5 @@
 import React from "react"
-import Link from "next/Link"
+import Link from "next/link"
 import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
 import Profile from "../components/profile_template/profile/Profile"
