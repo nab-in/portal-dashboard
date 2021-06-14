@@ -1,6 +1,6 @@
 import React from "react"
 import styles from "./upload.module.sass"
-import Card from "../card/Card"
+import Card from "../cards/Card"
 import Input from "../inputs/Input"
 import Button from "../buttons/FormButton"
 
