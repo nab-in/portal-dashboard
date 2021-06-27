@@ -5,7 +5,7 @@ import FormButton from "../buttons/FormButton";
 
 const Draftcard = ({ title, posted, deadline, link }) => {
   return (
-    <div className={styles.draftcard}>
+    <div className={`card ${styles.draftcard}`}>
       <div className={styles.draftcard_left}>
         <h1>{title}</h1>
         <p>
