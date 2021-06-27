@@ -9,7 +9,7 @@ const authReducer = (state, action) => {
     case "LOGIN":
       return {
         ...state,
-        isAuthenticated: payload?.verified === true ? true : false,
+        isAuthenticated: true,
         user: payload,
       }
   
@@ -26,7 +26,7 @@ const authReducer = (state, action) => {
       return {
         ...state,
         user: payload,
-        isAuthenticated: payload?.verified === true? true: false
+        isAuthenticated: true
       }
     default:
       return {

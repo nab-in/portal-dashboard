@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import {useAuthDispatch} from "../../context/auth"
 import { FaAngleDown, FaBell } from "react-icons/fa"
 import styles from "./header.module.sass"
 
@@ -26,10 +27,18 @@ const Header = ({ navOpen }) => {
   const [notify, setNotify] = useState(false)
   let number = 5
 
+  const dispatch = useAuthDispatch()
+
   // check if outside is clicked
   let node = useClickOutside(() => {
     setOpen(false)
   })
+
+  const logout = () => {
+    dispatch({
+      type: "LOGOUT"
+    })
+  }
 
   return (
     <header
@@ -120,7 +129,7 @@ const Header = ({ navOpen }) => {
                     </li>
                   </ul>
                   <li>
-                    <a href="#!">Logout</a>
+                    <a href="#!" onClick={logout}>Logout</a>
                   </li>
                 </ul>
               </nav>
