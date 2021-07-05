@@ -1,6 +1,4 @@
 import React, { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/router"
 import Input from "../inputs/Input"
 import FormButton from "../buttons/FormButton"
 import styles from "./login.module.sass"
@@ -9,7 +7,6 @@ import { useAuthDispatch } from "../../context/auth"
 import { API } from "../api"
 
 const Login = () => {
-  let router = useRouter()
   const dispatch = useAuthDispatch()
   const [formData, setFormData] = useState({
     username: "",
@@ -31,24 +28,19 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     setLoading(true)
-    // axios
-    //   .post(`${API}/login`, formData)
-    //   .then((res) => {
-    //     console.log(res.data)
-    //     dispatch({
-    //       type: "LOGIN",
-    //       payload: res.data,
-    //     })
-    //     setLoading(false)
-    //     router.push("/")
-    //   })
-    //   .catch((err) => {
-    //     setLoading(false)
-    //     console.log(err)
-    //   })
-    dispatch({
-        type: "LOGIN",
-        // payload: res.data,
+    axios
+      .post(`${API}/login`, formData)
+      .then((res) => {
+        console.log(res)
+        dispatch({
+          type: "LOGIN",
+          payload: res.data,
+        })
+        setLoading(false)
+      })
+      .catch((err) => {
+        setLoading(false)
+        console.log(err)
       })
   }
 
@@ -56,13 +48,9 @@ const Login = () => {
     <div className={`${styles.auth} ${styles.login}`}>
       <div className={`${styles.container}`}>
         <form onSubmit={(e) => handleSubmit(e)}>
-            <div className={styles.logo}>
-              <img
-                src="/assets/images/logo.png"
-                alt="logo"
-                loading="lazy"
-                />
-            </div>
+          <div className={styles.logo}>
+            <img src="/assets/images/logo.png" alt="logo" loading="lazy" />
+          </div>
           <h1>You are not logged in, Login to your account</h1>
           <Input
             type="text"
@@ -82,13 +70,12 @@ const Login = () => {
           {errors.msg && <p className={`alert ${error.type}`}>{errors.msg}</p>}
           <div className={styles.btns}>
             <FormButton text="Login" btnClass="btn-primary" loading={loading} />
-            <a href="http://localhost:3000/forgot_password">
-              Forgot password?
-            </a>
+            <a href="http://localhost:3000/forgot_password">Forgot password?</a>
           </div>
         </form>
         <div className={`${styles.extra__stuffs}`}>
-          Don't have an account yet? <a href="http://localhost:3000/register">Register</a>
+          Don't have an account yet?{" "}
+          <a href="http://localhost:3000/register">Register</a>
         </div>
       </div>
     </div>
