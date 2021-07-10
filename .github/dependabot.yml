@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "../../"
+    schedule:
+      interval: "daily" 
+    target-branch: "develop"
+    labels:
+      - "npm"
+      - "dependencies"
+    reviewers:
+      - "bmsteven"
+    commit-message:
+      prefix: "npm dev"
+      prefix-development: "dev"
+    target-branch: "develop"
