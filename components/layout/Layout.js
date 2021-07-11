@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react"
-import {useAuthState} from "../../context/auth"
+import { useAuthState } from "../../context/auth"
 import Header from "../header/Header"
 import Aside from "../aside/Aside"
-import Login from "../login/Login"
 import styles from "./layout.module.sass"
 
 const Layout = ({ children }) => {
-  const {isAuthenticated} = useAuthState()
   const [navOpen, setnavOpen] = useState(true)
   const [isMobile, setMobile] = useState(false)
 
@@ -20,9 +18,7 @@ const Layout = ({ children }) => {
   }, [setMobile])
   return (
     <div className="dashboard">
-     {
-       isAuthenticated? <>
-         <Header navOpen={navOpen} />
+      <Header navOpen={navOpen} />
       <div className={styles.layout}>
         <Aside
           navOpen={navOpen}
@@ -44,8 +40,6 @@ const Layout = ({ children }) => {
           {children}
         </main>
       </div>
-       </>:<Login />
-     }
     </div>
   )
 }

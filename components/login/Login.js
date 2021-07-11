@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useRouter } from "next/router"
 import Input from "../inputs/Input"
 import FormButton from "../buttons/FormButton"
 import styles from "./login.module.sass"
@@ -7,6 +8,7 @@ import { useAuthDispatch } from "../../context/auth"
 import { API } from "../api"
 
 const Login = () => {
+  const router = useRouter()
   const dispatch = useAuthDispatch()
   const [formData, setFormData] = useState({
     username: "",
@@ -37,6 +39,7 @@ const Login = () => {
           payload: res.data,
         })
         setLoading(false)
+        router.push("/select_identity")
       })
       .catch((err) => {
         setLoading(false)
