@@ -7,6 +7,8 @@
     display: flex
     justify-content: center
     padding: 2rem 0
+    img
+        width: 100%
     section
         box-shadow: 5px 4px 25px 20px rgba(0, 0, 0, 0.07)
         background: white
@@ -21,3 +23,23 @@
             margin-bottom: 1rem
         p
             font-size: clamp(1.1rem, 2vw, 1.2rem)
+            color: $primary
+            font-weight: 550
+        .dp
+            height: 70px
+            border-radius: 50%
+            text-align: center
+            margin-bottom: 1rem
+            img
+                height: 100%
+                width: 100%
+                object-fit: cover
+
+        .card
+            display: flex
+            align-items: center
+            margin-bottom: .7rem
+            padding: .5rem
+            cursor: pointer
+            .logo
+                width: 40px

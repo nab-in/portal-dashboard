@@ -7,12 +7,20 @@ const authReducer = (state, action) => {
   let { type, payload } = action
   switch (type) {
     case "LOGIN":
+      Cookies.set("token", payload.token)
       return {
         ...state,
         isAuthenticated: true,
         user: payload,
       }
-  
+
+    case "SELECT":
+      let userCopy = { ...user, identity: payload }
+      return {
+        ...state,
+        user: userCopy,
+      }
+
     // Logout
     case "LOGOUT":
       return {
@@ -26,7 +34,7 @@ const authReducer = (state, action) => {
       return {
         ...state,
         user: payload,
-        isAuthenticated: true
+        isAuthenticated: true,
       }
     default:
       return {
