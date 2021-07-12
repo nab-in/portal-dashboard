@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useContext } from "react"
-
+import Cookies from "js-cookie"
 const AuthStateContext = createContext()
 const AuthDispatchContext = createContext()
 
@@ -15,7 +15,7 @@ const authReducer = (state, action) => {
       }
 
     case "SELECT":
-      let userCopy = { ...user, identity: payload }
+      let userCopy = { ...state.user, identity: payload }
       return {
         ...state,
         user: userCopy,
