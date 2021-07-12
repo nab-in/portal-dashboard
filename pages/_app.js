@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }) {
         })
     }, [])
     useEffect(() => {
-      // if (user && !user.identity) router.push("/select_identity")
+      if (user && !user.identity) router.push("/select_identity")
     }, [])
     if (router.pathname.startsWith("/select_identity")) {
       return <Component {...pageProps} />
