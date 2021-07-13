@@ -1,5 +1,5 @@
 import styles from "./profile.module.sass"
-
+import Section from "../Section"
 
 let Card = ({ title, content, url }) => (
   <div className={styles.card}>
@@ -12,7 +12,7 @@ const Profile = ({ details }) => {
   let { id, title, bio, about, website, cv, location } = details
   return (
     <div className={styles.profile}>
-      <div title="About" className={styles.display__profile}>
+      <Section title="About">
         <article className={styles.contents}>
           {title && <Card title="Title" content={title} />}
           {bio && <Card title="Bio" content={bio} />}
@@ -21,7 +21,7 @@ const Profile = ({ details }) => {
           {website && <Card title="Website" content={website} url={true} />}
           {cv && <Card title="CV" content={cv} url="true" />}
         </article>
-      </div>
+      </Section>
     </div>
   )
 }
