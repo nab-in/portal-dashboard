@@ -5,6 +5,7 @@ const AuthDispatchContext = createContext()
 
 const authReducer = (state, action) => {
   let { type, payload } = action
+  let userCopy
   switch (type) {
     case "LOGIN":
       Cookies.set("token", payload.token)
@@ -15,8 +16,8 @@ const authReducer = (state, action) => {
       }
 
     case "SELECT":
-      let userCopy = { ...state.user, identity: payload }
-      Cookies.set("identity": payload)
+      userCopy = { ...state.user, identity: payload }
+      Cookies.set("identity", payload)
       return {
         ...state,
         user: userCopy,
@@ -25,7 +26,7 @@ const authReducer = (state, action) => {
     // Logout
     case "LOGOUT":
       Cookies.set("token", "")
-      Cookies.set("itentity": "")
+      Cookies.set("itentity", "")
       return {
         ...state,
         user: null,
@@ -35,7 +36,7 @@ const authReducer = (state, action) => {
     // Get user data
     case "AUTH":
       let id = Cookies.get("identity")
-      let userCopy = { payload, identity: id }
+      userCopy = { payload, identity: id }
       return {
         ...state,
         user: userCopy,

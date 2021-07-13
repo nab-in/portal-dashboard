@@ -29,7 +29,7 @@ const select_identity = () => {
               </div>
               <p>Welcome {user?.username}</p>
               <h1>Please select dashboard to view</h1>
-              <h2>Companies</h2>
+              <h2>Your Companies</h2>
               <div className={styles.showcase}>
                 <div className={`card ${styles.card}`} onClick={select}>
                   <div className={styles.company}>
@@ -38,7 +38,9 @@ const select_identity = () => {
                     </div>
                   </div>
                   <div className={styles.name}>Company</div>
-                  <div className={styles.details}>Select</div>
+                  <div className={styles.details}>
+                    <button>Select</button>
+                  </div>
                 </div>
                 <div className={`card ${styles.card}`} onClick={select}>
                   <div className={styles.company}>
@@ -47,16 +49,18 @@ const select_identity = () => {
                     </div>
                   </div>
                   <div className={styles.name}>Company</div>
-                  <div className={styles.details}>Select</div>
+                  <div className={styles.details}>
+                    <button>Select</button>
+                  </div>
                 </div>
               </div>
-              <h2>Admin?</h2>
+              <h2>An Admin?</h2>
               <div className={styles.showcase}>
                 <div className={`card ${styles.card}`} onClick={select}>
-                  <div className={styles.company}>
-                    <div className={styles.name}>Super User</div>
+                  <div className={styles.name}>Super User</div>
+                  <div className={styles.details}>
+                    <button>Select</button>
                   </div>
-                  <div className={styles.details}>Select</div>
                 </div>
               </div>
             </section>
