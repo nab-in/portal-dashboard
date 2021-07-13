@@ -16,6 +16,13 @@ const UploadJobs = ({ handleSubmit, handleChange }) => {
             id="jobs"
           />
           <Input title="Email" handleChange={handleChange} name="" id="email" />
+          <Input
+            title="Close Date"
+            type="datetime"
+            handleChange={handleChange}
+            name=""
+            id="email"
+          />
         </Card>
         <Card title="Job Document">
           <input type="file" />
