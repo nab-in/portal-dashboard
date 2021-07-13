@@ -14,9 +14,6 @@ const select_identity = () => {
     })
     router.push("/")
   }
-  console.log("====================================")
-  console.log(user)
-  console.log("====================================")
   return (
     <>
       {!isAuthenticated ? (
