@@ -25,13 +25,15 @@ export default function Home() {
               <a>Add New Job</a>
             </Link>
           </div>
-          <div className="metrics__showcase">
-            <MetricsCard title="Total Number of Jobs" number={88} />
-            <MetricsCard title="Total Number of Jobs" number={88} />
-            <MetricsCard title="Total Number of Jobs" number={88} />
-            <MetricsCard title="Total Number of Jobs" number={1190088} />
+          <div className="mt-1">
+            <div className="metrics__showcase">
+              <MetricsCard title="Total Number of Jobs" number={88} />
+              <MetricsCard title="Total Number of Jobs" number={88} />
+              <MetricsCard title="Total Number of Jobs" number={88} />
+              <MetricsCard title="Total Number of Jobs" number={1190088} />
+            </div>
+            <Chart title="Applications" />
           </div>
-          <Chart title="Applications" />
         </MainContents>
         <SubContents>
           <Link href="/jobs/new_job">

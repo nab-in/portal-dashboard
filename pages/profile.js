@@ -28,16 +28,17 @@ const profile = () => {
             <span>/</span>
             <span>Profile</span>
           </div>
+
           <div className="mobile__link">
-            <Link href="#">
-              <a className="sub_btn btn btn-primary">Edit Profile</a>
+            <Link href="/profile/edit_profile">
+              <a>Edit Profile</a>
             </Link>
           </div>
 
           {/* Display users depending on who logged in */}
-
-        <Profile details={details} />
-
+          <div className="mt-1">
+            <Profile details={details} />
+          </div>
         </MainContents>
         <SubContents>
           <Link href="/components/profile_template/Edit-Profile">
