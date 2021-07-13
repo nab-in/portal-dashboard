@@ -41,7 +41,7 @@ const profile = () => {
           </div>
         </MainContents>
         <SubContents>
-          <Link href="/components/profile_template/Edit-Profile">
+          <Link href="/profile/edit">
             <a className="sub_btn btn btn-primary">Edit Profile</a>
           </Link>
         </SubContents>
