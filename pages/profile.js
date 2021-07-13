@@ -15,8 +15,6 @@ const profile = () => {
     location: "dar",
   }
 
-  // let { id, title, bio, about, website, cv, location } = details;
-
   return (
     <div>
       <div className="content">
@@ -30,7 +28,7 @@ const profile = () => {
           </div>
 
           <div className="mobile__link">
-            <Link href="/profile/edit_profile">
+            <Link href="/profile/edit">
               <a>Edit Profile</a>
             </Link>
           </div>

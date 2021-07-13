@@ -3,7 +3,7 @@ import Section from "../../Section"
 import Input from "../../../inputs/Input"
 import Button from "../../../buttons/FormButton"
 import Upload from "../Upload"
-import styles from "../edit_profile.module.sass"
+import styles from "../edit.module.sass"
 import Settings from "../settings/Settings"
 import CV from "./CV"
 
@@ -11,11 +11,11 @@ const EditProfile = ({ details }) => {
   let [formData, setFormData] = useState({
     firstname: details?.firstname ? details.firstname : "",
     lastname: details?.lastname ? details.lastname : "",
-    title: details.title ? details.title : "",
-    bio: details.bio ? details.bio : "",
-    location: details.location ? details.location : "",
-    about: details.about ? details.about : "",
-    website: details.website ? details.website : "",
+    title: details?.title ? details.title : "",
+    bio: details?.bio ? details.bio : "",
+    location: details?.location ? details.location : "",
+    about: details?.about ? details.about : "",
+    website: details?.website ? details.website : "",
   })
   let { firstname, lastname, title, bio, location, about, website } = formData
   const handleChange = (e) => {

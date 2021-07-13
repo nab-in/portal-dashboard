@@ -3,7 +3,7 @@ import { FaCamera } from "react-icons/fa"
 import styles from "./upload.module.sass"
 
 const Upload = ({ dp, name }) => {
-  name = name.split("")[0]
+  name = name?.split("")[0]
   let [imgData, setImgData] = useState(null)
   const handleChange = (e) => {
     if (e.target.files) {
