@@ -13,71 +13,77 @@ const select_identity = () => {
       id,
       name,
     })
-    console.log(selected)
     dispatch({
       type: "SELECT",
       payload: selected,
     })
+    console.log(selected)
+    if (selected) router.push("/")
   }
   useEffect(() => {
     if (!isAuthenticated && !loading) router.push("/login")
-    if (selected) router.push("/")
   }, [])
-  console.log(isAuthenticated)
+  console.log(user)
   return (
     <>
-      <div className={styles.select}>
-        <section>
-          <div className={styles.dp}>
-            <img src="/assets/images/dp.jpeg" alt="" />
-          </div>
-          <p>Welcome {user?.username}</p>
-          <h1>Please select dashboard to view</h1>
-          <h2>Your Companies</h2>
-          <div className={styles.showcase}>
-            <div
-              className={`card ${styles.card}`}
-              onClick={() => select(1, "company")}
-            >
-              <div className={styles.company}>
-                <div className={styles.logo}>
-                  <img src={`/assets/companies/logo1.png`} loading="lazy" />
+      {loading ? (
+        <></>
+      ) : (
+        <>
+          <div className={styles.select}>
+            <section>
+              <div className={styles.dp}>
+                <img src="/assets/images/dp.jpeg" alt="" />
+              </div>
+              <p>Welcome {user?.username}</p>
+              <h1>Please select dashboard to view</h1>
+              <h2>Your Companies</h2>
+              <div className={styles.showcase}>
+                <div
+                  className={`card ${styles.card}`}
+                  onClick={() => select(1, "company")}
+                >
+                  <div className={styles.company}>
+                    <div className={styles.logo}>
+                      <img src={`/assets/companies/logo1.png`} loading="lazy" />
+                    </div>
+                  </div>
+                  <div className={styles.name}>Company</div>
+                  <div className={styles.details}>
+                    <button>Select</button>
+                  </div>
+                </div>
+                <div
+                  className={`card ${styles.card}`}
+                  onClick={() => select(1, "company")}
+                >
+                  <div className={styles.company}>
+                    <div className={styles.logo}>
+                      <img src={`/assets/companies/logo1.png`} loading="lazy" />
+                    </div>
+                  </div>
+                  <div className={styles.name}>Company</div>
+                  <div className={styles.details}>
+                    <button>Select</button>
+                  </div>
                 </div>
               </div>
-              <div className={styles.name}>Company</div>
-              <div className={styles.details}>
-                <button>Select</button>
-              </div>
-            </div>
-            <div
-              className={`card ${styles.card}`}
-              onClick={() => select(1, "company")}
-            >
-              <div className={styles.company}>
-                <div className={styles.logo}>
-                  <img src={`/assets/companies/logo1.png`} loading="lazy" />
+              <h2>An Admin?</h2>
+              <div className={styles.showcase}>
+                <div
+                  className={`card ${styles.card}`}
+                  onClick={() => select(1, "admin")}
+                >
+                  <div className={styles.name}>Super User</div>
+                  <div className={styles.details}>
+                    <button>Select</button>
+                  </div>
                 </div>
               </div>
-              <div className={styles.name}>Company</div>
-              <div className={styles.details}>
-                <button>Select</button>
-              </div>
-            </div>
+            </section>
           </div>
-          <h2>An Admin?</h2>
-          <div className={styles.showcase}>
-            <div
-              className={`card ${styles.card}`}
-              onClick={() => select(1, "admin")}
-            >
-              <div className={styles.name}>Super User</div>
-              <div className={styles.details}>
-                <button>Select</button>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+        </>
+      )}
     </>
   )
 }

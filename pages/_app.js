@@ -28,7 +28,7 @@ function MyApp({ Component, pageProps }) {
             console.log(res.data)
             dispatch({
               type: "AUTH",
-              payload: res.data,
+              payload: res?.data,
             })
           })
           .catch((err) => {
