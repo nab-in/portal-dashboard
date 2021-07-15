@@ -22,7 +22,6 @@ const authReducer = (state, action) => {
         identity: { id: payload.id, name: payload.name },
       }
       Cookies.set("identity", JSON.stringify(payload))
-      console.log(userCopy, payload)
       return {
         ...state,
         user: userCopy,

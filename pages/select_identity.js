@@ -5,25 +5,26 @@ import { useAuthState, useAuthDispatch } from "../context/auth"
 
 const select_identity = () => {
   let { user, isAuthenticated, loading } = useAuthState()
-  const [selected, setSelected] = useState("")
+  // const [selected, setSelected] = useState({})
   let dispatch = useAuthDispatch()
   let router = useRouter()
   const select = (id, name) => {
-    setSelected({
-      id,
-      name,
-    })
+    // setSelected({
+    //   id,
+    //   name,
+    // })
     dispatch({
       type: "SELECT",
-      payload: selected,
+      payload: {
+        id,
+        name,
+      },
     })
-    console.log(selected)
-    if (selected) router.push("/")
+    if (id && name) router.push("/")
   }
   useEffect(() => {
     if (!isAuthenticated && !loading) router.push("/login")
   }, [])
-  console.log(user)
   return (
     <>
       {loading ? (
