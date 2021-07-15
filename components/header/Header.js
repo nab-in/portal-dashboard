@@ -25,6 +25,14 @@ const Header = ({ navOpen }) => {
     })
   }
 
+  let data
+
+  if (user?.identity?.name == "company") {
+    data = user.company
+  } else {
+    data = user
+  }
+
   return (
     <header
       className={
@@ -66,7 +74,7 @@ const Header = ({ navOpen }) => {
                 />
               </div>
               <div className={styles.name}>
-                <span>John Doe</span>
+                <span>{data?.name ? data.name : data?.username}</span>
                 <FaAngleDown className={styles.icon} />
               </div>
             </div>
@@ -87,7 +95,9 @@ const Header = ({ navOpen }) => {
                     objectFit="cover"
                   />
                 </div>
-                <div className={styles.name}>John Doe</div>
+                <div className={styles.name}>
+                  {data?.name ? data.name : data?.username}
+                </div>
               </div>
               <nav>
                 <ul>
