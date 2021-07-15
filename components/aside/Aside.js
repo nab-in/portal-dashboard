@@ -7,13 +7,14 @@ import {
   RiProfileLine,
   RiUser3Line,
 } from "react-icons/ri"
-import { GrOrganization } from "react-icons/gr"
+import { BiBuildingHouse } from "react-icons/bi"
 import { FiUsers } from "react-icons/fi"
-// import { SiPuppet } from "react-icons/si"
+import { SiPuppet } from "react-icons/si"
 import { CgListTree } from "react-icons/cg"
 import { AiOutlineArrowRight } from "react-icons/ai"
 import ActiveLink from "../ActiveLink"
 import styles from "./aside.module.sass"
+import { useAuthState } from "../../context/auth"
 
 let urls = [
   {
@@ -42,7 +43,7 @@ let urls = [
     path: "companies",
     name: "Companies",
     type: "admin",
-    icon: <GrOrganization className={styles.icon} />,
+    icon: <BiBuildingHouse className={styles.icon} />,
   },
   {
     id: 5,
@@ -74,10 +75,15 @@ let urls = [
   },
 ]
 
-// let isCompany = "company"
-// let isAdmin = "admin"
 const Aside = ({ navOpen, handleNav, isMobile, setnavOpen }) => {
-  urls = urls.filter((el) => el.type == "company" || el.type == "")
+  const { user } = useAuthState()
+  let links = []
+  if (user?.identity?.name == "company") {
+    links = urls.filter((el) => el.type == "company" || el.type == "")
+  } else if (user?.identity?.name == "admin") {
+    links = urls.filter((el) => el.type == "admin" || el.type == "")
+  }
+
   return (
     <aside
       className={navOpen ? `${styles.aside}` : `${styles.aside} ${styles.open}`}
@@ -111,8 +117,8 @@ const Aside = ({ navOpen, handleNav, isMobile, setnavOpen }) => {
         </div>
         <nav>
           <ul>
-            {urls.length > 0 &&
-              urls.map(({ id, path, name, icon, type }) => (
+            {links.length > 0 &&
+              links.map(({ id, path, name, icon, type }) => (
                 <li
                   key={id}
                   onClick={() => {
