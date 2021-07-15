@@ -42,7 +42,7 @@ const select_identity = () => {
               <div className={styles.showcase}>
                 <div
                   className={`card ${styles.card}`}
-                  onClick={() => select(1, "company")}
+                  onClick={() => select("Szc1JfMHyHhxn", "company")}
                 >
                   <div className={styles.company}>
                     <div className={styles.logo}>
@@ -56,7 +56,7 @@ const select_identity = () => {
                 </div>
                 <div
                   className={`card ${styles.card}`}
-                  onClick={() => select(1, "company")}
+                  onClick={() => select("Szc1JfMHyHhxn", "company")}
                 >
                   <div className={styles.company}>
                     <div className={styles.logo}>

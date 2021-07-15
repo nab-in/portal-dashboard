@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/router"
-import { useAuthState } from "../../context/auth"
+import { useAuthState, useAuthDispatch } from "../../context/auth"
 import Header from "../header/Header"
 import Aside from "../aside/Aside"
 import styles from "./layout.module.sass"
+import axios from "axios"
+import { API } from "../api"
 
 const Layout = ({ loading, children }) => {
   const [navOpen, setnavOpen] = useState(true)
   const [isMobile, setMobile] = useState(false)
   const { isAuthenticated, user } = useAuthState()
+  const dispatch = useAuthDispatch()
   const router = useRouter()
   const handleNav = () => {
     setnavOpen(!navOpen)
@@ -18,6 +21,23 @@ const Layout = ({ loading, children }) => {
 
     if (!loading && isAuthenticated && !user?.identity)
       router.push("/select_identity")
+  }, [])
+
+  useEffect(() => {
+    if (user?.identity && user?.identity.name == "company") {
+      axios
+        .get(`${API}/companies/${user.identity.id}`)
+        .then((res) => {
+          // console.log(res)
+          dispatch({
+            type: "COMPANY",
+            payload: res.data,
+          })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }, [])
 
   useEffect(() => {

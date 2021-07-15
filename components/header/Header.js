@@ -30,7 +30,7 @@ const Header = ({ navOpen }) => {
   const dispatch = useAuthDispatch()
 
   const { user } = useAuthState()
-  // console.log(user)
+  console.log(user)
 
   // check if outside is clicked
   let node = useClickOutside(() => {

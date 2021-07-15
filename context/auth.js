@@ -28,10 +28,21 @@ const authReducer = (state, action) => {
         loading: false,
       }
 
+    case "COMPANY":
+      userCopy = {
+        ...state.user,
+        company: payload,
+      }
+      return {
+        ...state,
+        user: userCopy,
+        loading: false,
+      }
+
     // Logout
     case "LOGOUT":
       Cookies.set("token", "")
-      Cookies.set("itentity", "")
+      Cookies.set("identity", "")
       return {
         ...state,
         user: null,
@@ -41,7 +52,7 @@ const authReducer = (state, action) => {
 
     // Get user data
     case "AUTH":
-      let id = Cookies.get("identity")
+      let id = JSON.parse(Cookies.get("identity"))
       userCopy = { ...payload, identity: id }
       return {
         ...state,
