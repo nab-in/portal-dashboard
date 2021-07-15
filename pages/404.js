@@ -13,7 +13,7 @@ export default function Custom404() {
               <Link href="/">Home</Link>
             </span>
             <span>/</span>
-            <span>404</span>
+            <span>404 Page not found</span>
           </div>
           <Error />
         </MainContents>

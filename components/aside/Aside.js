@@ -54,7 +54,7 @@ let urls = [
   },
   {
     id: 6,
-    path: "users",
+    path: "profiles",
     name: "Users",
     type: "admin",
     icon: <FiUsers className={styles.icon} />,
