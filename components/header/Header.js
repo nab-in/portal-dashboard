@@ -4,23 +4,7 @@ import Link from "next/link"
 import { useAuthDispatch, useAuthState } from "../../context/auth"
 import { FaAngleDown, FaBell } from "react-icons/fa"
 import styles from "./header.module.sass"
-
-// detect outside click hook
-let useClickOutside = (handler) => {
-  let node = useRef()
-  useEffect(() => {
-    let handle = (e) => {
-      if (!node.current.contains(e.target)) {
-        handler()
-      }
-    }
-    document.addEventListener("mousedown", handle)
-    return () => {
-      document.removeEventListener("mousedown", handle)
-    }
-  })
-  return node
-}
+import UseClickOutside from "../UseClickOutside"
 
 const Header = ({ navOpen }) => {
   const [open, setOpen] = useState(false)
@@ -33,9 +17,7 @@ const Header = ({ navOpen }) => {
   console.log(user)
 
   // check if outside is clicked
-  let node = useClickOutside(() => {
-    setOpen(false)
-  })
+  let node = UseClickOutside(() => setOpen(false))
 
   const logout = () => {
     dispatch({
