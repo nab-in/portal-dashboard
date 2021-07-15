@@ -6,7 +6,6 @@ import Layout from "../components/layout/Layout"
 import Cookies from "js-cookie"
 import { API } from "../components/api"
 import axios from "axios"
-import Login from "../components/login/Login"
 
 function MyApp({ Component, pageProps }) {
   const Site = () => {
@@ -14,6 +13,7 @@ function MyApp({ Component, pageProps }) {
     const dispatch = useAuthDispatch()
     const { user, isAuthenticated } = useAuthState()
     const router = useRouter()
+
     useEffect(() => {
       let token = Cookies.get("token")
       let config = {
@@ -22,25 +22,28 @@ function MyApp({ Component, pageProps }) {
           Authorization: `Bearer ` + token,
         },
       }
-      axios
-        .get(`${API}/me`, config)
-        .then((res) => {
-          if (!user)
+      if (!user && token)
+        axios
+          .get(`${API}/me`, config)
+          .then((res) => {
+            console.log(res.data)
             dispatch({
               type: "AUTH",
               payload: res.data,
             })
-          setLoading(false)
-        })
-        .catch((err) => {
-          setLoading(false)
-          console.log(err)
-        })
+            setLoading(false)
+          })
+          .catch((err) => {
+            setLoading(false)
+            console.log(err)
+          })
+      if (!user && !isAuthenticated && !token) setLoading(false)
     }, [])
-    useEffect(() => {
-      if (isAuthenticated && !user.identity) router.push("/select_identity")
-    }, [])
-    if (router.pathname.startsWith("/select_identity")) {
+
+    if (
+      router.pathname.startsWith("/select_identity") ||
+      router.pathname.startsWith("/login")
+    ) {
       return <Component {...pageProps} />
     } else {
       return (
@@ -49,15 +52,9 @@ function MyApp({ Component, pageProps }) {
             <></>
           ) : (
             <>
-              {isAuthenticated ? (
-                <>
-                  <Layout loading={loading}>
-                    <Component {...pageProps} />
-                  </Layout>
-                </>
-              ) : (
-                <Login />
-              )}
+              <Layout loading={loading}>
+                <Component {...pageProps} />
+              </Layout>
             </>
           )}
         </>

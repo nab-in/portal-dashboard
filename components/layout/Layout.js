@@ -1,16 +1,25 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/router"
 import { useAuthState } from "../../context/auth"
 import Header from "../header/Header"
 import Aside from "../aside/Aside"
 import styles from "./layout.module.sass"
 
-const Layout = ({ children }) => {
+const Layout = ({ loading, children }) => {
   const [navOpen, setnavOpen] = useState(true)
   const [isMobile, setMobile] = useState(false)
-
+  const { isAuthenticated, user } = useAuthState()
+  const router = useRouter()
   const handleNav = () => {
     setnavOpen(!navOpen)
   }
+  useEffect(() => {
+    if (!loading && !isAuthenticated) router.push("/login")
+
+    if (!loading && isAuthenticated && !user?.identity)
+      router.push("/select_identity")
+  }, [])
+
   useEffect(() => {
     if (window.screen.width <= 768) {
       setMobile(true)
