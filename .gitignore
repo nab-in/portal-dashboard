@@ -5,9 +5,6 @@
 /.pnp
 .pnp.js
 
-next.config.js
-
-
 # testing
 /coverage
 
@@ -35,3 +32,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# config file
+next.config.js
