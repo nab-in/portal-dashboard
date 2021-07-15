@@ -9,9 +9,8 @@ import axios from "axios"
 
 function MyApp({ Component, pageProps }) {
   const Site = () => {
-    const [loading, setLoading] = useState(true)
     const dispatch = useAuthDispatch()
-    const { user, isAuthenticated } = useAuthState()
+    const { user, isAuthenticated, loading } = useAuthState()
     const router = useRouter()
 
     useEffect(() => {
@@ -31,13 +30,13 @@ function MyApp({ Component, pageProps }) {
               type: "AUTH",
               payload: res.data,
             })
-            setLoading(false)
           })
           .catch((err) => {
-            setLoading(false)
+            dispatch({
+              type: "NOT_LOADED",
+            })
             console.log(err)
           })
-      if (!user && !isAuthenticated && !token) setLoading(false)
     }, [])
 
     if (

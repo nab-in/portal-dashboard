@@ -13,6 +13,7 @@ const authReducer = (state, action) => {
         ...state,
         isAuthenticated: true,
         user: payload,
+        loading: false,
       }
 
     case "SELECT":
@@ -21,6 +22,7 @@ const authReducer = (state, action) => {
       return {
         ...state,
         user: userCopy,
+        loading: false,
       }
 
     // Logout
@@ -31,6 +33,7 @@ const authReducer = (state, action) => {
         ...state,
         user: null,
         isAuthenticated: false,
+        loading: false,
       }
 
     // Get user data
@@ -41,6 +44,12 @@ const authReducer = (state, action) => {
         ...state,
         user: userCopy,
         isAuthenticated: true,
+        loading: false,
+      }
+    case "NOT_LOADED":
+      return {
+        ...state,
+        loading: false,
       }
     default:
       return {
@@ -53,6 +62,7 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
     isAuthenticated: false,
+    loading: true,
   })
   return (
     <AuthDispatchContext.Provider value={dispatch}>

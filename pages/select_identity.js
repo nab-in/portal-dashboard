@@ -1,22 +1,29 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import styles from "../styles/select.module.sass"
 import { useRouter } from "next/router"
 import { useAuthState, useAuthDispatch } from "../context/auth"
 
 const select_identity = () => {
-  let { user, isAuthenticated } = useAuthState()
+  let { user, isAuthenticated, loading } = useAuthState()
+  const [selected, setSelected] = useState("")
   let dispatch = useAuthDispatch()
   let router = useRouter()
-  const select = () => {
+  const select = (id, name) => {
+    setSelected({
+      id,
+      name,
+    })
+    console.log(selected)
     dispatch({
       type: "SELECT",
-      payload: "Company",
+      payload: selected,
     })
-    router.push("/")
   }
   useEffect(() => {
-    if (!isAuthenticated) router.push("/login")
+    if (!isAuthenticated && !loading) router.push("/login")
+    if (selected) router.push("/")
   }, [])
+  console.log(isAuthenticated)
   return (
     <>
       <div className={styles.select}>
@@ -28,7 +35,10 @@ const select_identity = () => {
           <h1>Please select dashboard to view</h1>
           <h2>Your Companies</h2>
           <div className={styles.showcase}>
-            <div className={`card ${styles.card}`} onClick={select}>
+            <div
+              className={`card ${styles.card}`}
+              onClick={() => select(1, "company")}
+            >
               <div className={styles.company}>
                 <div className={styles.logo}>
                   <img src={`/assets/companies/logo1.png`} loading="lazy" />
@@ -39,7 +49,10 @@ const select_identity = () => {
                 <button>Select</button>
               </div>
             </div>
-            <div className={`card ${styles.card}`} onClick={select}>
+            <div
+              className={`card ${styles.card}`}
+              onClick={() => select(1, "company")}
+            >
               <div className={styles.company}>
                 <div className={styles.logo}>
                   <img src={`/assets/companies/logo1.png`} loading="lazy" />
@@ -53,7 +66,10 @@ const select_identity = () => {
           </div>
           <h2>An Admin?</h2>
           <div className={styles.showcase}>
-            <div className={`card ${styles.card}`} onClick={select}>
+            <div
+              className={`card ${styles.card}`}
+              onClick={() => select(1, "admin")}
+            >
               <div className={styles.name}>Super User</div>
               <div className={styles.details}>
                 <button>Select</button>
