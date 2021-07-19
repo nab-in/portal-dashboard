@@ -2,6 +2,7 @@ import React from "react"
 import Link from "next/link"
 import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
+// import {API } from "
 
 const jobs = () => {
   return (
@@ -20,7 +21,39 @@ const jobs = () => {
               <a>Add New Job</a>
             </Link>
           </div>
-          main content
+
+          {/* Display jobs here, depending on who logged in */}
+
+            <div className={styles.display__jobs}>
+                <div className={styles.logo__container}>
+                  <div className={styles.logo}>
+                    <img
+                      src={`/assets/companies/logo1.png`}
+                      alt={`${job.name} logo`}
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+                <div className={styles.job__heading}>
+                  <div className={styles.title}>
+                    <h1>{job.name}</h1>
+                  </div>
+                  <div className={styles.time__details}>
+                    <div className={`${styles.time} ${styles.posted}`}>
+                      Posted at:&nbsp;{" "}
+                      {moment(job.created).format("MMM DD, YYYY")}
+                    </div>
+                    <div className={`${styles.time} ${styles.deadline}`}>
+                      <span>
+                        Deadline:{" "}
+                        {moment(job.created).format("MMM DD, YYYY HH:mm")}
+                      </span>
+                      <span>{job[0]?.close_time}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
         </MainContents>
         <SubContents>
           <Link href="/jobs/new_job">
