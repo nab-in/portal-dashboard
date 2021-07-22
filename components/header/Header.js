@@ -120,6 +120,11 @@ const Header = ({ navOpen }) => {
                         <a onClick={() => setOpen(false)}>Profile</a>
                       </Link>
                     </li>
+                    <li>
+                      <Link href="/select_identity">
+                        <a onClick={() => setOpen(false)}>Change Identity</a>
+                      </Link>
+                    </li>
                   </ul>
                   <li>
                     <a href="#!" onClick={logout}>
