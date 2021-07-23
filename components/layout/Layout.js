@@ -16,6 +16,7 @@ const Layout = ({ loading, children }) => {
   const handleNav = () => {
     setnavOpen(!navOpen)
   }
+
   useEffect(() => {
     if (!loading && !isAuthenticated) router.push("/login")
 
@@ -47,28 +48,34 @@ const Layout = ({ loading, children }) => {
   }, [setMobile])
   return (
     <div className="dashboard">
-      <Header navOpen={navOpen} />
-      <div className={styles.layout}>
-        <Aside
-          navOpen={navOpen}
-          handleNav={handleNav}
-          isMobile={isMobile}
-          setnavOpen={setnavOpen}
-        />
-        {isMobile && (
-          <div
-            className={!navOpen ? `${styles.backdrop}` : ""}
-            onClick={() => setnavOpen(true)}
-          ></div>
-        )}
-        <main
-          className={
-            navOpen ? `${styles.main}` : `${styles.main} ${styles.full__width}`
-          }
-        >
-          {children}
-        </main>
-      </div>
+      {isAuthenticated && (
+        <>
+          <Header navOpen={navOpen} />
+          <div className={styles.layout}>
+            <Aside
+              navOpen={navOpen}
+              handleNav={handleNav}
+              isMobile={isMobile}
+              setnavOpen={setnavOpen}
+            />
+            {isMobile && (
+              <div
+                className={!navOpen ? `${styles.backdrop}` : ""}
+                onClick={() => setnavOpen(true)}
+              ></div>
+            )}
+            <main
+              className={
+                navOpen
+                  ? `${styles.main}`
+                  : `${styles.main} ${styles.full__width}`
+              }
+            >
+              {children}
+            </main>
+          </div>
+        </>
+      )}
     </div>
   )
 }

@@ -21,6 +21,10 @@ function MyApp({ Component, pageProps }) {
           Authorization: `Bearer ` + token,
         },
       }
+      if (!user && !token)
+        dispatch({
+          type: "NOT_LOADED",
+        })
       if (!user && token)
         axios
           .get(`${API}/me`, config)
