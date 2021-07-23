@@ -45,7 +45,7 @@ const authReducer = (state, action) => {
     case "LOGOUT":
       Cookies.set("token", "")
       Cookies.set("identity", "")
-      window.location.href("/login")
+      window.location.href = "/login"
       return {
         ...state,
         user: null,
