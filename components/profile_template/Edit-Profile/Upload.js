@@ -27,7 +27,10 @@ const Upload = ({ dp, name }) => {
           Authorization: `Bearer ` + token,
         },
       }
+
+      // adding file to dp variable
       let dp = e.target.files[0]
+
       axios
         .post(`${API}/users/dp`, dp, config)
         .then((res) => {
