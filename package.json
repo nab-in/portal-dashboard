@@ -19,6 +19,6 @@
     "react-icons": "^4.2.0",
     "react-linkify": "^1.0.0-alpha",
     "recharts": "^2.0.9",
-    "sass": "^1.32.8"
+    "sass": "^1.35.2"
   }
 }
