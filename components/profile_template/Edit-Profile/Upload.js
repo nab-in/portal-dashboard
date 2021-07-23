@@ -1,18 +1,43 @@
 import React, { useState } from "react"
 import { FaCamera } from "react-icons/fa"
+import axios from "axios"
+import Cookies from "js-cookie"
+import { API } from "../../api"
 import styles from "./upload.module.sass"
 
 const Upload = ({ dp, name }) => {
   name = name?.split("")[0]
   let [imgData, setImgData] = useState(null)
+
   const handleChange = (e) => {
     if (e.target.files) {
+      // reading file for preview
       const reader = new FileReader()
       reader.addEventListener("load", () => {
         setImgData(reader.result)
         console.log(imgData)
       })
       reader.readAsDataURL(e.target.files[0])
+
+      // uploading file
+      let token = Cookies.get("token")
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ` + token,
+        },
+      }
+      let dp = e.target.files[0]
+      axios
+        .post(`${API}/users/dp`, dp, config)
+        .then((res) => {
+          console.log(res.data)
+          // setLoading(false)
+        })
+        .catch((err) => {
+          // setLoading(false)
+          console.log(err)
+        })
     }
   }
 
