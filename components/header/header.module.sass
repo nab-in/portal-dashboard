@@ -52,6 +52,18 @@ header.dashboard__header
                 height: 40px
                 position: relative
                 margin-right: 1.5rem
+                img
+                    height: 100%
+                    width: 100%
+                    object-fit: contain
+                .default
+                    display: flex
+                    justify-content: center
+                    align-items: center
+                    font-size: 2rem
+                    font-weight: 700
+                    opacity: .7
+                    // color: $primary
             .name
                 color: $primary
                 display: flex
@@ -116,8 +128,12 @@ header.dashboard__header
                 display: none
                 .logo
                     height: 30px
-                    width: 100px
+                    // width: 100px
                     position: relative
+                    img
+                        height: 100%
+                        width: 90px
+                        object-fit: contain
 
 @media screen and ( max-width: 992px )
     header.dashboard__header
