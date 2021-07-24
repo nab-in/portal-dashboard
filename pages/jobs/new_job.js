@@ -11,6 +11,7 @@ import { useAuthState } from "../../context/auth"
 
 const new_job = () => {
   const { user } = useAuthState()
+  const data = new FormData()
   const [formData, setFormData] = useState({
     name: "",
     location: "",
@@ -46,6 +47,7 @@ const new_job = () => {
       ...formData,
       [name]: value,
     })
+    console.log(formData)
   }
   const handleFileChange = (e) => {
     let { files } = e.target
@@ -57,10 +59,13 @@ const new_job = () => {
     //   reader.readAsDataURL(files[0])
     // }
     if (files && files[0].type == "application/pdf") {
+      const data = new FormData()
+      data.append("attachment", files[0])
       setFormData({
         ...formData,
-        attachment: files[0],
+        attachment: data,
       })
+      console.log(data)
     } else {
       console.log("invalid file type")
     }
@@ -70,7 +75,7 @@ const new_job = () => {
     let token = Cookies.get("token")
     let config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
         Authorization: `Bearer ` + token,
       },
     }
