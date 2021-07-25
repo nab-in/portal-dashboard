@@ -9,6 +9,8 @@
             position: relative
             width: 33.3333%
             // text-align: center
+            &.mobile_step
+                display: none
             &::before
                 content: ""
                 position: absolute
@@ -56,3 +58,9 @@
                     display: inline-block
                     width: 100%
                     text-align: center
+
+@media screen and ( max-width: 768px )
+    .steps
+        ul
+            li.mobile_step
+                display: block

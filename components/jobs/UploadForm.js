@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useAuthState } from "../../context/auth"
 import Steps from "./steps/Steps"
 import Basic from "./Basic"
 import Descr from "./Descr"
 import Attachment from "./Attachment"
+import Categories from "./Categories"
 
-const UploadForm = () => {
+const UploadForm = ({ categories, setCategories }) => {
   let [selected, setSelected] = useState(null)
+  let [select, setSelect] = useState([])
   let [job, setJob] = useState({})
   const { user } = useAuthState()
 
@@ -16,13 +18,33 @@ const UploadForm = () => {
       {user.company && (
         <>
           {(selected == null || selected == "basic") && (
-            <Basic setJob={setJob} job={job} setSelected={setSelected} />
+            <Basic
+              setJob={setJob}
+              job={job}
+              setSelected={setSelected}
+              categories={categories}
+            />
           )}
           {selected == "desc" && job?.id && (
-            <Descr setJob={setJob} job={job} setSelected={setSelected} />
+            <Descr
+              setJob={setJob}
+              job={job}
+              setSelected={setSelected}
+              categories={categories}
+            />
           )}
           {selected == "att" && job?.id && (
             <Attachment job={job} setJob={setJob} />
+          )}
+          {selected == "cat" && job?.id && (
+            <Categories
+              job={job}
+              setJob={setJob}
+              categories={categories}
+              setCategories={setCategories}
+              selected={select}
+              setSelected={setSelect}
+            />
           )}
         </>
       )}

@@ -4,9 +4,14 @@ import Categories from "../categories/Categories"
 import SubCategories from "../categories/SubCategories"
 import styles from "./filter.module.sass"
 
-const Filter = () => {
+const Filter = ({
+  selected,
+  setSelected,
+  selectedCategories,
+  setCategories,
+}) => {
   let [parent, setParent] = useState(categories.length > 0 && categories[0])
-  let [selected, setSelected] = useState([])
+
   return (
     <div className={styles.card}>
       <h2>Add Job Category</h2>
@@ -23,6 +28,8 @@ const Filter = () => {
         categories={categories}
         setSelected={setSelected}
         selected={selected}
+        selectedCategories={selectedCategories}
+        setCategories={setCategories}
       />
     </div>
   )

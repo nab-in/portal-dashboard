@@ -38,12 +38,16 @@ const Steps = ({ id, selected, setSelected }) => {
             <span className={styles.text}>Attachment</span>
           </button>
         </li>
-        {/* <li>
-          <button onClick={() => select("cat")} disabled={id ? false : true} className={selected == "cat" ? `${styles.done}` : ""}>
-            <span className={styles.icon}></span>
+        <li className={styles.mobile_step}>
+          <button
+            onClick={() => select("cat")}
+            disabled={id ? false : true}
+            className={selected == "cat" ? `${styles.done}` : ""}
+          >
+            <span className={styles.icon}>4</span>
             <span className={styles.text}>Categories</span>
           </button>
-        </li> */}
+        </li>
       </ul>
     </div>
   )
