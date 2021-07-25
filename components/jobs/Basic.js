@@ -16,9 +16,12 @@ const Basic = ({ job, setJob, setSelected }) => {
     name: job?.name ? job.name : "",
     location: job?.location ? job.location : "",
     website: job?.website ? job.wensite : "",
-    // title: job.title ? job.title : "",
     closeDate: job?.closeDate ? job.closeDate : "",
     email: job?.email ? job.email : "",
+    // categories: [
+    //   {id: jkhd},
+    //   {id: jadh}
+    // ]
   })
 
   useEffect(() => {
@@ -126,7 +129,36 @@ const Basic = ({ job, setJob, setSelected }) => {
             id="email"
             value={email}
           />
-
+          <div className="select-group">
+            <label htmlFor="opento">
+              Open To?
+              <select
+                name="opento"
+                id="opento"
+                onChange={(e) => handleChange(e)}
+              >
+                <option value="Individual" defaultValue>
+                  Individual
+                </option>
+                <option value="Company">Company/Organisation</option>
+              </select>
+            </label>
+          </div>
+          <div className="select-group">
+            <label htmlFor="jobtype">
+              Select Job Type?
+              <select
+                name="jobtype"
+                id="jobtype"
+                onChange={(e) => handleChange(e)}
+              >
+                <option value="Freelance" defaultValue>
+                  Freelance
+                </option>
+                <option value="Full Time">Full Time</option>
+              </select>
+            </label>
+          </div>
           <Input
             title="Website"
             handleChange={handleChange}

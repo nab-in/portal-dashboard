@@ -1,11 +1,26 @@
 import React, { useState, useEffect } from "react"
 import styles from "./sub.module.sass"
 
-const SubCategory = ({ sub, selected, setSelected, category }) => {
+const SubCategory = ({
+  sub,
+  selected,
+  setSelected,
+  category,
+  categories,
+  setCategories,
+}) => {
   let [checked, setChecked] = useState(false)
   let { name, id } = sub
   let subCategoryIndex
   let selectCopy = selected
+
+  let selectedCopy = categories
+
+  let selectedcategoryIndex = selectedCopy?.findIndex(
+    (u) => u.id == category.id
+  )
+
+  let selectedsubcategoryIndex = selectedCopy?.findIndex((u) => u.id == id)
 
   // checking if category exists in selected state
   let categoryIndex = selectCopy?.findIndex((u) => u.id == category.id)
@@ -20,6 +35,9 @@ const SubCategory = ({ sub, selected, setSelected, category }) => {
   // toggling sub category
   const toggleSubCategory = () => {
     // if category exists this run
+    if (selectedsubcategoryIndex >= 0)
+      selectedCopy = selectedCopy.filter((u) => u.id != id)
+
     if (categoryIndex >= 0) {
       if (subCategoryIndex >= 0) {
         // remove sub_category function goes here
@@ -28,11 +46,15 @@ const SubCategory = ({ sub, selected, setSelected, category }) => {
         ].sub_categories.filter((el) => el.id !== id)
 
         //   removing category in categories array
-        if (selectCopy[categoryIndex].sub_categories.length === 0)
+        if (selectCopy[categoryIndex].sub_categories.length === 0) {
           selectCopy = selectCopy.filter((el) => el.id != category.id)
+          if (selectedcategoryIndex >= 0)
+            selectedCopy = selectedCopy.filter((u) => u.id != category.id)
+        }
 
         //   updating state with new categories
         setSelected(selectCopy)
+        setCategories(selectedCopy)
 
         // uncheck the checkbox
         setChecked(false)
@@ -51,6 +73,29 @@ const SubCategory = ({ sub, selected, setSelected, category }) => {
       }
     }
 
+    if (selectedsubcategoryIndex === -1) {
+      setCategories(
+        selectedCopy.concat({
+          id,
+          name,
+        })
+      )
+      if (selectedcategoryIndex === -1) {
+        setCategories(
+          selectedCopy.concat(
+            {
+              id: category.id,
+              name: category.name,
+            },
+            {
+              id,
+              name,
+            }
+          )
+        )
+      }
+    }
+
     // if category do not exist in selected
     if (categoryIndex === -1) {
       setSelected(
@@ -60,6 +105,7 @@ const SubCategory = ({ sub, selected, setSelected, category }) => {
           sub_categories: [sub],
         })
       )
+
       setChecked(true)
     }
   }

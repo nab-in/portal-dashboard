@@ -26,19 +26,20 @@ const Attachment = ({ job, setJob }) => {
     let token = Cookies.get("token")
     let config = {
       headers: {
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
         Authorization: `Bearer ` + token,
       },
     }
 
     if (job?.id) {
       let body = {
-        attachment,
-        job: { id: job.id },
+        data: attachment,
+        job: job.id,
       }
+      // console.log(body)
       setLoading(true)
       axios
-        .post(`${API}/jobs/profile/${job.id}`, attachment, config)
+        .post(`${API}/jobs/profile/`, body, config)
         .then((res) => {
           setJob(res.data.payload)
           dispatch({
@@ -53,7 +54,7 @@ const Attachment = ({ job, setJob }) => {
         })
         .catch((err) => {
           setLoading(false)
-          console.log(err)
+          console.log(err.response)
         })
     }
   }
