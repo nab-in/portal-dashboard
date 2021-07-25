@@ -25,10 +25,18 @@ const Header = ({ navOpen }) => {
 
   let data
 
+  let n
+
+  let img
+
   if (user?.identity?.name == "company") {
     data = user.company
+    n = data?.name?.split("")[0].toUpperCase()
+    img = data?.logo
   } else {
     data = user
+    n = data?.username.split("")[0].toUpperCase()
+    img = data?.dp
   }
 
   return (
@@ -42,12 +50,7 @@ const Header = ({ navOpen }) => {
       <div className={styles.container}>
         <div className={styles.logo__container}>
           <div className={styles.logo}>
-            <Image
-              src={`/assets/images/logo.png`}
-              alt={`logo`}
-              layout="fill"
-              objectFit="contain"
-            />
+            <img src={`/assets/images/logo.png`} alt={`logo`} />
           </div>
         </div>
         <div className={styles.right__nav}>
@@ -63,13 +66,11 @@ const Header = ({ navOpen }) => {
           <div className={styles.profile__container} ref={node}>
             <div onClick={() => setOpen(!open)} className={styles.profile}>
               <div className={styles.dp__container}>
-                <Image
-                  src={`/assets/images/dp.jpeg`}
-                  alt={`dp`}
-                  height={40}
-                  width={40}
-                  objectFit="cover"
-                />
+                {img ? (
+                  <img src={img} alt={`logo`} />
+                ) : (
+                  <div className={styles.default}>{n}</div>
+                )}
               </div>
               <div className={styles.name}>
                 <span>{data?.name ? data.name : data?.username}</span>
@@ -85,13 +86,11 @@ const Header = ({ navOpen }) => {
             >
               <div className={styles.profile}>
                 <div className={styles.dp__container}>
-                  <Image
-                    src={`/assets/images/dp.jpeg`}
-                    alt={`dp`}
-                    height={40}
-                    width={40}
-                    objectFit="cover"
-                  />
+                  {img ? (
+                    <img src={img} alt={`logo`} />
+                  ) : (
+                    <div className={styles.default}>{n}</div>
+                  )}
                 </div>
                 <div className={styles.name}>
                   {data?.name ? data.name : data?.username}
@@ -118,6 +117,11 @@ const Header = ({ navOpen }) => {
                     <li>
                       <Link href="/profile">
                         <a onClick={() => setOpen(false)}>Profile</a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/select_identity">
+                        <a onClick={() => setOpen(false)}>Change Identity</a>
                       </Link>
                     </li>
                   </ul>

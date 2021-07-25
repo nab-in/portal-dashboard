@@ -28,10 +28,10 @@ const Input = ({
         </label>
       )}
       {textarea ? (
-        <div
+        <textarea
           className={styles.expandable__textarea}
           role="textbox"
-          contentEditable
+          // contentEditable
           value={value}
           id={id}
           placeholder={placeholder}

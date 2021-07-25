@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import "../styles/globals.sass"
 import { useRouter } from "next/router"
 import { AuthProvider, useAuthDispatch, useAuthState } from "../context/auth"
 import Layout from "../components/layout/Layout"
+import Alert from "../components/alerts/GlobalAlert"
 import Cookies from "js-cookie"
 import { API } from "../components/api"
 import axios from "axios"
+import { AlertsProvider } from "../context/alerts"
 
 function MyApp({ Component, pageProps }) {
   const Site = () => {
@@ -21,6 +23,10 @@ function MyApp({ Component, pageProps }) {
           Authorization: `Bearer ` + token,
         },
       }
+      if (!user && !token)
+        dispatch({
+          type: "NOT_LOADED",
+        })
       if (!user && token)
         axios
           .get(`${API}/me`, config)
@@ -62,7 +68,10 @@ function MyApp({ Component, pageProps }) {
   }
   return (
     <AuthProvider>
-      <Site />
+      <AlertsProvider>
+        <Site />
+        <Alert />
+      </AlertsProvider>
     </AuthProvider>
   )
 }

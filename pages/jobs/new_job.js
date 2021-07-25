@@ -1,18 +1,10 @@
-import React from "react"
 import Link from "next/link"
-import UploadJobs from "../../components/jobs/UploadJobs"
 import MainContents from "../../components/templates/MainContents"
 import SubContents from "../../components/templates/SubContents"
 import Filter from "../../components/filter/Filter"
+import UploadForm from "../../components/jobs/UploadForm"
 
 const new_job = () => {
-  const handleChange = (e) => {
-    let { name, value } = e.target
-    console.log(name, value)
-  }
-  const handleSubmit = (e) => {
-    e.preventDefault()
-  }
   return (
     <div>
       <div className="content">
@@ -28,7 +20,7 @@ const new_job = () => {
             <span>/</span>
             <span>New</span>
           </div>
-          <UploadJobs handleChange={handleChange} handleSubmit={handleSubmit} />
+          <UploadForm />
         </MainContents>
         <SubContents>
           <Filter />

@@ -30,6 +30,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     setLoading(true)
+    console.log(formData)
     axios
       .post(`${API}/login`, formData)
       .then((res) => {
@@ -43,7 +44,7 @@ const Login = () => {
       })
       .catch((err) => {
         setLoading(false)
-        console.log(err)
+        console.log(err.response.data)
       })
   }
 

@@ -1,0 +1,58 @@
+@import "../../../styles/_colors"
+
+.steps
+    ul
+        display: flex
+        justify-content: space-between
+        flex-wrap: wrap
+        li
+            position: relative
+            width: 33.3333%
+            // text-align: center
+            &::before
+                content: ""
+                position: absolute
+                height: 1px
+                width: 100%
+                top: 19.5px
+                // transform: translateY(-50%)
+                background: lightgray
+            button
+                display: block
+                width: 100%
+                color: gray
+                cursor: pointer
+                text-align: center
+                &:disabled, &[disabled]
+                    cursor: default
+                    &:hover
+                        span.icon
+                            background: lightgray
+                            color: #969595
+                &:hover
+                    span.icon
+                        background: gray
+                        color: lightgray
+                &.done
+                    span.icon
+                        background: $primary
+                        color: white
+                span.icon
+                    transition: .25s
+                    background: lightgray
+                    height: 40px
+                    width: 40px
+                    border-radius: 50%
+                    display: flex
+                    justify-content: center
+                    align-items: center
+                    color: #969595
+                    font-size: 1rem
+                    position: relative
+                    left: 50%
+                    transform: translateX(-50%)
+                span.text
+                    padding: .5rem 1rem
+                    display: inline-block
+                    width: 100%
+                    text-align: center
