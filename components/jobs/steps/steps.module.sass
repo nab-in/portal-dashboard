@@ -23,9 +23,15 @@
                 color: gray
                 cursor: pointer
                 text-align: center
+                &:disabled, &[disabled]
+                    &:hover
+                        span.icon
+                            background: lightgray
+                            color: #969595
                 &:hover
                     span.icon
                         background: gray
+                        color: lightgray
                 &.done
                     span.icon
                         background: $primary

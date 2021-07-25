@@ -11,19 +11,19 @@ const Steps = ({ id }) => {
           </button>
         </li>
         <li>
-          <button>
+          <button disabled={id ? false : true}>
             <span className={styles.icon}>2</span>
             <span className={styles.text}>Job Description</span>
           </button>
         </li>
         <li>
-          <button>
+          <button disabled={id ? false : true}>
             <span className={styles.icon}>3</span>
             <span className={styles.text}>Attachment</span>
           </button>
         </li>
         {/* <li>
-          <button>
+          <button disabled={id ? false : true}>
             <span className={styles.icon}></span>
             <span className={styles.text}>Categories</span>
           </button>
