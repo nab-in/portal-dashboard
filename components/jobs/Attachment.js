@@ -61,7 +61,14 @@ const Attachment = ({ job, setJob }) => {
     <div>
       <Card title="Upload attachment">
         <form onSubmit={(e) => handleSubmit(e)}>
-          <input type="file" onChange={(e) => handleChange(e)} />
+          <label
+            style={{
+              marginBottom: "1rem",
+              display: "block",
+            }}
+          >
+            <input type="file" onChange={(e) => handleChange(e)} />
+          </label>
           <Button text="Upload" btnClass="btn-primary" loading={loading} />
         </form>
       </Card>
