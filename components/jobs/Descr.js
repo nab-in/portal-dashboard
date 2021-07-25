@@ -7,11 +7,12 @@ import { API } from "../../components/api"
 import axios from "axios"
 import { useAlertsDispatch } from "../../context/alerts"
 
-const Descr = ({ job, setJob, setSelected }) => {
+const Descr = ({ job, setJob, setSelected, categories }) => {
   const dispatch = useAlertsDispatch()
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     description: job?.description ? job.description : "",
+    categories,
   })
   const { description } = formData
   const handleChange = (e) => {

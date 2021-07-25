@@ -8,7 +8,7 @@ import axios from "axios"
 import { useAuthState } from "../../context/auth"
 import { useAlertsDispatch } from "../../context/alerts"
 
-const Basic = ({ job, setJob, setSelected }) => {
+const Basic = ({ job, setJob, setSelected, categories }) => {
   const { user } = useAuthState()
   const dispatch = useAlertsDispatch()
   const [loading, setLoading] = useState(false)
@@ -18,10 +18,7 @@ const Basic = ({ job, setJob, setSelected }) => {
     website: job?.website ? job.wensite : "",
     closeDate: job?.closeDate ? job.closeDate : "",
     email: job?.email ? job.email : "",
-    // categories: [
-    //   {id: jkhd},
-    //   {id: jadh}
-    // ]
+    categories,
   })
 
   useEffect(() => {

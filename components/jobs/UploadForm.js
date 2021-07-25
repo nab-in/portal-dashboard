@@ -8,6 +8,7 @@ import Categories from "./Categories"
 
 const UploadForm = ({ categories, setCategories }) => {
   let [selected, setSelected] = useState(null)
+  let [select, setSelect] = useState([])
   let [job, setJob] = useState({})
   const { user } = useAuthState()
 
@@ -41,6 +42,8 @@ const UploadForm = ({ categories, setCategories }) => {
               setJob={setJob}
               categories={categories}
               setCategories={setCategories}
+              selected={select}
+              setSelected={setSelect}
             />
           )}
         </>

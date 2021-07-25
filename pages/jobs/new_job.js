@@ -31,12 +31,14 @@ const new_job = () => {
           />
         </MainContents>
         <SubContents>
-          <Filter
-            selected={selected}
-            setSelected={setSelected}
-            selectedCategories={categories}
-            setCategories={setCategories}
-          />
+          <div className="desktop_filter">
+            <Filter
+              selected={selected}
+              setSelected={setSelected}
+              selectedCategories={categories}
+              setCategories={setCategories}
+            />
+          </div>
         </SubContents>
       </div>
     </div>
