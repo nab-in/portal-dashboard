@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react"
 import Cookies from "js-cookie"
+import Card from "../cards/Card"
+import Input from "../inputs/Input"
+import Button from "../buttons/FormButton"
 import { API } from "../../components/api"
 import axios from "axios"
 import { useAuthState } from "../../context/auth"
+import { useAlertsDispatch } from "../../context/alerts"
 
-const Basic = () => {
+const Basic = ({ job, setJob, setSelected }) => {
   const { user } = useAuthState()
+  const dispatch = useAlertsDispatch()
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
-    name: "",
-    location: "",
-    website: "",
-    title: "",
-    bio: "",
-    attachment: "",
-    closeDate: "",
-    email: "",
+    name: job?.name ? job.name : "",
+    location: job?.location ? job.location : "",
+    website: job?.website ? job.wensite : "",
+    // title: job.title ? job.title : "",
+    closeDate: job?.closeDate ? job.closeDate : "",
+    email: job?.email ? job.email : "",
   })
 
   useEffect(() => {
@@ -25,69 +28,132 @@ const Basic = () => {
         company: {
           id: user?.company?.id,
         },
-        location: user?.company?.location ? user?.company?.location : "",
-        website: user?.company?.website ? user?.company?.website : "",
-        email: user?.company?.email ? user?.company?.email : "",
+        location: job?.name
+          ? job.name
+          : user?.company?.location
+          ? user?.company?.location
+          : "",
+        website: job?.website
+          ? job.wensite
+          : user?.company?.website
+          ? user?.company?.website
+          : "",
+        email: job?.email
+          ? job.email
+          : user?.company?.email
+          ? user?.company?.email
+          : "",
       })
     }
   }, [user])
 
+  const { name, website, closeDate, location, email } = formData
+
   const handleChange = (e) => {
-    // let { name, value } = e.target
-    // setFormData({
-    //   ...formData,
-    //   [name]: value,
-    // })
-    // console.log(formData)
+    let { name, value } = e.target
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // let token = Cookies.get("token")
-    // let config = {
-    //   headers: {
-    //     // "Content-Type": "multipart/form-data",
-    //     Authorization: `Bearer ` + token,
-    //   },
-    // }
-    // setLoading(true)
-    // axios
-    //   .post(`${API}/jobs`, formData, config)
-    //   .then((res) => {
-    //     console.log(res.data)
-    //     setLoading(false)
-    //   })
-    //   .catch((err) => {
-    //     setLoading(false)
-    //     console.log(err)
-    //   })
+    let token = Cookies.get("token")
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ` + token,
+      },
+    }
+    setLoading(true)
+    if (job?.id)
+      axios
+        .put(`${API}/jobs/${job.id}`, formData, config)
+        .then((res) => {
+          setJob(res.data.payload)
+          dispatch({
+            type: "ADD",
+            payload: {
+              message: res.data.message,
+              type: "success",
+            },
+          })
+          setSelected("desc")
+          setLoading(false)
+        })
+        .catch((err) => {
+          setLoading(false)
+          console.log(err)
+        })
+    if (!job?.id)
+      axios
+        .post(`${API}/jobs`, formData, config)
+        .then((res) => {
+          setJob(res.data.payload)
+          dispatch({
+            type: "ADD",
+            payload: {
+              message: res.data.message,
+              type: "success",
+            },
+          })
+          setSelected("desc")
+          setLoading(false)
+        })
+        .catch((err) => {
+          setLoading(false)
+          console.log(err)
+        })
   }
 
-  return <div></div>
+  return (
+    <div>
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <Card title="Job Information">
+          <Input
+            title="Job Name"
+            handleChange={handleChange}
+            name="name"
+            id="name"
+            value={name}
+          />
+          <Input
+            type="email"
+            title="Email"
+            handleChange={handleChange}
+            name="email"
+            id="email"
+            value={email}
+          />
+
+          <Input
+            title="Website"
+            handleChange={handleChange}
+            name="website"
+            id="website"
+            value={website}
+          />
+          <Input
+            title="Location"
+            handleChange={handleChange}
+            name="location"
+            id="location"
+            value={location}
+          />
+          <Input
+            title="Close Date"
+            type="datetime-local"
+            handleChange={handleChange}
+            name="closeDate"
+            id="closedate"
+            value={closeDate}
+          />
+          <Button text="Save" btnClass="btn-primary" loading={loading} />
+        </Card>
+      </form>
+    </div>
+  )
 }
 
 export default Basic
-
-// const data = new FormData()
-
-// const handleFileChange = (e) => {
-// let { files } = e.target
-// if (files) {
-//   const reader = new FileReader()
-//   reader.addEventListener("load", () => {
-//     setFormData({ ...formData, attachment: reader.result })
-//   })
-//   reader.readAsDataURL(files[0])
-// }
-// if (files && files[0].type == "application/pdf") {
-//   const data = new FormData()
-//   data.append("attachment", files[0])
-//   setFormData({
-//     ...formData,
-//     attachment: data,
-//   })
-//   console.log(data)
-// } else {
-//   console.log("invalid file type")
-// }
-// }
