@@ -2,28 +2,24 @@ import React, { useState, useRef, useEffect } from "react"
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"
 import Category from "./Category"
 import Input from "../inputs/Input"
+import { API } from "../api"
+import axios from "axios"
+import Cookies from "js-cookie"
+import rippleEffect from "../rippleEffect.js"
+import Loader from "../loaders/ButtonLoader"
 import styles from "./category.module.sass"
-
-// detect outside click hook
-let useClickOutside = (handler) => {
-  let node = useRef()
-  useEffect(() => {
-    let handle = (e) => {
-      if (!node.current.contains(e.target)) {
-        handler()
-      }
-    }
-    document.addEventListener("mousedown", handle)
-    return () => {
-      document.removeEventListener("mousedown", handle)
-    }
-  })
-  return node
-}
+import { useAlertsDispatch } from "../../context/alerts"
+import useClickOutside from "../UseClickOutside"
 
 // filter dropdown component per each category
 const Categories = ({ categories, setParent, selected, setSelected }) => {
   let [openDropdown, setOpenDropdown] = useState(false)
+  let [loading, setLoading] = useState(false)
+  let [formData, setFormData] = useState({
+    name: "",
+  })
+  const dispatch = useAlertsDispatch()
+  let { name } = formData
   // let { name, sub_categories, id } = category
   const open = () => {
     setOpenDropdown(!openDropdown)
@@ -34,10 +30,37 @@ const Categories = ({ categories, setParent, selected, setSelected }) => {
     setOpenDropdown(false)
   })
 
-  const handleChange = (e) => {}
+  const handleChange = (e) => {
+    let { value } = e.target
+    setFormData({ name: value })
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    let token = Cookies.get("token")
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ` + token,
+      },
+    }
+    setLoading(true)
+    axios
+      .post(`${API}/jobCategories`, formData, config)
+      .then((res) => {
+        setLoading(false)
+        dispatch({
+          type: "ADD",
+          payload: {
+            type: "success",
+            message: res.data.message,
+          },
+        })
+      })
+      .catch((err) => {
+        setLoading(false)
+        console.log(err)
+      })
   }
 
   return (
@@ -73,9 +96,14 @@ const Categories = ({ categories, setParent, selected, setSelected }) => {
               handleChange={(e) => handleChange(e)}
               placeholder="Add category"
               inputClass="form__control__filter"
+              name="name"
+              value={name}
             />
-            <button className={`${styles.btn__primary} btn btn-primary`}>
-              Add
+            <button
+              className={`${styles.btn__primary} btn btn-primary`}
+              onClick={rippleEffect}
+            >
+              {loading ? <Loader /> : "Add"}
             </button>
           </form>
         </div>

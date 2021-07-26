@@ -2,7 +2,7 @@ import { useState } from "react"
 import Cookies from "js-cookie"
 import Card from "../cards/Card"
 import Button from "../buttons/FormButton"
-import { API } from "../../components/api"
+import { API } from "../api"
 import axios from "axios"
 import { useAlertsDispatch } from "../../context/alerts"
 
