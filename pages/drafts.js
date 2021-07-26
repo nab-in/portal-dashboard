@@ -11,8 +11,9 @@ const drafts = () => {
   const [drafts, setDrafts] = useState([]);
 
   const getDrafts = () => {
+    let pageNumber = 1;
     axios
-      .get(`${API}/jobs?page=1&pageSize=5`)
+      .get(`${API}/jobs?page=${pageNumber}&pageSize=5`)
       .then((response) => {
         const draftBatch = response.data.jobs;
         setDrafts(draftBatch);
@@ -40,7 +41,7 @@ const drafts = () => {
             ? drafts.map((job) => {
                 return (
                   <Draftcard
-                    title={job.name}
+                    title={job.title}
                     posted={job.created}
                     deadline={job.close_date}
                     link={`/jobs/${job.id}`}
