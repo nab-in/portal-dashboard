@@ -4,15 +4,15 @@ const categories = [
     name: "Class",
     sub_categories: [
       {
-        id: 1,
+        id: 8,
         name: "Class A",
       },
       {
-        id: 2,
+        id: 37,
         name: "Class B",
       },
       {
-        id: 3,
+        id: 9,
         name: "Class C",
       },
     ],
@@ -22,7 +22,7 @@ const categories = [
     name: "Type",
     sub_categories: [
       {
-        id: 3,
+        id: 65,
         name: "Type A",
       },
       {

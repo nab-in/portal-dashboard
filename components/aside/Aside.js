@@ -9,7 +9,7 @@ import {
 } from "react-icons/ri"
 import { BiBuildingHouse } from "react-icons/bi"
 import { FiUsers } from "react-icons/fi"
-import { SiPuppet } from "react-icons/si"
+// import { SiPuppet } from "react-icons/si"
 import { CgListTree } from "react-icons/cg"
 import { AiOutlineArrowRight } from "react-icons/ai"
 import ActiveLink from "../ActiveLink"
@@ -77,6 +77,7 @@ let urls = [
 
 const Aside = ({ navOpen, handleNav, isMobile, setnavOpen }) => {
   const { user } = useAuthState()
+
   let links = []
   if (user?.identity?.name == "company") {
     links = urls.filter((el) => el.type == "company" || el.type == "")

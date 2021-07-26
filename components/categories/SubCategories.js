@@ -3,7 +3,14 @@ import SubCategory from "./SubCategory"
 import Input from "../inputs/Input"
 import styles from "./category.module.sass"
 
-const SubCategories = ({ categories, parent, selected, setSelected }) => {
+const SubCategories = ({
+  categories,
+  parent,
+  selected,
+  setSelected,
+  selectedCategories,
+  setCategories,
+}) => {
   let { id, name } = parent
   let category
   if (categories.length > 0) category = categories.filter((el) => el.id == id)
@@ -26,6 +33,8 @@ const SubCategories = ({ categories, parent, selected, setSelected }) => {
                 selected={selected}
                 setSelected={setSelected}
                 category={category[0]}
+                categories={selectedCategories}
+                setCategories={setCategories}
               />
             ))}
           </div>
