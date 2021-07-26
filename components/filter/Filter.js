@@ -17,11 +17,21 @@ const Filter = ({
     axios
       .get(`${API}/jobCategories?fields=id,name,children[id, name]`)
       .then((res) => {
-        console.log(res.data)
-        setcategories(res.data?.jobCategories)
+        // console.log(res.data)
+        let data = res.data?.jobCategories
+        let filter = []
+        data.forEach((el) => {
+          // console.log(el.children)
+          if (el.children) filter = filter.concat(el.children)
+        })
+        filter.forEach((el) => {
+          data = data.filter((o) => o.id != el.id)
+        })
+        console.log(data)
+        setcategories(data)
       })
       .catch((err) => {
-        console.log(err.response)
+        console.log(err)
       })
   }, [])
   return (
