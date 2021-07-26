@@ -24,7 +24,7 @@ const jobs = () => {
 
           {/* Display jobs here, depending on who logged in */}
 
-            <div className={styles.display__jobs}>
+          {/* <div className={styles.display__jobs}>
                 <div className={styles.logo__container}>
                   <div className={styles.logo}>
                     <img
@@ -52,8 +52,7 @@ const jobs = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-
+              </div> */}
         </MainContents>
         <SubContents>
           <Link href="/jobs/new_job">
