@@ -9,7 +9,7 @@ const Pagination = ({ currentPage, totalCount, startCount }) => {
         Page {currentPage} | 
       </span>
       <span id={styles.display}>
-        Displaying {startCount} - {startCount + 4} out of {totalCount} |
+        Displaying {startCount} - {startCount + 4} out of {totalCount} 
       </span>
       <span className={styles.previous}>
         <button type="button">prev</button>
