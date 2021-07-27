@@ -12,7 +12,7 @@ const drafts = () => {
   const [pager, setPager] = useState([]);
 
   const getDrafts = () => {
-    let pageNumber = 3;
+    let pageNumber = 2;
     axios
       .get(`${API}/jobs?page=${pageNumber}&pageSize=5`)
       .then((response) => {
@@ -53,7 +53,7 @@ const drafts = () => {
                 );
               })
             : null}
-          <Pagination currentPage={pager.page} totalCount={pager.total} startCount={1}></Pagination>
+          <Pagination currentPage={pager.page} totalCount={pager.total} startCount={pager.page*5-4}></Pagination>
         </MainContents>
 
         <SubContents>
