@@ -3,7 +3,7 @@ import Link from "next/link";
 import MainContents from "../components/templates/MainContents";
 import SubContents from "../components/templates/SubContents";
 import Draftcard from "../components/cards/Draftcard";
-// import jobs from "../data/jobs";
+import Pagination from "../components/pagination/Pagination";
 import axios from "axios";
 import { API } from "../components/api";
 
@@ -49,7 +49,9 @@ const drafts = () => {
                 );
               })
             : null}
-          {}
+          <Pagination>
+            
+          </Pagination>
         </MainContents>
 
         <SubContents>
