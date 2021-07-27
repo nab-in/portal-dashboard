@@ -9,14 +9,18 @@ import { API } from "../components/api";
 
 const drafts = () => {
   const [drafts, setDrafts] = useState([]);
+  const [pager, setPager] = useState([]);
 
   const getDrafts = () => {
-    let pageNumber = 1;
+    let pageNumber = 3;
     axios
       .get(`${API}/jobs?page=${pageNumber}&pageSize=5`)
       .then((response) => {
         const draftBatch = response.data.jobs;
+        const pagerDetails = response.data.pager;
         setDrafts(draftBatch);
+        setPager(pagerDetails);
+        console.log(pagerDetails);
       })
       .catch((error) => console.error(`Error: ${error}`));
   };
@@ -36,12 +40,12 @@ const drafts = () => {
             <span>/</span>
             <span>Drafts</span>
           </div>
-          {console.log(drafts)}
+          {console.log(pager)}
           {drafts.length
             ? drafts.map((job) => {
                 return (
                   <Draftcard
-                    title={job.title}
+                    title={job.description}
                     posted={job.created}
                     deadline={job.close_date}
                     link={`/jobs/${job.id}`}
@@ -49,9 +53,7 @@ const drafts = () => {
                 );
               })
             : null}
-          <Pagination>
-            
-          </Pagination>
+          <Pagination currentPage={pager.page} totalCount={pager.total} startCount={1}></Pagination>
         </MainContents>
 
         <SubContents>
