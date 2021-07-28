@@ -30,8 +30,6 @@ const applications = ({ data, error, page }) => {
     }
   }, [])
 
-  console.log(errors)
-
   let nextUrl = `/applications?page=${
     page < Math.ceil(data?.pager.total / data?.pager.pageSize)
       ? data?.pager?.page + 1
