@@ -11,6 +11,7 @@ import Search from "../components/applications/Search"
 const applications = ({ data, error, page }) => {
   const [apps, setApps] = useState([])
   const [keywords, setKeywords] = useState([])
+  const [size, setSize] = useState(0)
   const [errors, setErrors] = useState(null)
   useEffect(() => {
     if (data) {
@@ -28,6 +29,7 @@ const applications = ({ data, error, page }) => {
         }
       })
       setApps(results)
+      setSize(data.jobs.length)
     }
     if (error) {
       setErrors(error)
@@ -62,7 +64,12 @@ const applications = ({ data, error, page }) => {
           <Filter keywords={keywords} setKeywords={setKeywords} />
           {apps.length > 0 &&
             apps.map((app, index) => <Application app={app} key={index} />)}
-          <Pagination pager={data?.pager} nextUrl={nextUrl} prevUrl={prevUrl} />
+          <Pagination
+            size={size}
+            pager={data?.pager}
+            nextUrl={nextUrl}
+            prevUrl={prevUrl}
+          />
         </MainContents>
         <SubContents>
           <Link href="/jobs/new_job">

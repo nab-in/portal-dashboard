@@ -2,7 +2,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import styles from "./pagination.module.sass"
 import Link from "next/link"
 
-const Pagination = ({ pager, nextUrl, prevUrl }) => {
+const Pagination = ({ size, pager, nextUrl, prevUrl }) => {
   return (
     <>
       {pager && (
@@ -12,14 +12,14 @@ const Pagination = ({ pager, nextUrl, prevUrl }) => {
               Page {pager?.page} | &nbsp; &nbsp;
             </span>
             <span className={styles.display}>
-              Displaying {pager?.pageSize} out of {pager?.total}
+              Displaying {size} out of {pager?.total}
             </span>
           </div>
           <div className={styles.prev_next}>
             <div>
               <span>
                 {pager?.pageSize * (pager?.page - 1) + 1} -{" "}
-                {pager?.page * pager?.pageSize}
+                {pager?.pageSize * (pager?.page - 1) + size}
               </span>
             </div>
             <span className={styles.previous}>
