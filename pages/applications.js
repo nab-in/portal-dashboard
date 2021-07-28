@@ -1,16 +1,91 @@
-import React from "react"
+import { useEffect, useState } from "react"
+import Link from "next/link"
 import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
+import { API } from "../components/api"
+import Pagination from "../components/pagination/Pagination"
 
-const applications = () => {
+const applications = ({ data, error, page }) => {
+  const [apps, setApps] = useState([])
+  useEffect(() => {
+    if (data) {
+      let results = []
+      data?.jobs.forEach((el) => {
+        if (el.users?.length > 0) {
+          el.users.forEach((o) => {
+            let app = {
+              id: el.id,
+              name: el.name,
+              user: o,
+            }
+            results.push(app)
+          })
+        }
+      })
+      setApps(results)
+    }
+  }, [])
+
+  let nextUrl = `/applications?page=${
+    page <= Math.ceil(data?.pager.total / data?.pager.pageSize)
+      ? data?.pager?.page + 1
+      : data?.pager?.page
+  }`
+  let prevUrl = `/applications?page=${
+    data?.pager.page > 1 ? data?.pager?.page - 1 : 1
+  }`
+
   return (
     <div>
       <div className="content">
-        <MainContents></MainContents>
+        <MainContents>
+          <div className="bread__crumb">
+            <span>
+              <Link href="/">Home</Link>
+            </span>
+            <span>/</span>
+            <span>Applications</span>
+          </div>
+          {apps.length > 0 &&
+            apps.map((app, index) => (
+              <div key={index}>
+                {app.name}
+                <br />
+                {app.user.firstname} {app.user.firstname}
+                <br />
+              </div>
+            ))}
+          <Pagination pager={data?.pager} nextUrl={nextUrl} prevUrl={prevUrl} />
+        </MainContents>
         <SubContents></SubContents>
       </div>
     </div>
   )
+}
+
+export async function getServerSideProps({ query }) {
+  let data = null
+  let error = null
+  let page
+  page = query?.page
+  if (!query?.page) page = 1
+  try {
+    const res = await fetch(
+      `${API}/jobs?pageSize=4&page=${page}&fields=id,name,users`
+    )
+    data = await res.json()
+  } catch (err) {
+    console.log(err)
+    error = JSON.stringify(err)
+  }
+
+  return {
+    props: {
+      error,
+      data,
+      page: query?.page,
+    },
+  }
 }
 
 export default applications
