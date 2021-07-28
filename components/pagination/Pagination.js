@@ -3,6 +3,10 @@ import styles from "./pagination.module.sass"
 import Link from "next/link"
 
 const Pagination = ({ size, pager, nextUrl, prevUrl }) => {
+  // size - displayed content size/length
+  // pager - this comes from the api it res.data.pager
+  // nextUrl - url that takes in next page query ie `/url?page=${page+1}`
+  // prevUrl - url that takes in previous page query ie `/url?page=${page-1}`
   return (
     <>
       {pager && (
