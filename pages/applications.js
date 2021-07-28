@@ -4,6 +4,7 @@ import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
 import { API } from "../components/api"
 import Pagination from "../components/pagination/Pagination"
+import Application from "../components/applications/Application"
 
 const applications = ({ data, error, page }) => {
   const [apps, setApps] = useState([])
@@ -51,14 +52,7 @@ const applications = ({ data, error, page }) => {
             <span>Applications</span>
           </div>
           {apps.length > 0 &&
-            apps.map((app, index) => (
-              <div key={index}>
-                {app.name}
-                <br />
-                {app.user.firstname} {app.user.firstname}
-                <br />
-              </div>
-            ))}
+            apps.map((app, index) => <Application app={app} key={index} />)}
           <Pagination pager={data?.pager} nextUrl={nextUrl} prevUrl={prevUrl} />
         </MainContents>
         <SubContents></SubContents>

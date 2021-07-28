@@ -1,0 +1,45 @@
+@import "../../styles/_colors"
+
+.card
+    margin: 1.5rem 0
+    padding: .7rem 1rem
+    display: flex
+    justify-content: space-between
+    align-items: center
+    border: none
+    font-size: 1rem
+    .user
+        display: flex
+        align-items: center
+        min-width: 300px
+        .dp
+            margin-right: 1rem
+            img
+                width: 80px
+                height: 80px
+                object-fit: cover
+    .job
+        font-weight: normal
+        width: calc( 100% - 450px )
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+    .actions
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        button
+            color: $secondary
+            font-size: 1rem
+            margin: .35rem 0
+            cursor: pointer
+            &:hover
+                text-decoration: underline
+            &.accept
+                border: 1px solid $primary
+                color: $primary
+                width: 100%
+                padding: .3rem .5rem
+                &:hover
+                    background: $primary
+                    color: white

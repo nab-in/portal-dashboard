@@ -15,18 +15,17 @@ const Pagination = ({ pager, nextUrl, prevUrl }) => {
               Displaying {pager?.pageSize} out of {pager?.total}
             </span>
           </div>
-          <div>
-            <span>
-              {pager?.pageSize * (pager?.page - 1) + 1} -{" "}
-              {pager?.page * pager?.pageSize}
-            </span>
-          </div>
-
-          <div>
+          <div className={styles.prev_next}>
+            <div>
+              <span>
+                {pager?.pageSize * (pager?.page - 1) + 1} -{" "}
+                {pager?.page * pager?.pageSize}
+              </span>
+            </div>
             <span className={styles.previous}>
               {prevUrl && (
                 <Link type="button" href={prevUrl}>
-                  <a className={pager?.page == 1 && "disabled"}>
+                  <a className={pager?.page == 1 ? "disabled" : ""}>
                     <FaChevronLeft className={styles.icon} />
                   </a>
                 </Link>
@@ -37,8 +36,9 @@ const Pagination = ({ pager, nextUrl, prevUrl }) => {
                 <Link type="button" href={nextUrl}>
                   <a
                     className={
-                      pager?.page >=
-                        Math.ceil(pager?.total / pager?.pageSize) && "disabled"
+                      pager?.page >= Math.ceil(pager?.total / pager?.pageSize)
+                        ? "disabled"
+                        : ""
                     }
                   >
                     <FaChevronRight className={styles.icon} />
