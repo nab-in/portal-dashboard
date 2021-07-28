@@ -5,9 +5,12 @@ import SubContents from "../components/templates/SubContents"
 import { API } from "../components/api"
 import Pagination from "../components/pagination/Pagination"
 import Application from "../components/applications/Application"
+import Filter from "../components/applications/Filter"
+import Search from "../components/applications/Search"
 
 const applications = ({ data, error, page }) => {
   const [apps, setApps] = useState([])
+  const [keywords, setKeywords] = useState([])
   const [errors, setErrors] = useState(null)
   useEffect(() => {
     if (data) {
@@ -51,11 +54,22 @@ const applications = ({ data, error, page }) => {
             <span>/</span>
             <span>Applications</span>
           </div>
+          <div className="mobile__link">
+            <Link href="/jobs/new_job">
+              <a>Add New Job</a>
+            </Link>
+          </div>
+          <Filter keywords={keywords} setKeywords={setKeywords} />
           {apps.length > 0 &&
             apps.map((app, index) => <Application app={app} key={index} />)}
           <Pagination pager={data?.pager} nextUrl={nextUrl} prevUrl={prevUrl} />
         </MainContents>
-        <SubContents></SubContents>
+        <SubContents>
+          <Link href="/jobs/new_job">
+            <a className="sub_btn btn btn-primary">Add New Job</a>
+          </Link>
+          <Search setKeywords={setKeywords} keywords={keywords} />
+        </SubContents>
       </div>
     </div>
   )
