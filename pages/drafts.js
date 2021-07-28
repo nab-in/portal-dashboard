@@ -3,20 +3,24 @@ import Link from "next/link";
 import MainContents from "../components/templates/MainContents";
 import SubContents from "../components/templates/SubContents";
 import Draftcard from "../components/cards/Draftcard";
-// import jobs from "../data/jobs";
+import Pagination from "../components/pagination/Pagination";
 import axios from "axios";
 import { API } from "../components/api";
 
 const drafts = () => {
   const [drafts, setDrafts] = useState([]);
+  const [pager, setPager] = useState([]);
 
   const getDrafts = () => {
-    let pageNumber = 1;
+    let pageNumber = 2;
     axios
       .get(`${API}/jobs?page=${pageNumber}&pageSize=5`)
       .then((response) => {
         const draftBatch = response.data.jobs;
+        const pagerDetails = response.data.pager;
         setDrafts(draftBatch);
+        setPager(pagerDetails);
+        console.log(pagerDetails);
       })
       .catch((error) => console.error(`Error: ${error}`));
   };
@@ -36,12 +40,12 @@ const drafts = () => {
             <span>/</span>
             <span>Drafts</span>
           </div>
-          {console.log(drafts)}
+          {console.log(pager)}
           {drafts.length
             ? drafts.map((job) => {
                 return (
                   <Draftcard
-                    title={job.title}
+                    title={job.description}
                     posted={job.created}
                     deadline={job.close_date}
                     link={`/jobs/${job.id}`}
@@ -49,7 +53,7 @@ const drafts = () => {
                 );
               })
             : null}
-          {}
+          <Pagination currentPage={pager.page} totalCount={pager.total} startCount={pager.page*5-4}></Pagination>
         </MainContents>
 
         <SubContents>

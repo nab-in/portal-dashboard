@@ -1,0 +1,33 @@
+@import "../../styles/_colors"
+
+.modal
+    position: fixed
+    top: 0
+    left: 0
+    height: 100%
+    width: 100%
+    z-index: 15
+    display: flex
+    justify-content: center
+    align-items: center
+    &.close
+        display: none
+    .backdrop
+        position: absolute
+        width: 100%
+        height: 100%
+        background: rgba(0, 0, 0, .7)
+    .container
+        position: relative
+        background: white
+        min-height: 100px
+        width: 500px
+        button.close
+            position: absolute
+            right: 1rem
+            top: 1rem
+            cursor: pointer
+            font-size: 1rem
+            color: $primary
+            &:hover
+                text-decoration: underline
