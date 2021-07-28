@@ -7,6 +7,7 @@ import Pagination from "../components/pagination/Pagination"
 
 const applications = ({ data, error, page }) => {
   const [apps, setApps] = useState([])
+  const [errors, setErrors] = useState(null)
   useEffect(() => {
     if (data) {
       let results = []
@@ -24,10 +25,15 @@ const applications = ({ data, error, page }) => {
       })
       setApps(results)
     }
+    if (error) {
+      setErrors(error)
+    }
   }, [])
 
+  console.log(errors)
+
   let nextUrl = `/applications?page=${
-    page <= Math.ceil(data?.pager.total / data?.pager.pageSize)
+    page < Math.ceil(data?.pager.total / data?.pager.pageSize)
       ? data?.pager?.page + 1
       : data?.pager?.page
   }`
@@ -66,12 +72,13 @@ const applications = ({ data, error, page }) => {
 export async function getServerSideProps({ query }) {
   let data = null
   let error = null
-  let page
-  page = query?.page
-  if (!query?.page) page = 1
+  let page = 1
+
+  if (query?.page) page = query?.page
+
   try {
     const res = await fetch(
-      `${API}/jobs?pageSize=4&page=${page}&fields=id,name,users`
+      `${API}/jobs?pageSize=3&page=${page}&fields=id,name,users`
     )
     data = await res.json()
   } catch (err) {
@@ -83,7 +90,7 @@ export async function getServerSideProps({ query }) {
     props: {
       error,
       data,
-      page: query?.page,
+      page,
     },
   }
 }
