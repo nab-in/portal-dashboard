@@ -1,7 +1,13 @@
+import { useState } from "react"
 import Link from "next/link"
 import styles from "./application.module.sass"
+import Modal from "../modal/Modal"
+
 const Application = ({ app }) => {
-  console.log(app)
+  const [interview, setInterview] = useState(false)
+  const [reject, setReject] = useState(false)
+  const [accept, setAccept] = useState(false)
+
   return (
     <article className={`card ${styles.card}`}>
       <div className={styles.user}>
@@ -20,10 +26,17 @@ const Application = ({ app }) => {
         <Link href={`/applications/${app.id}`}>{app.name}</Link>
       </div>
       <div className={styles.actions}>
-        <button>Call for the Interview</button>
-        <button>Reject</button>
-        <button className={styles.accept}>Accept</button>
+        <button onClick={() => setInterview(true)}>
+          Call for the Interview
+        </button>
+        <button onClick={() => setReject(true)}>Reject</button>
+        <button className={styles.accept} onClick={() => setAccept(true)}>
+          Accept
+        </button>
       </div>
+      {interview && <Modal>InterView</Modal>}
+      {accept && <Modal>Accept</Modal>}
+      {reject && <Modal>Reject</Modal>}
     </article>
   )
 }
