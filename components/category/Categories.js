@@ -1,10 +1,16 @@
 import React from "react"
-import Accordion from "../accordion/Accordion"
+import Category from "./Category"
+import Card from "../cards/Card"
 
 const Categories = ({ categories, setcategories }) => {
+  console.log(categories)
   return (
     <div>
-      <Accordion title="Title">"Hello world!!"</Accordion>
+      <Card title="Categories">
+        {categories.map((category) => (
+          <Category category={category} key={category.id} />
+        ))}
+      </Card>
     </div>
   )
 }
