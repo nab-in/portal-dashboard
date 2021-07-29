@@ -2,6 +2,7 @@
     margin: 2rem 0
     display: flex
     justify-content: space-between
+    align-items: center
     flex-wrap: wrap
     .icon
         font-size: 1.5rem
@@ -10,3 +11,11 @@
     .prev_next
         display: flex
         align-items: center
+        margin-left: 1rem
+        padding: 1rem 0
+@media screen and ( max-width: 450px  )
+    .container
+        .prev_next
+            width: 100%
+            margin: 0
+            justify-content: flex-end
