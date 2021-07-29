@@ -14,7 +14,7 @@ const Application = ({ app }) => {
         <div className={styles.dp}>
           <img src={app.user.dp} />
         </div>
-        <div>
+        <div className={styles.name}>
           <Link href={`/applications/${app.id}`}>
             <a>
               {app.user.firstname} {app.user.lastname}
@@ -34,9 +34,9 @@ const Application = ({ app }) => {
           Accept
         </button>
       </div>
-      {interview && <Modal>InterView</Modal>}
-      {accept && <Modal>Accept</Modal>}
-      {reject && <Modal>Reject</Modal>}
+      {interview && <Modal setOpen={setInterview}>InterView</Modal>}
+      {accept && <Modal setOpen={setAccept}>Accept</Modal>}
+      {reject && <Modal setOpen={setReject}>Reject</Modal>}
     </article>
   )
 }

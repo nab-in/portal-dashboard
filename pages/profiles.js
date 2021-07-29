@@ -9,6 +9,7 @@ import SubContents from "../components/templates/SubContents"
 import Pagination from "../components/pagination/Pagination"
 import Search from "../components/applications/Search"
 import Filter from "../components/applications/Filter"
+import User from "../components/user/User"
 
 const profiles = () => {
   const [users, setUsers] = useState([])
@@ -59,6 +60,15 @@ const profiles = () => {
             </Link>
           </div>
           <Filter keywords={keywords} setKeywords={setKeywords} />
+          {users.length > 0 ? (
+            <>
+              {users.map((user) => (
+                <User key={user.id} user={user} />
+              ))}
+            </>
+          ) : (
+            <></>
+          )}
           <Pagination
             size={size}
             pager={pager}

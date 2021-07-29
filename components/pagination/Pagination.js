@@ -20,12 +20,12 @@ const Pagination = ({ size, pager, nextUrl, prevUrl }) => {
             </span>
           </div>
           <div className={styles.prev_next}>
-            <div>
+            {size > 0 && <div>
               <span>
                 {pager?.pageSize * (pager?.page - 1) + 1} -{" "}
                 {pager?.pageSize * (pager?.page - 1) + size}
               </span>
-            </div>
+            </div>}
             <span className={styles.previous}>
               {prevUrl && (
                 <Link type="button" href={prevUrl}>

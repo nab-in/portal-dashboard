@@ -2,9 +2,9 @@ import styles from "./edit.module.sass"
 import EditUser from "./user/EditUser"
 import EditCompany from "./company/Edit_Company"
 
-let isUser = false
-let isCompany = true
-const Edit = () => {
+let isUser = true
+let isCompany = false
+const Edit = ({ details }) => {
   return (
     <div className={styles.profile}>
       {isCompany && <EditCompany />}

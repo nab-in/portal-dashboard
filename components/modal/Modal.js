@@ -1,16 +1,14 @@
 import { useState } from "react"
 import styles from "./modal.module.sass"
 
-const Modal = ({ children }) => {
-  const [close, setClose] = useState(false)
-
+const Modal = ({ setOpen, children }) => {
   return (
     <div
-      className={close ? `${styles.modal} ${styles.close}` : `${styles.modal}`}
+      className={styles.modal}
     >
       <div className={styles.backdrop} />
       <div className={styles.container}>
-        <button className={styles.close} onClick={() => setClose(true)}>
+        <button className={styles.close} onClick={() => setOpen(false)}>
           Close
         </button>
         {children}
