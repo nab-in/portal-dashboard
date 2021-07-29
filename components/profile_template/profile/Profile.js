@@ -2,6 +2,7 @@ import styles from "./profile.module.sass"
 import Section from "../Section"
 import Link from "next/link"
 import { FaPencilAlt } from "react-icons/fa"
+import { useAuthState } from "../../../context/auth"
 
 let Card = ({ title, content, url }) => (
   <div className={styles.card}>
@@ -10,23 +11,46 @@ let Card = ({ title, content, url }) => (
   </div>
 )
 
-let About = (
-  <>
-    <span>About</span>
-    <Link href="/profile/edit">
-      <a>
-        <FaPencilAlt className={styles.icon} />
-      </a>
-    </Link>
-  </>
+let Img = ({ img }) => (
+  <div className={styles.img}>
+    <img src={img} alt={`dp`} />
+  </div>
 )
 
 const Profile = ({ details }) => {
-  let { id, title, bio, about, website, cv, location } = details
+  const { user } = useAuthState()
+  let {
+    id,
+    title,
+    firstname,
+    lastname,
+    bio,
+    about,
+    website,
+    dp,
+    cv,
+    location,
+  } = details
+  let About = (
+    <>
+      <span>About</span>
+      {user.id == id && (
+        <Link href="/profile/edit">
+          <a>
+            <FaPencilAlt className={styles.icon} />
+          </a>
+        </Link>
+      )}
+    </>
+  )
   return (
     <div className={styles.profile}>
       <Section title={About}>
         <article className={styles.contents}>
+          {dp && <Img img={dp} />}
+          {firstname && (
+            <Card title="Name" content={`${firstname}${" "}${lastname}`} />
+          )}
           {title && <Card title="Title" content={title} />}
           {bio && <Card title="Bio" content={bio} />}
           {location && <Card title="Location" content={location} />}

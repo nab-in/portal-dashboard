@@ -3,6 +3,12 @@
 .profile
     article
         padding: 1rem 2rem
+        .img
+            display: flex
+            justify-content: flex-end
+            img
+                width: 100px
+                height: auto
     .card
         padding: 0.5rem 0
         margin: 1rem 0
@@ -14,3 +20,8 @@
             color: $primary
             p
                 line-height: 1.5rem
+
+@media screen and ( max-width: 768px )
+    .profile
+        article
+            padding: 1rem 1rem
