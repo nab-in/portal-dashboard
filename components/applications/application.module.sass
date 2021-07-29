@@ -6,40 +6,66 @@
     display: flex
     justify-content: space-between
     align-items: center
+    flex-wrap: wrap
     border: none
     font-size: 1rem
     .user
         display: flex
         align-items: center
         min-width: 300px
+        width: 300px
         .dp
             margin-right: 1rem
+            width: 80px
             img
                 width: 80px
                 height: 80px
                 object-fit: cover
+        .name
+            width: calc( 100% - calc( 3rem + 80px ) )
+            white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
     .job
         font-weight: normal
-        width: calc( 100% - 450px )
+        width: calc( 100% - 480px )
+        min-width: 200px
         white-space: nowrap
         overflow: hidden
         text-overflow: ellipsis
+        margin: 1rem 0
     .actions
+        width: 180px
         display: flex
         flex-direction: column
         align-items: flex-start
         button
             color: $secondary
+            font-weight: 700
             font-size: 1rem
             margin: .35rem 0
             cursor: pointer
+            text-align: left
+            margin-right: .7rem
             &:hover
                 text-decoration: underline
             &.accept
-                border: 1px solid $primary
                 color: $primary
-                width: 100%
+                border: 1px solid $primary
+                width: 120px
                 padding: .3rem .5rem
+                font-weight: 400
+                text-align: center
                 &:hover
                     background: $primary
                     color: white
+
+@media screen and ( max-width: 1350px  )
+    .card
+        .job
+            width: calc( 100% - 300px )
+        .actions
+
+            flex-direction: row
+            justify-content: space-between
+            width: 100%

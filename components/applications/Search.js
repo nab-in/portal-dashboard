@@ -10,8 +10,10 @@ const Search = ({ setKeywords, keywords }) => {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-    setKeywords(keywords.concat(keyword))
-    setKeyword("")
+    if (keyword.trim() != "") {
+      setKeywords(keywords.concat(keyword))
+      setKeyword("")
+    }
   }
   return (
     <div className={styles.search}>
