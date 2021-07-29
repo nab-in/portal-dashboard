@@ -60,7 +60,7 @@ const Upload = ({ dp, name }) => {
             ) : (
               <>
                 {dp ? (
-                  <img src="/assets/companies/logo2.png" alt="dp" />
+                  <img src={dp} alt="dp" />
                 ) : (
                   <div className={styles.default}>{name}</div>
                 )}

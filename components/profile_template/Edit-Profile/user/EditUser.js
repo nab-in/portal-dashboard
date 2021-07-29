@@ -6,8 +6,11 @@ import Upload from "../Upload"
 import styles from "../edit.module.sass"
 import Settings from "../settings/Settings"
 import CV from "./CV"
+import { useAuthState } from "../../../../context/auth"
 
-const EditProfile = ({ details }) => {
+const EditProfile = () => {
+  const { user } = useAuthState()
+  let details = user
   let [formData, setFormData] = useState({
     firstname: details?.firstname ? details.firstname : "",
     lastname: details?.lastname ? details.lastname : "",
@@ -25,12 +28,13 @@ const EditProfile = ({ details }) => {
   const handleSubmit = (e) => {
     e.preventDefault(e)
   }
+
   return (
     <div className={styles.profile}>
       <Section title="Edit Informations">
         <Upload
-          dp={details.dp ? details.dp : details.logo}
-          name={details.username ? details.username : details.name}
+          dp={details?.dp ? details.dp : details?.logo}
+          name={details?.username ? details?.username : details?.name}
         />
         <article className={styles.contents}>
           <form onSubmit={(e) => handleSubmit(e)}>

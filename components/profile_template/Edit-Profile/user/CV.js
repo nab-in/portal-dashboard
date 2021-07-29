@@ -18,7 +18,7 @@ const CV = () => {
               type="file"
               name="cv"
               id="cv"
-              handleChange={(e) => handleFileChange(e)}
+              onChange={(e) => handleFileChange(e)}
             />
           </label>
           <Button text="Upload" btnClass="btn-primary" />
