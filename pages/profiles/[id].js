@@ -7,6 +7,7 @@ import Cookies from "js-cookie"
 import MainContents from "../../components/templates/MainContents"
 import SubContents from "../../components/templates/SubContents"
 import Profile from "../../components/profile_template/profile/Profile"
+import RecentUsers from "../../components/user/RecentUsers"
 
 const profile = () => {
   const [user, setUser] = useState(null)
@@ -52,6 +53,7 @@ const profile = () => {
           <button className="sub_btn span__full btn btn-primary">
             Add Role
           </button>
+          <RecentUsers size={4} />
         </SubContents>
       </div>
     </div>
