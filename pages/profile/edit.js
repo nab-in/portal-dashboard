@@ -6,7 +6,7 @@ import { useAuthState } from "../../context/auth"
 
 const edit = () => {
   const { user } = useAuthState()
-  let details = user?.company
+  let details = user
 
   return (
     <div>
@@ -30,7 +30,7 @@ const edit = () => {
             </Link>
           </div>
           <div className="mt-1">
-            <Edit page="auth-user" details={details} />
+            {details && <Edit page="auth-user" details={details} />}
           </div>
         </MainContents>
         <SubContents>
