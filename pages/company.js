@@ -7,7 +7,7 @@ import { useAuthState } from "../context/auth"
 
 const profile = () => {
   const { user } = useAuthState()
-  let details = user
+  let details = user?.company
 
   return (
     <div>
@@ -29,7 +29,7 @@ const profile = () => {
 
           {/* Display users depending on who logged in */}
           <div className="mt-1">
-            <Profile details={details} page="auth-user" />
+            <Profile details={details} page="company" />
           </div>
         </MainContents>
         <SubContents>
