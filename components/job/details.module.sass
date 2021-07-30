@@ -1,0 +1,61 @@
+@import "../../styles/_colors"
+
+.details
+    .logo
+        display: flex
+        justify-content: flex-end
+        margin-bottom: 1rem
+        img
+            width: 100px
+            height: auto
+    .title
+        font-size: clamp(1rem, 3vw, 1.05rem)
+        margin-bottom: 1rem
+        span
+            color: $primary
+            margin-left: 1rem
+    .descriptions
+        margin: 2rem 0
+        font-size: clamp(1rem, 3vw, 1.05rem)
+        line-height: 1.8rem
+        white-space: pre-line
+    .job__footer
+        padding: 2rem
+        background: #E2E8EC
+        p
+            text-align: center
+            line-height: 1.7rem
+    .btns
+        display: flex
+        column-gap: 1.5rem
+    .rate
+        margin-top: 2rem
+        .stars
+            display: flex
+            // column-gap: 3px
+            margin-top: .7rem
+            $percent: calc(var(--rating) / 5 * 100%)
+            display: inline-block
+            font-size: 2rem
+            font-family: Times // make sure ★ appears correctly
+            line-height: 1
+            color: $primary
+            margin-bottom: .7rem
+            position: relative
+            &::before
+                content: '★★★★★'
+                position: absolute
+                letter-spacing: 3px
+                z-index: 1
+                background: linear-gradient(90deg, $secondary calc( var(--rating) / 5 * 100% ), white calc( var(--rating) / 5 * 100% ))
+                -webkit-background-clip: text
+                -webkit-text-stroke-width: 1px
+                -webkit-text-stroke-color: $secondary
+                -webkit-text-fill-color: transparent
+            .star
+                position: relative
+                display: inline-block
+                width: 1.825rem
+                height: 2rem
+                background: transparent
+                z-index: 6
