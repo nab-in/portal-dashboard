@@ -47,7 +47,15 @@ const edit = () => {
               <Link href="/jobs">Jobs</Link>
             </span>
             <span>/</span>
-            <span>New</span>
+            {job && (
+              <>
+                <span>
+                  <Link href={`/jobs/${job?.id}`}>{job.name}</Link>
+                </span>
+                <span>/</span>
+              </>
+            )}
+            <span>Edit</span>
           </div>
           {job && (
             <UploadForm
