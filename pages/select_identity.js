@@ -54,7 +54,7 @@ const select_identity = () => {
           <div className={styles.select}>
             <section>
               <div className={styles.dp}>
-                <img src="/assets/images/dp.jpeg" alt="" />
+                <img src={user?.dp} alt="" />
               </div>
               <p>Welcome {user?.username}</p>
               <h1>Please select dashboard to view</h1>

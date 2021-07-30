@@ -6,10 +6,10 @@ import Descr from "./Descr"
 import Attachment from "./Attachment"
 import Categories from "./Categories"
 
-const UploadForm = ({ categories, setCategories }) => {
+const UploadForm = ({ categories, setCategories, jobDetails }) => {
   let [selected, setSelected] = useState(null)
   let [select, setSelect] = useState([])
-  let [job, setJob] = useState({})
+  let [job, setJob] = useState(jobDetails ? jobDetails : {})
   const { user } = useAuthState()
 
   return (
