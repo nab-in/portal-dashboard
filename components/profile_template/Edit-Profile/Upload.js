@@ -5,9 +5,10 @@ import Cookies from "js-cookie"
 import { API } from "../../api"
 import styles from "./upload.module.sass"
 
-const Upload = ({ dp, name }) => {
+const Upload = ({ id, img, name, page }) => {
   name = name?.split("")[0]
   let [imgData, setImgData] = useState(null)
+  console.log(img, name)
 
   const handleChange = (e) => {
     if (e.target.files) {
@@ -31,16 +32,30 @@ const Upload = ({ dp, name }) => {
 
       // adding file to dp variable
       data.append("", e.target.files[0])
-      axios
-        .post(`${API}/users/dp`, data, config)
-        .then((res) => {
-          console.log(res.data)
-          // setLoading(false)
-        })
-        .catch((err) => {
-          // setLoading(false)
-          console.log(err)
-        })
+      if (page == "auth-user") {
+        axios
+          .post(`${API}/users/dp`, data, config)
+          .then((res) => {
+            console.log(res.data)
+            // setLoading(false)
+          })
+          .catch((err) => {
+            // setLoading(false)
+            console.log(err)
+          })
+      }
+      if (page == "company") {
+        axios
+          .post(`${API}/companies/${id}/logo`, data, config)
+          .then((res) => {
+            console.log(res.data)
+            // setLoading(false)
+          })
+          .catch((err) => {
+            // setLoading(false)
+            console.log(err)
+          })
+      }
     }
   }
 
@@ -59,8 +74,8 @@ const Upload = ({ dp, name }) => {
               <img src={imgData} alt="newly uploaded" />
             ) : (
               <>
-                {dp ? (
-                  <img src="/assets/companies/logo2.png" alt="dp" />
+                {img ? (
+                  <img src={img} alt="dp" />
                 ) : (
                   <div className={styles.default}>{name}</div>
                 )}

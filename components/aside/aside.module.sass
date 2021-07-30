@@ -2,14 +2,15 @@
 
 .aside
     height: 100vh
-    width: 250px
-    position: sticky
+    width: 10%
+    position: fixed
     left: 0
     top: 0
     transition: .35s
     z-index: 9
     .wrapper
         background: #003049
+        background: white
         height: 100%
         width: 100%
         overflow-y: auto
@@ -50,12 +51,13 @@
                     transition: .35s
                     overflow: hidden
                     font-size: 1rem
-                    color: #E2E8EC
+                    // color: #E2E8EC
                     position: relative
                     &:hover, &.active
-                        background: rgba(226, 232, 236, 0.1)
+                        background: rgba(226, 232, 200, .5)
                         text-decoration: none
                     &.active
+                        color: $secondary
                         &::before, &::after
                             content: ""
                             position: absolute
@@ -75,13 +77,14 @@
                     .icon
                         margin-right: 15px
                         font-size: 24px
-                        opacity: .6
+                        opacity: .9
                     span
                         transition: .2s
 
 @media screen and ( max-width: 1900px )
     .aside
         position: fixed
+        width: 250px
         &.open
             width: 70px
             .burger
@@ -161,12 +164,13 @@
                             transition: .35s
                             overflow: hidden
                             font-size: 1rem
-                            color: #E2E8EC
+                            // color: #E2E8EC
                             position: relative
                             &:hover, &.active
-                                background: rgba(226, 232, 236, 0.1)
+                                background: rgba(226, 232, 200, .5)
                                 text-decoration: none
                             &.active
+                                color: $secondary
                                 &::before, &::after
                                     content: ""
                                     position: absolute

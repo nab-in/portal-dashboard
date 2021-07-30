@@ -3,17 +3,11 @@ import Link from "next/link"
 import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
 import Profile from "../components/profile_template/profile/Profile"
+import { useAuthState } from "../context/auth"
 
 const profile = () => {
-  let details = {
-    id: 1,
-    title: "Software developer",
-    bio: "bio",
-    about: "about",
-    website: "site.com",
-    cv: "",
-    location: "dar",
-  }
+  const { user } = useAuthState()
+  let details = user
 
   return (
     <div>
@@ -35,7 +29,7 @@ const profile = () => {
 
           {/* Display users depending on who logged in */}
           <div className="mt-1">
-            <Profile details={details} />
+            <Profile details={details} page="auth-user" />
           </div>
         </MainContents>
         <SubContents>

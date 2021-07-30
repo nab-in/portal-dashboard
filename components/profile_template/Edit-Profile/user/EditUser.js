@@ -25,12 +25,13 @@ const EditProfile = ({ details }) => {
   const handleSubmit = (e) => {
     e.preventDefault(e)
   }
+
   return (
     <div className={styles.profile}>
       <Section title="Edit Informations">
         <Upload
-          dp={details.dp ? details.dp : details.logo}
-          name={details.username ? details.username : details.name}
+          img={details?.dp ? details.dp : details?.logo}
+          name={details?.username ? details?.username : details?.name}
         />
         <article className={styles.contents}>
           <form onSubmit={(e) => handleSubmit(e)}>

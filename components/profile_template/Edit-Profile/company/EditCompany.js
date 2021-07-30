@@ -5,7 +5,7 @@ import Upload from "../Upload"
 import styles from "../edit.module.sass"
 import Section from "../../Section"
 
-const Edit_Company = ({ details }) => {
+const EditCompany = ({ details, page }) => {
   let [formData, setFormData] = useState({
     name: details?.name ? details.name : "",
     title: details?.title ? details.title : "",
@@ -30,8 +30,10 @@ const Edit_Company = ({ details }) => {
     <div className={styles.profile}>
       <Section title="Edit Informations">
         <Upload
-          dp={details?.dp ? details?.dp : details?.logo}
+          id={details?.id}
+          img={details?.dp ? details?.dp : details?.logo}
           name={details?.username ? details?.username : details?.name}
+          page={page}
         />
         <article className={styles.contents}>
           <form onSubmit={(e) => handleSubmit(e)}>
@@ -92,4 +94,4 @@ const Edit_Company = ({ details }) => {
   )
 }
 
-export default Edit_Company
+export default EditCompany
