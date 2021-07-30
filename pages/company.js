@@ -20,20 +20,19 @@ const profile = () => {
             <span>/</span>
             <span>Profile</span>
           </div>
-
           <div className="mobile__link">
-            <Link href="/profile/edit">
+            <Link href="/company/edit">
               <a>Edit Profile</a>
             </Link>
           </div>
 
           {/* Display users depending on who logged in */}
           <div className="mt-1">
-            <Profile details={details} page="company" />
+            {details && <Profile details={details} page="company" />}
           </div>
         </MainContents>
         <SubContents>
-          <Link href="/profile/edit">
+          <Link href="/company/edit">
             <a className="sub_btn btn btn-primary">Edit Profile</a>
           </Link>
         </SubContents>
