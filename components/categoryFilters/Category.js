@@ -11,7 +11,7 @@ const Category = ({ category, setParent, setOpenDropdown }) => {
   return (
     <div onClick={toggleCategory} className={`${styles.sub__category} `}>
       <div className={styles.label}>
-        <span> {name}</span>
+        <span>{name}</span>
       </div>
     </div>
   )
