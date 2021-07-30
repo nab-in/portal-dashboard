@@ -24,10 +24,12 @@ const Profile = ({ details }) => {
     title,
     firstname,
     lastname,
+    name,
     bio,
     about,
     website,
     dp,
+    logo,
     cv,
     location,
   } = details
@@ -48,9 +50,11 @@ const Profile = ({ details }) => {
       <Section title={About}>
         <article className={styles.contents}>
           {dp && <Img img={dp} />}
+          {logo && <Img img={logo} />}
           {firstname && (
             <Card title="Name" content={`${firstname}${" "}${lastname}`} />
           )}
+          {name && <Card title="Company name" content={name} />}
           {title && <Card title="Title" content={title} />}
           {bio && <Card title="Bio" content={bio} />}
           {location && <Card title="Location" content={location} />}
