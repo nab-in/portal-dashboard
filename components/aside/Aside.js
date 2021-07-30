@@ -95,25 +95,12 @@ const Aside = ({ navOpen, handleNav, isMobile, setnavOpen }) => {
         </div>
         <div className={styles.logo__container}>
           <div className={styles.logo}>
-            {isMobile ? (
-              <Image
-                src={`/assets/images/bglogo.png`}
-                alt={`logo`}
-                layout="fill"
-                objectFit="contain"
-              />
-            ) : (
-              <Image
-                src={
-                  navOpen && !isMobile
-                    ? `/assets/images/bglogo.png`
-                    : `/assets/images/logo.png`
-                }
-                alt={`logo`}
-                layout="fill"
-                objectFit="contain"
-              />
-            )}
+            <Image
+              src="/assets/images/logo.png"
+              alt={`logo`}
+              layout="fill"
+              objectFit="contain"
+            />
           </div>
         </div>
         <nav>
