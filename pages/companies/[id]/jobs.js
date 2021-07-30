@@ -61,13 +61,20 @@ const Jobs = () => {
             <span>/</span>
             <span>Jobs</span>
           </div>
+          <div className="mobile__link">
+            <Link href={`/companies/${company?.id}`}>View Profile</Link>
+          </div>
           {jobs?.length > 0 ? (
             jobs.map((job) => <Job key={job.id} job={job} />)
           ) : (
             <>No Job Found</>
           )}
         </MainContents>
-        <SubContents></SubContents>
+        <SubContents>
+          <Link href={`/companies/${company?.id}`}>
+            <a className="sub_btn span__full btn btn-primary">View Profile</a>
+          </Link>
+        </SubContents>
       </div>
     </div>
   )
