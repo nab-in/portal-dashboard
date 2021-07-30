@@ -3,25 +3,25 @@ import styles from "./draftcard.module.sass";
 import Link from "next/link";
 import FormButton from "../buttons/FormButton";
 
-const Draftcard = ({ title, posted, deadline, link }) => {
+const Draftcard = ({draft}) => {
   return (
     <div className={`card ${styles.draftcard}`}>
       <div className={styles.draftcard_left}>
-        <h1>{title}</h1>
+        <h1>{draft.name}</h1>
         <p>
-          Posted: <span>{posted}</span>
+          Posted: <span>{draft.created}</span>
         </p>
         <p>
-          Deadline: <span>{deadline}</span>
+          Deadline: <span>{draft.created}</span>
         </p>
       </div>
       <div className={styles.draftcard_right}>
         <div className={styles.links}>
           <p>
-            <Link href={link}>Edit</Link>
+            <Link href={`/jobs/${draft.id}`}>Edit</Link>
           </p>
           <p>
-            <Link href={link}>Preview</Link>
+            <Link href={`/jobs/${draft.id}`}>Preview</Link>
           </p>
         </div>
         <div className={styles.button}>
