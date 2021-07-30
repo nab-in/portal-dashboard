@@ -6,6 +6,7 @@ import axios from "axios"
 import Cookies from "js-cookie"
 import MainContents from "../../../components/templates/MainContents"
 import SubContents from "../../../components/templates/SubContents"
+import Job from "../../../components/job/Job"
 
 const Jobs = () => {
   const [company, setCompany] = useState(null)
@@ -22,14 +23,14 @@ const Jobs = () => {
     axios
       .get(`${API}/companies/${router.query.id}?fields=jobs`, config)
       .then((res) => {
-        setJobs(res.data)
+        setJobs(res.data.jobs)
       })
       .catch((err) => {
         console.log(err)
       })
 
     axios
-      .get(`${API}/companies/${router.query.id}?fields=name,id`, config)
+      .get(`${API}/companies/${router.query.id}?fields=name,id,logo`, config)
       .then((res) => {
         setCompany(res.data)
       })
@@ -60,16 +61,13 @@ const Jobs = () => {
             <span>/</span>
             <span>Jobs</span>
           </div>
-          {/* <div className="mobile__link">
-            <Link href={`/companies/${company?.id}/jobs`}>View Jobs</Link>
-          </div> */}
-          {/* {company && <Profile details={company} />} */}
+          {jobs?.length > 0 ? (
+            jobs.map((job) => <Job key={job.id} job={job} />)
+          ) : (
+            <>No Job Found</>
+          )}
         </MainContents>
-        <SubContents>
-          {/* <Link href={`/companies/${company?.id}/jobs`}>
-            <a className="sub_btn span__full btn btn-primary">View Jobs</a>
-          </Link> */}
-        </SubContents>
+        <SubContents></SubContents>
       </div>
     </div>
   )
