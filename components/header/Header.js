@@ -100,7 +100,7 @@ const Header = ({ navOpen }) => {
                 <ul>
                   <li>
                     <Link href="/">
-                      <a onClick={() => setOpen(false)}>Dashboard</a>
+                      <a onClick={() => setOpen(false)}>Home</a>
                     </Link>
                   </li>
                   <ul>

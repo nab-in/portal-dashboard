@@ -1,28 +1,19 @@
 .layout
-    display: flex
+    display: block
     main.main
-        width: calc( 100% - 250px )
+        width: 90%
         margin-top: 60px
+        margin-left: 10%
         min-height: calc( 100vh - 60px )
         overflow-y: auto
         transition: .35s
-
-.backdrop
-    position: fixed
-    top: 0
-    left: 0
-    background: rgba(0, 0, 0, .6)
-    height: 100vh
-    width: 100%
-    z-index: 8
-    overflow: hidden
-    transition: .35s
 
 @media screen and ( max-width: 1900px )
     .layout
         display: block
         main.main
             margin-left: 250px
+            width: calc( 100% - 250px )
             &.full__width
                 width: calc( 100% - 70px )
                 margin-left: 70px

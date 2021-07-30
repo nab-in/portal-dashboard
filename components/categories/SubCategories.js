@@ -66,7 +66,9 @@ const SubCategories = ({
   }
   return (
     <div className={`card ${styles.card}`}>
-      <p>{name}</p>
+      <p>
+        <span>Category:</span> {name}
+      </p>
       {category && category[0]?.children?.length > 0 && (
         <>
           <div className={styles.showcase}>

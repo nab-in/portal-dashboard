@@ -7,7 +7,7 @@ import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
 import Filter from "../components/categoryFilters/Filter"
 import Categories from "../components/category/Categories"
-import Pagination from "../components/pagination/Pagination"
+// import Pagination from "../components/pagination/Pagination"
 
 const categories = () => {
   let [categories, setcategories] = useState([])
@@ -18,7 +18,7 @@ const categories = () => {
   useEffect(() => {
     axios
       .get(
-        `${API}/jobCategories?pageSize=8&page=${page}&fields=id,name,children[id, name]`
+        `${API}/jobCategories?pageSize=100&page=${page}&fields=id,name,children[id, name]`
       )
       .then((res) => {
         // console.log(res.data)
@@ -57,12 +57,12 @@ const categories = () => {
             <span>Categories</span>
           </div>
           <Categories categories={categories} setcategories={setcategories} />
-          <Pagination
+          {/* <Pagination
             size={size}
             pager={pager}
             nextUrl={nextUrl}
             prevUrl={prevUrl}
-          />
+          /> */}
         </MainContents>
         <SubContents>
           <Filter categories={categories} setcategories={setcategories} />
