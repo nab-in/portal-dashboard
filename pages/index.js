@@ -5,6 +5,7 @@ import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
 import MetricsCard from "../components/metricsCard/MetricsCard"
 import RecentJobs from "../components/jobs/RecentJobs"
+import RecentUsers from "../components/user/RecentUsers"
 const Chart = dynamic(() => import("../components/chart/Chart"), { ssr: false })
 
 export default function Home() {
@@ -40,6 +41,7 @@ export default function Home() {
             <a className="sub_btn btn btn-primary">Add New Job</a>
           </Link>
           <RecentJobs />
+          <RecentUsers size={3} />
         </SubContents>
       </div>
     </div>

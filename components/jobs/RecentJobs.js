@@ -1,70 +1,72 @@
-import React from "react"
+import { useEffect, useState } from "react"
+import Cookies from "js-cookie"
+import axios from "axios"
+import { API } from "../api"
 import Link from "next/link"
-import Image from "next/image"
-import jobs from "../../data/jobs"
+import moment from "moment"
 import styles from "./recent_jobs.module.sass"
+import { useAuthState } from "../../context/auth"
 
 const RelatedJobs = () => {
+  const [jobs, setJobs] = useState([])
+  const { user } = useAuthState()
+  useEffect(() => {
+    let token = Cookies.get("token")
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ` + token,
+      },
+    }
+    axios
+      .get(
+        `${API}/jobs?pageSize=3&fields=id,name,created,closeDate,company,location`,
+        config
+      )
+      .then((res) => {
+        setJobs(res.data.jobs)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
   return (
     <div className={styles.card}>
       <h2>Recent Jobs</h2>
       <div className={styles.showcase}>
-        {jobs
-          .slice(2, 5)
-          .map(
-            ({
-              id,
-              company,
-              created_at,
-              close_time,
-              close_date,
-              title,
-              location,
-              job_type,
-            }) => (
-              <article key={id} className="card">
-                <div className={styles.title}>
-                  <h3>
-                    <Link href={`/jobs/${id}`}>{title}</Link>
-                  </h3>
-                </div>
-                <div className={styles.basic__info}>
-                  {/* <div className={styles.logo__container}>
-                    <div className={styles.logo}>
-                      <Image
-                        src={`/assets/companies/${company.logo}`}
-                        alt={`${company.name} logo`}
-                        layout="fill"
-                        objectFit="contain"
-                      />
-                    </div>
-                  </div> */}
-                  <div className={styles.time__details}>
-                    <p className={styles.time}>
-                      Posted: <span>{created_at}</span>
-                    </p>
-                    <p className={styles.time}>
-                      Deadline:{" "}
-                      <span>
-                        {close_date}, {close_time}
-                      </span>
-                    </p>
-                  </div>
-                  <div className={styles.company__info}>
-                    {/* <p>
-                      Company name: <span>{company.name}</span>
-                    </p> */}
-                    <p>
-                      Job Type: <span>{job_type}</span>
-                    </p>
-                    <p>
-                      Location: <span>{location}</span>
-                    </p>
+        {jobs.map(({ id, company, created, closeDate, name, location }) => (
+          <article key={id} className="card">
+            <div className={styles.title}>
+              <h3>
+                <Link href={`/jobs/${id}`}>{name}</Link>
+              </h3>
+            </div>
+            <div className={styles.basic__info}>
+              {user?.identity.name == "company" && (
+                <div className={styles.logo__container}>
+                  <div className={styles.logo}>
+                    <img src={company.logo} alt={`${company?.name} logo`} />
                   </div>
                 </div>
-              </article>
-            )
-          )}
+              )}
+              <div className={styles.time__details}>
+                <p className={styles.time}>
+                  Posted: <span>{moment(created).format("MMM DD, YYYY")}</span>
+                </p>
+                <p className={styles.time}>
+                  Deadline:{" "}
+                  <span>{moment(closeDate).format("MMM DD, YYYY HH:mm")}</span>
+                </p>
+              </div>
+              <div className={styles.company__info}>
+                <p>
+                  Location: <span>{location}</span>
+                </p>
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
       <div className={styles.more__link}>
         <Link href="/jobs">More Jobs</Link>

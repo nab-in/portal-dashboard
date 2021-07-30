@@ -43,7 +43,7 @@ const Job = ({ job, company, identity }) => {
         </h2>
         {/* {reviews && <div className="stars" style={style}></div>} */}
         <p>
-          Posted: <span> {moment(created).format("MMM DD, YYYY")}</span>
+          Posted: <span>{moment(created).format("MMM DD, YYYY")}</span>
         </p>
         <p>
           Deadline:{" "}
