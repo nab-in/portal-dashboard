@@ -1,8 +1,11 @@
+import { useState } from "react"
 import Link from "next/link"
 import moment from "moment"
 import styles from "./job.module.sass"
+import Modal from "../modal/Modal"
 
-const Job = ({ job, company }) => {
+const Job = ({ job, company, identity }) => {
+  const [open, setOpen] = useState(false)
   let {
     id,
     name,
@@ -72,7 +75,18 @@ const Job = ({ job, company }) => {
             Location: <span>{location}</span>
           </p>
         )}
+        {identity && identity.name == "company" && (
+          <div className={styles.btns}>
+            <Link href={`/jobs/${id}/edit`}>
+              <a>Edit</a>
+            </Link>
+            <button className={styles.delete} onClick={() => setOpen(true)}>
+              Delete
+            </button>
+          </div>
+        )}
       </div>
+      {open && <Modal setOpen={setOpen}>Are you sure?</Modal>}
     </article>
   )
 }

@@ -11,7 +11,6 @@ import { API } from "../components/api"
 import Pagination from "../components/pagination/Pagination"
 
 const jobs = () => {
-  const [keywords, setKeywords] = useState([])
   const [size, setSize] = useState(0)
   const [jobs, setJobs] = useState([])
   const [pager, setPager] = useState(null)
@@ -80,7 +79,12 @@ const jobs = () => {
           {jobs.length > 0 ? (
             <>
               {jobs.map((job) => (
-                <Job key={job.id} job={job} company={job?.company} />
+                <Job
+                  key={job.id}
+                  job={job}
+                  company={job?.company}
+                  identity={identity}
+                />
               ))}
             </>
           ) : (
