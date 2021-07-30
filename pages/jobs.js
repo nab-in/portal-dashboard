@@ -3,6 +3,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
+import Job from "../components/job/Job"
 import { useAuthState } from "../context/auth"
 import axios from "axios"
 import Cookies from "js-cookie"
@@ -18,13 +19,48 @@ const jobs = () => {
   const [page] = useState(router?.query?.page ? router.query.page : 1)
   const { user } = useAuthState()
   let identity = user?.identity
-  useEffect(() => {}, [])
-  let nextUrl = `/profiles?page=${
+  useEffect(() => {
+    let token = Cookies.get("token")
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ` + token,
+      },
+    }
+    if (identity?.name == "admin") {
+      axios
+        .get(
+          `${API}/jobs?page=${page}&pageSize=4&fields=id,name,company,location,created,closeDate`,
+          config
+        )
+        .then((res) => {
+          // console.log(res)
+          setPager(res.data.pager)
+          setJobs(res.data.jobs)
+          setSize(res.data.jobs.length)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+    if (identity?.name == "company") {
+      axios
+        .get(`${API}/companies/${identity.id}?fields=jobs`, config)
+        .then((res) => {
+          // console.log(res)
+          setJobs(res.data.jobs)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }, [])
+  let nextUrl = `/jobs?page=${
     page < Math.ceil(pager?.total / pager?.pageSize)
       ? pager?.page + 1
       : pager?.page
   }`
-  let prevUrl = `/profiles?page=${pager?.page > 1 ? pager?.page - 1 : 1}`
+  let prevUrl = `/jobs?page=${pager?.page > 1 ? pager?.page - 1 : 1}`
   return (
     <div>
       <div className="content">
@@ -41,6 +77,15 @@ const jobs = () => {
               <a>Add New Job</a>
             </Link>
           </div>
+          {jobs.length > 0 ? (
+            <>
+              {jobs.map((job) => (
+                <Job key={job.id} job={job} company={job?.company} />
+              ))}
+            </>
+          ) : (
+            <>No job found</>
+          )}
           <Pagination
             size={size}
             pager={pager}
