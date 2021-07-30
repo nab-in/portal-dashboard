@@ -1,0 +1,57 @@
+@import "../../styles/_colors"
+
+.card
+    margin: 1.5rem 0
+    padding: .7rem 1rem
+    display: flex
+    justify-content: space-between
+    align-items: center
+    flex-wrap: wrap
+    border: none
+    font-size: 1rem
+    .company
+        display: flex
+        align-items: center
+        min-width: 300px
+        width: 300px
+        .logo
+            margin-right: 1rem
+            width: 80px
+            img
+                width: 80px
+                height: 80px
+                object-fit: cover
+        .name
+            width: calc( 100% - calc( 3rem + 80px ) )
+            white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
+    .job
+        font-weight: normal
+        width: calc( 100% - 480px )
+        min-width: 100px
+        margin: 1rem 0
+        display: flex
+        align-items: center
+        .badge
+            margin-right: 1rem
+
+    .actions
+        max-width: 180px
+        button
+            color: $secondary
+            font-weight: 700
+            font-size: 1rem
+            margin: .35rem 0
+            cursor: pointer
+            text-align: left
+            margin-right: .7rem
+            &:hover
+                text-decoration: underline
+
+@media screen and ( max-width: 1350px  )
+    .card
+        .company
+            width: 100%
+        .job
+            width: calc( 100% - 300px )
