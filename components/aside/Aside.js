@@ -63,7 +63,14 @@ let urls = [
     id: 7,
     path: "profile",
     name: "Profile",
-    type: "",
+    type: "admin",
+    icon: <RiUser3Line className={styles.icon} />,
+  },
+  {
+    id: 7,
+    path: "company",
+    name: "Profile",
+    type: "company",
     icon: <RiUser3Line className={styles.icon} />,
   },
   {
