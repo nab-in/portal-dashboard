@@ -4,30 +4,30 @@ import MainContents from "../components/templates/MainContents";
 import SubContents from "../components/templates/SubContents";
 import Draftcard from "../components/cards/Draftcard";
 import Pagination from "../components/pagination/Pagination";
-import axios from "axios";
 import { API } from "../components/api";
 
-const drafts = () => {
+const drafts = ({ data, error, page }) => {
   const [drafts, setDrafts] = useState([]);
-  const [pager, setPager] = useState([]);
-
-  const getDrafts = () => {
-    let pageNumber = 2;
-    axios
-      .get(`${API}/jobs?page=${pageNumber}&pageSize=5`)
-      .then((response) => {
-        const draftBatch = response.data.jobs;
-        const pagerDetails = response.data.pager;
-        setDrafts(draftBatch);
-        setPager(pagerDetails);
-        console.log(pagerDetails);
-      })
-      .catch((error) => console.error(`Error: ${error}`));
-  };
+  const [size, setSize] = useState(0);
 
   useEffect(() => {
-    getDrafts();
+    if (data) {
+      setDrafts(data.jobs);
+      setSize(data.jobs.length);
+    }
+    if (error) {
+      setErrors(error);
+    }
   }, []);
+
+  let nextUrl = `/drafts?page=${
+    page < Math.ceil(data?.pager.total / data?.pager.pageSize)
+      ? data?.pager?.page + 1
+      : data?.pager?.page
+  }`;
+  let prevUrl = `/drafts?page=${
+    data?.pager.page > 1 ? data?.pager?.page - 1 : 1
+  }`;
 
   return (
     <div>
@@ -40,20 +40,15 @@ const drafts = () => {
             <span>/</span>
             <span>Drafts</span>
           </div>
-          {console.log(pager)}
-          {drafts.length
-            ? drafts.map((job) => {
-                return (
-                  <Draftcard
-                    title={job.description}
-                    posted={job.created}
-                    deadline={job.close_date}
-                    link={`/jobs/${job.id}`}
-                  ></Draftcard>
-                );
-              })
-            : null}
-          <Pagination currentPage={pager.page} totalCount={pager.total} startCount={pager.page*5-4}></Pagination>
+          {console.log(drafts)}
+          {drafts.length > 0 &&
+            drafts.map((draft, index) => <Draftcard draft={draft} key={index} />)}
+          <Pagination
+            size={size}
+            pager={data?.pager}
+            nextUrl={nextUrl}
+            prevUrl={prevUrl}
+          />
         </MainContents>
 
         <SubContents>
@@ -66,5 +61,30 @@ const drafts = () => {
     </div>
   );
 };
+
+export async function getServerSideProps({ query }) {
+  let data = null;
+  let error = null;
+  let page = 1;
+
+  if (query?.page) page = query?.page;
+
+  try {
+    const res = await fetch(
+      `${API}/jobs?page=${page}&pageSize=5&fields=name,title,created,id`
+    );
+    data = await res.json();
+  } catch (err) {
+    error = JSON.stringify(err);
+  }
+
+  return {
+    props: {
+      error,
+      data,
+      page,
+    },
+  };
+}
 
 export default drafts;

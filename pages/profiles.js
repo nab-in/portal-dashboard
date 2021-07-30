@@ -38,11 +38,11 @@ const profiles = () => {
       })
   }, [])
   let nextUrl = `/profiles?page=${
-    page < Math.ceil(pager.total / pager.pageSize)
+    page < Math.ceil(pager?.total / pager?.pageSize)
       ? pager?.page + 1
       : pager?.page
   }`
-  let prevUrl = `/profiles?page=${pager.page > 1 ? pager?.page - 1 : 1}`
+  let prevUrl = `/profiles?page=${pager?.page > 1 ? pager?.page - 1 : 1}`
   return (
     <div>
       <div className="content">
