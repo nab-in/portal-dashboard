@@ -2,8 +2,11 @@ import Link from "next/link"
 import MainContents from "../../components/templates/MainContents"
 import SubContents from "../../components/templates/SubContents"
 import Edit from "../../components/profile_template/Edit-Profile/Edit"
+import { useAuthState } from "../../context/auth"
 
 const edit = () => {
+  const { user } = useAuthState()
+  let details = user?.company
   return (
     <div>
       <div className="content">
@@ -14,7 +17,7 @@ const edit = () => {
             </span>
             <span>/</span>
             <span>
-              <Link href="/profile">Profile</Link>
+              <Link href="/company">Profile</Link>
             </span>
             <span>/</span>
             <span>Edit</span>
@@ -26,7 +29,7 @@ const edit = () => {
             </Link>
           </div>
           <div className="mt-1">
-            <Edit page="company" />
+            {details && <Edit page="company" details={details} />}
           </div>
         </MainContents>
         <SubContents>
