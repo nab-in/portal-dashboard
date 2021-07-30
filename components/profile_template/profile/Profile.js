@@ -7,7 +7,7 @@ import { useAuthState } from "../../../context/auth"
 let Card = ({ title, content, url }) => (
   <div className={styles.card}>
     <h3>{title}</h3>
-    <p>{url ? <a href={content}>{content}</a> : ` ${content} `}</p>
+    <p>{url ? <a href={url}>{content}</a> : ` ${content} `}</p>
   </div>
 )
 
@@ -59,8 +59,8 @@ const Profile = ({ details }) => {
           {bio && <Card title="Bio" content={bio} />}
           {location && <Card title="Location" content={location} />}
           {about && <Card title="About" content={about} />}
-          {website && <Card title="Website" content={website} url={true} />}
-          {cv && <Card title="CV" content={cv} url="true" />}
+          {website && <Card title="Website" content={website} url={website} />}
+          {cv && <Card title="CV" content={`${firstname} cv`} url={cv} />}
         </article>
       </Section>
     </div>
