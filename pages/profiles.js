@@ -59,6 +59,9 @@ const profiles = () => {
               <a>Add New Job</a>
             </Link>
           </div>
+          <div className="mobile-filter">
+            <Search setKeywords={setKeywords} keywords={keywords} />
+          </div>
           <Filter keywords={keywords} setKeywords={setKeywords} />
           {users.length > 0 ? (
             <>
@@ -80,7 +83,9 @@ const profiles = () => {
           <Link href="/jobs/new_job">
             <a className="sub_btn btn btn-primary">Add New Job</a>
           </Link>
-          <Search setKeywords={setKeywords} keywords={keywords} />
+          <div className="desktop-filter">
+            <Search setKeywords={setKeywords} keywords={keywords} />
+          </div>{" "}
         </SubContents>
       </div>
     </div>

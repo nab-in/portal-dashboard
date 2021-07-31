@@ -7,16 +7,7 @@ import Action from "../actions/Action"
 const User = ({ user }) => {
   const [open, setOpen] = useState(false)
   const [role, setRole] = useState("")
-  const [roles, setRoles] = useState([
-    {
-      id: 15,
-      name: "Admin",
-    },
-    {
-      id: 1,
-      name: "Super User",
-    },
-  ])
+  const [roles, setRoles] = useState([])
   const addRole = () => {
     setOpen(false)
   }

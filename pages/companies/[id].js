@@ -8,6 +8,8 @@ import MainContents from "../../components/templates/MainContents"
 import SubContents from "../../components/templates/SubContents"
 import Profile from "../../components/profile_template/profile/Profile"
 
+// add verify action to the profile card
+
 const companyDetails = () => {
   const [company, setCompany] = useState(null)
   const router = useRouter()

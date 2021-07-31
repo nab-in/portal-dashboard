@@ -97,6 +97,7 @@ const Job = ({ job, company, identity }) => {
             action={deleteJob}
             title={`Are you sure you want to delete ${name}`}
             btnText="Delete"
+            setOpen={setOpen}
           />
         </Modal>
       )}

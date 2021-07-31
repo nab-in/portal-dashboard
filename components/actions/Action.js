@@ -28,7 +28,7 @@ const Action = ({
           type="datetime-local"
         />
       )}
-      {setRole && (
+      {setRole && roles.length > 0 && (
         <div className="select-group">
           <label>
             <select onChange={(e) => handleSelectChange(e)}>
@@ -45,6 +45,7 @@ const Action = ({
           </label>
         </div>
       )}
+      {setRole && roles.length == 0 && <p>No role to Add</p>}
       <div className={styles.btns}>
         <button onClick={() => setOpen(false)} className={styles.close}>
           Cancel
