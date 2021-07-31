@@ -79,6 +79,7 @@ const EditCompany = ({ details, page }) => {
               textarea={true}
             />
             <Input
+              type="url"
               title="Website"
               name="website"
               id="website"

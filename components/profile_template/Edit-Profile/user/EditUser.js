@@ -85,6 +85,7 @@ const EditProfile = ({ details }) => {
               textarea={true}
             />
             <Input
+              type="url"
               title="Website"
               name="website"
               id="website"
