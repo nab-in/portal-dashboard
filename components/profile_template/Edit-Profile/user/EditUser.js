@@ -7,7 +7,7 @@ import styles from "../edit.module.sass"
 import Settings from "../settings/Settings"
 import CV from "./CV"
 
-const EditProfile = ({ details }) => {
+const EditProfile = ({ details, page }) => {
   let [formData, setFormData] = useState({
     firstname: details?.firstname ? details.firstname : "",
     lastname: details?.lastname ? details.lastname : "",
@@ -32,6 +32,7 @@ const EditProfile = ({ details }) => {
         <Upload
           img={details?.dp ? details.dp : details?.logo}
           name={details?.username ? details?.username : details?.name}
+          page={page}
         />
         <article className={styles.contents}>
           <form onSubmit={(e) => handleSubmit(e)}>

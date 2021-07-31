@@ -13,9 +13,7 @@ const Attachment = ({ job, setJob }) => {
   const handleChange = (e) => {
     let { files } = e.target
     if (files && files[0].type == "application/pdf") {
-      const data = new FormData()
-      data.append("attachment", files[0])
-      setAttachment(data)
+      setAttachment(files[0])
     } else {
       console.log("Invalid file type")
     }
@@ -32,24 +30,27 @@ const Attachment = ({ job, setJob }) => {
     }
 
     if (job?.id) {
-      let body = {
-        data: attachment,
-        job: job.id,
-      }
       // console.log(body)
       setLoading(true)
+      const data = new FormData()
+      data.append("", attachment)
+      console.log(data)
       axios
-        .post(`${API}/jobs/profile/`, body, config)
+        .post(`${API}/jobs/${job.id}/profile/`, data, config)
         .then((res) => {
-          setJob(res.data.payload)
+          console.log(res.data)
+          setJob({
+            ...job,
+            attachment: res.data.filename,
+          })
           dispatch({
             type: "ADD",
             payload: {
-              message: res.data.message,
+              message: "Attachment uploaded successfully",
               type: "success",
             },
           })
-          setSelected("desc")
+          setSelected("basic")
           setLoading(false)
         })
         .catch((err) => {

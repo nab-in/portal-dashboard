@@ -1,4 +1,5 @@
 import Card from "../cards/Card"
+import Link from "next/link"
 import moment from "moment"
 import Linkify from "react-linkify"
 import styles from "./details.module.sass"
