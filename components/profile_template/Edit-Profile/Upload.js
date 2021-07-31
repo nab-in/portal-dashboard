@@ -8,7 +8,6 @@ import styles from "./upload.module.sass"
 const Upload = ({ id, img, name, page }) => {
   name = name?.split("")[0]
   let [imgData, setImgData] = useState(null)
-  console.log(img, name)
 
   const handleChange = (e) => {
     if (e.target.files) {
@@ -18,7 +17,6 @@ const Upload = ({ id, img, name, page }) => {
 
       reader.addEventListener("load", () => {
         setImgData(reader.result)
-        console.log(imgData)
       })
       reader.readAsDataURL(e.target.files[0])
 
@@ -33,10 +31,11 @@ const Upload = ({ id, img, name, page }) => {
       // adding file to dp variable
       data.append("", e.target.files[0])
       if (page == "auth-user") {
+        // console.log(data)
         axios
           .post(`${API}/users/dp`, data, config)
           .then((res) => {
-            console.log(res.data)
+            // console.log(res.data)
             // setLoading(false)
           })
           .catch((err) => {
