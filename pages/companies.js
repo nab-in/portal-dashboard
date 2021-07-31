@@ -57,6 +57,9 @@ const companies = () => {
             <span>/</span>
             <span>Companies</span>
           </div>
+          <div className="mobile-filter">
+            <Search setKeywords={setKeywords} keywords={keywords} />
+          </div>
           <Filter keywords={keywords} setKeywords={setKeywords} />
           {companies.length > 0 ? (
             <>
@@ -75,7 +78,9 @@ const companies = () => {
           />
         </MainContents>
         <SubContents>
-          <Search setKeywords={setKeywords} keywords={keywords} />
+          <div className="desktop-filter">
+            <Search setKeywords={setKeywords} keywords={keywords} />
+          </div>
         </SubContents>
       </div>
     </div>

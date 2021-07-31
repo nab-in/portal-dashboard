@@ -3,10 +3,14 @@ import Link from "next/link"
 import { GoVerified } from "react-icons/go"
 import styles from "./company.module.sass"
 import Modal from "../modal/Modal"
+import Action from "../actions/Action"
 
 const Company = ({ company }) => {
   const { id, logo, name } = company
   const [open, setOpen] = useState(false)
+  const verify = () => {
+    setOpen(false)
+  }
   return (
     <div className={`card ${styles.card}`}>
       <div className={styles.company}>
@@ -32,7 +36,16 @@ const Company = ({ company }) => {
       <div className={styles.actions}>
         <button onClick={() => setOpen(true)}>Unverify</button>
       </div>
-      {open && <Modal setOpen={setOpen}></Modal>}
+      {open && (
+        <Modal setOpen={setOpen}>
+          <Action
+            title={`Verify ${name}`}
+            btnText="Verify"
+            action={verify}
+            setOpen={setOpen}
+          />
+        </Modal>
+      )}
     </div>
   )
 }

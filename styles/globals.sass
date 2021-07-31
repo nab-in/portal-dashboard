@@ -219,6 +219,33 @@ span.ripple
     min-height: calc( 100vh - 150px )
     .mobile__link
         display: none
+    .mobile-filter
+        display: none
+    .app_btn
+        display: flex
+        flex-direction: column
+        width: 100%
+        button
+            color: white
+            background: $secondary
+            margin-bottom: 1rem
+            &.btn-tertiary
+                border: 1px solid $primary
+                background: none
+                color: $primary
+                font-weight: 700
+                transition: .25s
+                &:hover
+                    background: $primary
+                    color: white
+                    &:hover
+                        text-decoration: none
+        div
+            display: flex
+            justify-content: space-between
+            button
+                width: 49%
+                min-width: 50px
 
 @media screen and ( max-width:768px)
     body
@@ -228,6 +255,10 @@ span.ripple
     .content
         margin: 2rem 0
         padding: 2rem 1rem
+        .mobile-filter
+            display: block
+        .desktop-filter
+            display: none
         .mt-1
             margin-top: 2rem
         .mobile__link
@@ -241,6 +272,32 @@ span.ripple
                 cursor: pointer
                 &:hover
                     text-decoration: underline
+            .app_btn
+                display: flex
+                flex-direction: column
+                width: 100%
+                margin-top: 1.5rem
+                button
+                    color: white
+                    background: $secondary
+                    margin-bottom: 1rem
+                    &.btn-tertiary
+                        border: 1px solid $primary
+                        background: none
+                        color: $primary
+                        font-weight: 700
+                        transition: .25s
+                        &:hover
+                            background: $primary
+                            color: white
+                    &:hover
+                        text-decoration: none
+                div
+                    display: flex
+                    justify-content: space-between
+                    button
+                        width: 49%
+                        min-width: 100px
         .desktop_filter
             display: none
         .sub__content

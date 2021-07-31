@@ -34,7 +34,7 @@ const Basic = ({ job, setJob, setSelected, categories }) => {
           ? user?.company?.location
           : "",
         website: job?.website
-          ? job.wensite
+          ? job.website
           : user?.company?.website
           ? user?.company?.website
           : "",

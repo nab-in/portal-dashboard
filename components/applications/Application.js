@@ -2,11 +2,24 @@ import { useState } from "react"
 import Link from "next/link"
 import styles from "./application.module.sass"
 import Modal from "../modal/Modal"
+import Action from "../actions/Action"
 
 const Application = ({ app }) => {
   const [interview, setInterview] = useState(false)
   const [reject, setReject] = useState(false)
   const [accept, setAccept] = useState(false)
+  const [date, setDate] = useState("")
+  const callInterview = () => {
+    setInterview(false)
+  }
+
+  const acceptApplication = () => {
+    setAccept(false)
+  }
+
+  const rejectApplication = () => {
+    setReject(false)
+  }
 
   return (
     <article className={`card ${styles.card}`}>
@@ -34,9 +47,38 @@ const Application = ({ app }) => {
           Accept
         </button>
       </div>
-      {interview && <Modal setOpen={setInterview}>InterView</Modal>}
-      {accept && <Modal setOpen={setAccept}>Accept</Modal>}
-      {reject && <Modal setOpen={setReject}>Reject</Modal>}
+      {interview && (
+        <Modal setOpen={setInterview}>
+          <Action
+            title="Set date for this interview"
+            date={date}
+            setDate={setDate}
+            action={callInterview}
+            setOpen={setInterview}
+            btnText="Submit"
+          />
+        </Modal>
+      )}
+      {accept && (
+        <Modal setOpen={setAccept}>
+          <Action
+            title={`Are you sure you want to accept ${app.user.firstname} application?`}
+            action={acceptApplication}
+            setOpen={setAccept}
+            btnText="Yes"
+          />
+        </Modal>
+      )}
+      {reject && (
+        <Modal setOpen={setReject}>
+          <Action
+            title={`Are you sure you want to reject ${app.user.firstname} application?`}
+            action={rejectApplication}
+            setOpen={setReject}
+            btnText="Yes"
+          />
+        </Modal>
+      )}
     </article>
   )
 }

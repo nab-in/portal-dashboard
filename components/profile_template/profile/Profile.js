@@ -17,7 +17,7 @@ let Img = ({ img }) => (
   </div>
 )
 
-const Profile = ({ details }) => {
+const Profile = ({ details, job, page }) => {
   const { user } = useAuthState()
   let {
     id,
@@ -35,8 +35,8 @@ const Profile = ({ details }) => {
   } = details
   let About = (
     <>
-      <span>About</span>
-      {user.id == id && (
+      <span>{job?.name ? job.name : "About"}</span>
+      {user.id == id && page != "applications" && (
         <Link href="/profile/edit">
           <a>
             <FaPencilAlt className={styles.icon} />
@@ -51,6 +51,13 @@ const Profile = ({ details }) => {
         <article className={styles.contents}>
           {dp && <Img img={dp} />}
           {logo && <Img img={logo} />}
+          {job && (
+            <Card
+              title="Applied Job Title"
+              content={job.name}
+              url={`/jobs/${job.id}`}
+            />
+          )}
           {firstname && (
             <Card title="Name" content={`${firstname}${" "}${lastname}`} />
           )}
