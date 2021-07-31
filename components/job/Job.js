@@ -3,6 +3,7 @@ import Link from "next/link"
 import moment from "moment"
 import styles from "./job.module.sass"
 import Modal from "../modal/Modal"
+import Action from "../actions/Action"
 
 const Job = ({ job, company, identity }) => {
   const [open, setOpen] = useState(false)
@@ -17,6 +18,10 @@ const Job = ({ job, company, identity }) => {
   } = job
   let reviews = 0.85
   let style = { "--rating": reviews * 5 }
+
+  const deleteJob = () => {
+    setOpen(false)
+  }
   return (
     <article className={`card ${styles.job__card}`}>
       {company && (
@@ -86,7 +91,15 @@ const Job = ({ job, company, identity }) => {
           </div>
         )}
       </div>
-      {open && <Modal setOpen={setOpen}>Are you sure?</Modal>}
+      {open && (
+        <Modal setOpen={setOpen}>
+          <Action
+            action={deleteJob}
+            title={`Are you sure you want to delete ${name}`}
+            btnText="Delete"
+          />
+        </Modal>
+      )}
     </article>
   )
 }
