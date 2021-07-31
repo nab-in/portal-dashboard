@@ -9,6 +9,7 @@ import axios from "axios"
 import { useAuthState } from "../../context/auth"
 import Profile from "../../components/profile_template/profile/Profile"
 import Modal from "../../components/modal/Modal"
+import Action from "../../components/actions/Action"
 
 const application = () => {
   const [job, setJob] = useState(null)
@@ -101,7 +102,11 @@ const application = () => {
           </div>
         </SubContents>
       </div>
-      {interview && <Modal setOpen={setInterview}>Interview</Modal>}
+      {interview && (
+        <Modal setOpen={setInterview}>
+          <Action />
+        </Modal>
+      )}
       {accept && <Modal setOpen={setAccept}>Accept</Modal>}
       {reject && <Modal setOpen={setReject}>Reject</Modal>}
     </div>
