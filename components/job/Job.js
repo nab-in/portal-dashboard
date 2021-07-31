@@ -4,6 +4,9 @@ import moment from "moment"
 import styles from "./job.module.sass"
 import Modal from "../modal/Modal"
 import Action from "../actions/Action"
+import { API } from "../api"
+import Cookies from "js-cookie"
+import axios from "axios"
 
 const Job = ({ job, company, identity }) => {
   const [open, setOpen] = useState(false)
@@ -20,7 +23,21 @@ const Job = ({ job, company, identity }) => {
   let style = { "--rating": reviews * 5 }
 
   const deleteJob = () => {
-    setOpen(false)
+    const token = Cookies.get("token")
+    const config = {
+      headers: {
+        authorization: `Bearer ` + token,
+      },
+    }
+    axios
+      .delete(`${API}/jobs/${id}`, config)
+      .then((res) => {
+        setOpen(false)
+        console.log(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
   return (
     <article className={`card ${styles.job__card}`}>
