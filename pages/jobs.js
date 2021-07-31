@@ -4,6 +4,8 @@ import { useRouter } from "next/router"
 import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
 import Job from "../components/job/Job"
+import Search from "../components/job-filters/search/Search"
+import Filter from "../components/job-filters/filter/Filter"
 import { useAuthState } from "../context/auth"
 import axios from "axios"
 import Cookies from "js-cookie"
@@ -14,6 +16,12 @@ const jobs = () => {
   const [size, setSize] = useState(0)
   const [jobs, setJobs] = useState([])
   const [pager, setPager] = useState(null)
+  const [categories, setCategories] = useState([])
+  let [search, setSearch] = useState({
+    keyword: "",
+    location: "",
+    categories: [],
+  })
   const router = useRouter()
   const [page] = useState(router?.query?.page ? router.query.page : 1)
   const { user } = useAuthState()
@@ -53,6 +61,24 @@ const jobs = () => {
           console.log(err)
         })
     }
+    axios
+      .get(`${API}/jobCategories?fields=id,name,children[id, name]`)
+      .then((res) => {
+        // console.log(res.data)
+        let data = res.data?.jobCategories
+        let filter = []
+        data.forEach((el) => {
+          // console.log(el.children)
+          if (el.children) filter = filter.concat(el.children)
+        })
+        filter.forEach((el) => {
+          data = data.filter((o) => o.id != el.id)
+        })
+        setCategories(data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }, [])
   let nextUrl = `/jobs?page=${
     page < Math.ceil(pager?.total / pager?.pageSize)
@@ -76,6 +102,14 @@ const jobs = () => {
               <a>Add New Job</a>
             </Link>
           </div>
+          <div className="mobile-filter">
+            <Search
+              setSearch={setSearch}
+              search={search}
+              categories={categories}
+            />
+          </div>
+          <Filter search={search} setSearch={setSearch} />
           {jobs.length > 0 ? (
             <>
               {jobs.map((job) => (
@@ -101,6 +135,13 @@ const jobs = () => {
           <Link href="/jobs/new_job">
             <a className="sub_btn btn btn-primary">Add New Job</a>
           </Link>
+          <div className="desktop-filter">
+            <Search
+              setSearch={setSearch}
+              search={search}
+              categories={categories}
+            />
+          </div>
         </SubContents>
       </div>
     </div>

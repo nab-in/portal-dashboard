@@ -1,0 +1,54 @@
+@import "../../../styles/_colors"
+
+.sub__category
+    padding: .7rem 0
+    border-bottom: 1px solid #BBBBBB
+    cursor: pointer
+    .label
+        color: $primary
+        line-height: 1.5rem
+        cursor: pointer
+        position: relative
+        display: flex
+        align-items: center
+        position: relative
+        &::before
+            content: ""
+            position: absolute
+            height: 16px
+            width: 16px
+            margin-right: 1rem
+            float: left
+            border: 2px solid $primary
+            border-radius: 3px
+            transition: 0.15s all ease-out
+            border-radius: 3px
+        span
+            margin-left: 2.5rem
+        svg
+            stroke: white
+            stroke-width: 3px
+            height: 0 //Firefox fix
+            width: 20px
+            position: absolute
+            left: 0
+            top: 0
+            stroke-dasharray: 108 //Firefox fix
+    &.checked
+        .label
+            &::before
+                background: $primary
+            svg
+                min-height: 20px
+                height: 100%
+                animation: draw-checkbox ease-in-out 0.2s forwards
+                path
+                    height: 100%
+                    width: 100%
+
+@keyframes draw-checkbox
+    0%
+        stroke-dashoffset: 14
+
+    100%
+        stroke-dashoffset: 0
