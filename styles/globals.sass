@@ -118,8 +118,12 @@ span.ripple
 
 .filter__criteria
     background: white
+    margin-bottom: 2rem
+    padding: 1rem
+    h2
+        margin-bottom: 1.5rem
+        font-size: clamp(1.1rem, 2vw, 1.3rem)
     .criteria
-        padding: 1rem
         margin-bottom: .7rem
         display: flex
         align-items: flex-start
@@ -158,6 +162,8 @@ span.ripple
     input
         border: none !important
         padding: .3rem !important
+    &.filter_input
+        width: 100% !important
 
 .stars
     $percent: calc(var(--rating) / 5 * 100%)

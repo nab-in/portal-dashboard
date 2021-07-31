@@ -61,6 +61,9 @@ const applications = ({ data, error, page }) => {
               <a>Add New Job</a>
             </Link>
           </div>
+          <div className="mobile-filter">
+            <Search setKeywords={setKeywords} keywords={keywords} />
+          </div>
           <Filter keywords={keywords} setKeywords={setKeywords} />
           {apps.length > 0 &&
             apps.map((app, index) => <Application app={app} key={index} />)}
@@ -75,7 +78,9 @@ const applications = ({ data, error, page }) => {
           <Link href="/jobs/new_job">
             <a className="sub_btn btn btn-primary">Add New Job</a>
           </Link>
-          <Search setKeywords={setKeywords} keywords={keywords} />
+          <div className="desktop-filter">
+            <Search setKeywords={setKeywords} keywords={keywords} />
+          </div>
         </SubContents>
       </div>
     </div>
