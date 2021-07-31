@@ -75,9 +75,10 @@ const Chart = ({ title }) => {
             margin: "2rem 0",
           }}
         >
+        <ResponsiveContainer height={300}>
           <BarChart
-            width={700}
-            height={300}
+            // width={700}
+            // height={300}
             data={data}
             margin={{
               top: 10,
@@ -92,6 +93,7 @@ const Chart = ({ title }) => {
             <Tooltip content={<CustomTooltip />} />
             <Bar dataKey="value" barSize={15} fill="#007CA9" />
           </BarChart>
+          </ResponsiveContainer>
         </div>
         <div className={styles.metrics}>
           <div
