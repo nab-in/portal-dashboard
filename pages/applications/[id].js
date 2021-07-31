@@ -16,6 +16,7 @@ const application = () => {
   const [accept, setAccept] = useState(false)
   const [reject, setReject] = useState(false)
   const [interview, setInterview] = useState(false)
+  const [date, setDate] = useState("")
   const router = useRouter()
   const { user } = useAuthState()
   useEffect(() => {
@@ -35,6 +36,18 @@ const application = () => {
         console.log(err)
       })
   }, [])
+
+  const callInterview = () => {
+    setInterview(false)
+  }
+
+  const acceptApplication = () => {
+    setAccept(false)
+  }
+
+  const rejectApplication = () => {
+    setReject(false)
+  }
 
   return (
     <div>
@@ -104,11 +117,36 @@ const application = () => {
       </div>
       {interview && (
         <Modal setOpen={setInterview}>
-          <Action />
+          <Action
+            title="Set date for this interview"
+            date={date}
+            setDate={setDate}
+            action={callInterview}
+            setOpen={setInterview}
+            btnText="Submit"
+          />
         </Modal>
       )}
-      {accept && <Modal setOpen={setAccept}>Accept</Modal>}
-      {reject && <Modal setOpen={setReject}>Reject</Modal>}
+      {accept && (
+        <Modal setOpen={setAccept}>
+          <Action
+            title={`Are you sure you want to accept ${user.firstname} application?`}
+            action={acceptApplication}
+            setOpen={setAccept}
+            btnText="Yes"
+          />
+        </Modal>
+      )}
+      {reject && (
+        <Modal setOpen={setReject}>
+          <Action
+            title={`Are you sure you want to reject ${user.firstname} application?`}
+            action={rejectApplication}
+            setOpen={setReject}
+            btnText="Yes"
+          />
+        </Modal>
+      )}
     </div>
   )
 }
