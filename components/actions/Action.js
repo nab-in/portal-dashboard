@@ -1,32 +1,38 @@
 import styles from "./action.module.sass"
 import Input from "../inputs/Input"
+import data from "../../data/chart"
 
 const Action = ({
   title,
   action,
-  date,
-  setDate,
+  data,
+  setData,
   setOpen,
   btnText,
   role,
   roles,
   setRole,
 }) => {
-  const handleChange = (e) => {
-    setDate(e.target.value)
-  }
   const handleSelectChange = (e) => {
     setRole(e.target.value)
   }
   return (
     <div className={styles.action}>
       <p>{title}</p>
-      {setDate && (
-        <Input
-          handleChange={(e) => handleChange(e)}
-          value={date}
-          type="datetime-local"
-        />
+      {setData && (
+        <>
+          <Input
+            handleChange={(e) => setData({ ...data, date: e.target.value })}
+            value={data.date}
+            type="datetime-local"
+          />
+          <Input
+            handleChange={(e) => setData({ ...data, location: e.target.value })}
+            value={data.location}
+            placeholder="Location"
+            name="location"
+          />
+        </>
       )}
       {setRole && roles.length > 0 && (
         <div className="select-group">

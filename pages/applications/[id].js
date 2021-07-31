@@ -16,7 +16,10 @@ const application = () => {
   const [accept, setAccept] = useState(false)
   const [reject, setReject] = useState(false)
   const [interview, setInterview] = useState(false)
-  const [date, setDate] = useState("")
+  const [data, setData] = useState({
+    date: "",
+    location: "",
+  })
   const router = useRouter()
   const { user } = useAuthState()
   useEffect(() => {
@@ -119,8 +122,8 @@ const application = () => {
         <Modal setOpen={setInterview}>
           <Action
             title="Set date for this interview"
-            date={date}
-            setDate={setDate}
+            data={data}
+            setData={setData}
             action={callInterview}
             setOpen={setInterview}
             btnText="Submit"

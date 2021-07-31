@@ -87,13 +87,13 @@ const Header = ({ navOpen }) => {
               <div className={styles.profile}>
                 <div className={styles.dp__container}>
                   {img ? (
-                    <img src={img} alt={`logo`} />
+                    <img src={user.dp} alt={`dp`} />
                   ) : (
                     <div className={styles.default}>{n}</div>
                   )}
                 </div>
                 <div className={styles.name}>
-                  {data?.name ? data.name : data?.username}
+                  {user.firstname} {user.lastname}
                 </div>
               </div>
               <nav>
