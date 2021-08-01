@@ -65,8 +65,18 @@ const applications = ({ data, error, page }) => {
             <Search setKeywords={setKeywords} keywords={keywords} />
           </div>
           <Filter keywords={keywords} setKeywords={setKeywords} />
-          {apps.length > 0 &&
-            apps.map((app, index) => <Application app={app} key={index} />)}
+          {apps.length > 0 ? (
+            apps.map((app, index) => <Application app={app} key={index} />)
+          ) : (
+            <p
+              style={{
+                background: "white",
+                padding: "1rem",
+              }}
+            >
+              No Application found
+            </p>
+          )}
           <Pagination
             size={size}
             pager={data?.pager}

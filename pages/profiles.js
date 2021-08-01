@@ -10,11 +10,14 @@ import Pagination from "../components/pagination/Pagination"
 import Search from "../components/applications/Search"
 import Filter from "../components/applications/Filter"
 import User from "../components/user/User"
+import Loader from "../components/loaders/UsersLoader"
 
 const profiles = () => {
   const [users, setUsers] = useState([])
   const [size, setSize] = useState(0)
   const [pager, setPager] = useState({})
+  const [loading, setLoading] = useState(false)
+  let [error, setError] = useState("")
   const [keywords, setKeywords] = useState([])
   const router = useRouter()
   const [page] = useState(router?.query?.page ? router.query.page : 1)
@@ -26,15 +29,19 @@ const profiles = () => {
         authorization: `Bearer ` + token,
       },
     }
+    setLoading(true)
     axios
       .get(`${API}/users?page=${page}&pageSize=4`, config)
       .then((res) => {
         setPager(res.data.pager)
         setUsers(res.data.users)
         setSize(res.data.users.length)
+        setLoading(false)
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err.response)
+        setError(err?.response?.data?.message)
+        setLoading(false)
       })
   }, [])
   let nextUrl = `/profiles?page=${
@@ -63,14 +70,32 @@ const profiles = () => {
             <Search setKeywords={setKeywords} keywords={keywords} />
           </div>
           <Filter keywords={keywords} setKeywords={setKeywords} />
-          {users.length > 0 ? (
+          {loading ? (
             <>
-              {users.map((user) => (
-                <User key={user.id} user={user} />
-              ))}
+              <Loader />
+              <Loader />
+              <Loader />
+              <Loader />
             </>
           ) : (
-            <></>
+            <>
+              {users.length > 0 ? (
+                <>
+                  {users.map((user) => (
+                    <User key={user.id} user={user} />
+                  ))}
+                </>
+              ) : (
+                <p
+                  style={{
+                    background: "white",
+                    padding: "1rem",
+                  }}
+                >
+                  No user found
+                </p>
+              )}
+            </>
           )}
           <Pagination
             size={size}

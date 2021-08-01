@@ -25,12 +25,13 @@ const Login = () => {
       ...formData,
       [name]: value,
     })
+    setErrors({})
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     setLoading(true)
-    console.log(formData)
+    setErrors({})
     axios
       .post(`${API}/login`, formData)
       .then((res) => {
@@ -44,7 +45,11 @@ const Login = () => {
       })
       .catch((err) => {
         setLoading(false)
-        console.log(err?.response?.data)
+        // console.log(err?.response?.data.message)
+        setErrors({
+          type: "danger",
+          msg: err?.response?.data?.message,
+        })
       })
   }
 
@@ -71,7 +76,9 @@ const Login = () => {
             id="password"
             title="Password:"
           />
-          {errors.msg && <p className={`alert ${error.type}`}>{errors.msg}</p>}
+          {errors.msg && (
+            <p className={`alerts ${errors.type}`}>{errors.msg}</p>
+          )}
           <div className={styles.btns}>
             <FormButton text="Login" btnClass="btn-primary" loading={loading} />
             <a href="http://localhost:3000/forgot_password">Forgot password?</a>
