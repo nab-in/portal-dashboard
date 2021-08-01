@@ -5,9 +5,11 @@ import Cookies from "js-cookie"
 import { API } from "../api"
 import styles from "./recent.module.sass"
 import RecentUser from "./RecentUser"
+import CardLoader from "../loaders/cardLoader"
 
 const RecentUsers = ({ size }) => {
   let [users, setUsers] = useState([])
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     let token = Cookies.get("token")
     let config = {
@@ -23,8 +25,10 @@ const RecentUsers = ({ size }) => {
       )
       .then((res) => {
         setUsers(res.data.users)
+        setLoading(false)
       })
       .catch((err) => {
+        setLoading(false)
         console.log(err)
       })
   }, [])
@@ -33,9 +37,19 @@ const RecentUsers = ({ size }) => {
       {users.length > 0 && (
         <section className={styles.recent}>
           <h2>Newly Joined Users</h2>
-          {users.map((user) => (
-            <RecentUser user={user} key={user.id} />
-          ))}
+          {loading ? (
+            <>
+              <CardLoader />
+              <CardLoader />
+              <CardLoader />
+            </>
+          ) : (
+            <>
+              {users.map((user) => (
+                <RecentUser user={user} key={user.id} />
+              ))}
+            </>
+          )}
           <div className={styles.more__link}>
             <Link href="/profiles">More Users</Link>
           </div>
