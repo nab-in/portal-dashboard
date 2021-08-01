@@ -57,12 +57,6 @@ const categories = () => {
             <span>Categories</span>
           </div>
           <Categories categories={categories} setcategories={setcategories} />
-          {/* <Pagination
-            size={size}
-            pager={pager}
-            nextUrl={nextUrl}
-            prevUrl={prevUrl}
-          /> */}
         </MainContents>
         <SubContents>
           <Filter categories={categories} setcategories={setcategories} />

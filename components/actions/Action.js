@@ -12,6 +12,10 @@ const Action = ({
   role,
   roles,
   setRole,
+  password,
+  setPassword,
+  username,
+  setUsername,
 }) => {
   const handleSelectChange = (e) => {
     setRole(e.target.value)
@@ -19,6 +23,24 @@ const Action = ({
   return (
     <div className={styles.action}>
       <p>{title}</p>
+      {setPassword && (
+        <Input
+          handleChange={(e) => setPassword(e.target.value)}
+          value={password}
+          type="password"
+          name="password"
+          placeholder="Enter your password"
+        />
+      )}
+      {setUsername && (
+        <Input
+          handleChange={(e) => setUsername(e.target.value)}
+          value={username}
+          name="username"
+          title="Enter username of user to transfer this company to"
+          placeholder="Enter username"
+        />
+      )}
       {setData && (
         <>
           <Input

@@ -36,8 +36,15 @@ const Profile = ({ details, job, page }) => {
   let About = (
     <>
       <span>{job?.name ? job.name : "About"}</span>
-      {user.id == id && page != "applications" && (
+      {user.id == id && page != "applications" && page != "company" && (
         <Link href="/profile/edit">
+          <a>
+            <FaPencilAlt className={styles.icon} />
+          </a>
+        </Link>
+      )}
+      {id == user.company?.id && page != "applications" && page == "company" && (
+        <Link href="/company/edit">
           <a>
             <FaPencilAlt className={styles.icon} />
           </a>
@@ -45,6 +52,7 @@ const Profile = ({ details, job, page }) => {
       )}
     </>
   )
+
   return (
     <div className={styles.profile}>
       <Section title={About}>

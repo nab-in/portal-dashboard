@@ -10,11 +10,14 @@ import Profile from "../../components/profile_template/profile/Profile"
 import RecentUsers from "../../components/user/RecentUsers"
 import Modal from "../../components/modal/Modal"
 import Action from "../../components/actions/Action"
+import Error from "../../components/error/Error"
+import Loader from "../../components/loaders/UserLoader"
 
 const profile = () => {
   const [user, setUser] = useState(null)
   const [open, setOpen] = useState(false)
   const [roles, setRoles] = useState([])
+  const [loading, setLoading] = useState(true)
   const [role, setRole] = useState("")
   const router = useRouter()
   const addRole = () => {
@@ -28,12 +31,15 @@ const profile = () => {
         authorization: `Bearer ` + token,
       },
     }
+    setLoading(true)
     axios
       .get(`${API}/users/${router.query.id}`, config)
       .then((res) => {
         setUser(res.data)
+        setLoading(false)
       })
       .catch((err) => {
+        setLoading(false)
         console.log(err)
       })
   }, [])
@@ -52,18 +58,28 @@ const profile = () => {
             <span>/</span>
             {user && <span>{user.username}</span>}
           </div>
-          <div className="mobile__link">
-            <button onClick={() => setOpen(true)}>Add Role</button>
-          </div>
-          {user && <Profile details={user} />}
+          {user && (
+            <div className="mobile__link">
+              <button onClick={() => setOpen(true)}>Add Role</button>
+            </div>
+          )}
+          {loading ? (
+            <>
+              <Loader />
+            </>
+          ) : (
+            <>{user ? <Profile details={user} /> : <Error />}</>
+          )}
         </MainContents>
         <SubContents>
-          <button
-            className="sub_btn span__full btn btn-primary"
-            onClick={() => setOpen(true)}
-          >
-            Add Role
-          </button>
+          {user && (
+            <button
+              className="sub_btn span__full btn btn-primary"
+              onClick={() => setOpen(true)}
+            >
+              Add Role
+            </button>
+          )}
           <RecentUsers size={4} />
         </SubContents>
       </div>

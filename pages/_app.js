@@ -31,7 +31,6 @@ function MyApp({ Component, pageProps }) {
         axios
           .get(`${API}/me`, config)
           .then((res) => {
-            // console.log(res.data)
             dispatch({
               type: "AUTH",
               payload: res?.data,

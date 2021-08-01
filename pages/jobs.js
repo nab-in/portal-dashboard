@@ -122,7 +122,14 @@ const jobs = () => {
               ))}
             </>
           ) : (
-            <>No job found</>
+            <p
+              style={{
+                background: "white",
+                padding: "1rem",
+              }}
+            >
+              No job found
+            </p>
           )}
           <Pagination
             size={size}

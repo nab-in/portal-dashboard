@@ -68,7 +68,14 @@ const companies = () => {
               ))}
             </>
           ) : (
-            <></>
+            <p
+              style={{
+                background: "white",
+                padding: "1rem",
+              }}
+            >
+              No Company Found
+            </p>
           )}
           <Pagination
             size={size}

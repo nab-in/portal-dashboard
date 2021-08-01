@@ -4,6 +4,7 @@ import Input from "../../../inputs/Input"
 import Upload from "../Upload"
 import styles from "../edit.module.sass"
 import Section from "../../Section"
+import Delete from "./Delete"
 
 const EditCompany = ({ details, page }) => {
   let [formData, setFormData] = useState({
@@ -91,6 +92,7 @@ const EditCompany = ({ details, page }) => {
           </form>
         </article>
       </Section>
+      <Delete details={details} />
     </div>
   )
 }

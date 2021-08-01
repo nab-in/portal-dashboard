@@ -19,7 +19,7 @@ a
     &.disabled
         pointer-events: none
         cursor: default
-        opacity: .5
+        opacity: .2
 
 input, textarea, button, select
     &:focus
@@ -36,7 +36,7 @@ ul
     list-style: none
 
 .btn
-    padding: .5rem 3rem
+    padding: .5rem 2rem
     min-width: 150px
     cursor: pointer
     font-size: 1rem
@@ -45,6 +45,7 @@ ul
     align-items: center
     position: relative
     overflow: hidden
+    transition: .25s
     &.span__full
         width: 100%
     &.btn-primary
@@ -52,10 +53,20 @@ ul
         color: white
         box-shadow: 5px 4px 25px 5px rgba(0, 0, 0, 0.1)
         font-weight: 700
-        transition: .2s
         &:hover
             box-shadow: none
             text-decoration: none
+    &.btn-danger
+        // background: red
+        border: 1px solid red
+        box-shadow: 5px 4px 25px 5px rgba(0, 0, 0, 0.1)
+        color: red
+        font-weight: 700
+        &:hover
+            box-shadow: none
+            text-decoration: none
+            color: white
+            background: red
 
 .recharts-responsive-container
     width: 100%
