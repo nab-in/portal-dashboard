@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import SubCategory from "./SubCategory"
 import Input from "../inputs/Input"
 import { API } from "../api"
@@ -18,10 +18,26 @@ const SubCategories = ({ categories, parent, setcategories }) => {
   })
   const dispatch = useAlertsDispatch()
 
-  const handleChange = (e) => {
-    let { value } = e.target
-    setFormData({ name: value })
-  }
+  useEffect(() => {
+    if (categories.length > 0) {
+      let i = categories.filter((el) => {
+        return id == el.id
+      })
+      setCategory(i[0])
+    }
+  }, [categories, parent])
+
+  const handleChange = useCallback(
+    (e) => {
+      let { value } = e.target
+      setFormData({ name: value })
+    },
+    [formData]
+  )
+
+  let categoryIndex = categories.findIndex((el) => el.id == category?.id)
+
+  let categoriesCopy = categories
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -49,12 +65,6 @@ const SubCategories = ({ categories, parent, setcategories }) => {
             message: res.data.message,
           },
         })
-        let categoryIndex = categories.findIndex(
-          (el) => el.id == category[0].id
-        )
-        let categoriesCopy = categories
-
-        console.log(categoriesCopy[categoryIndex])
 
         if (categoriesCopy[categoryIndex]?.children?.length > 0) {
           categoriesCopy[categoryIndex] = {
@@ -71,17 +81,13 @@ const SubCategories = ({ categories, parent, setcategories }) => {
         }
 
         setcategories(categoriesCopy)
-        console.log(categories)
+        // console.log(categories)
       })
       .catch((err) => {
         setLoading(false)
         console.log(err)
       })
   }
-
-  useEffect(() => {
-    setCategory(categories.filter((el) => el.id == id))
-  }, [categories])
 
   return (
     <div className={`card ${styles.card}`}>
@@ -90,10 +96,10 @@ const SubCategories = ({ categories, parent, setcategories }) => {
           <span>Category:</span> {name}
         </p>
       )}
-      {category && category[0]?.children?.length > 0 && (
+      {category && category?.children?.length > 0 && (
         <>
           <div className={styles.showcase}>
-            {category[0].children.map((sub) => (
+            {category.children.map((sub) => (
               <SubCategory sub={sub} key={sub.id} />
             ))}
           </div>

@@ -1,10 +1,15 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Categories from "./Categories"
 import SubCategories from "./SubCategories"
 import styles from "./filter.module.sass"
 
 const Filter = ({ categories, setcategories }) => {
-  let [parent, setParent] = useState(categories.length > 0 && categories[0])
+  let [parent, setParent] = useState(null)
+
+  useEffect(() => {
+    if (categories)
+      setParent(parent ? parent : categories.length > 0 ? categories[0] : {})
+  }, [categories, parent])
 
   return (
     <div className={styles.card}>
@@ -14,11 +19,13 @@ const Filter = ({ categories, setcategories }) => {
         setcategories={setcategories}
         setParent={setParent}
       />
-      <SubCategories
-        parent={parent}
-        categories={categories}
-        setcategories={setcategories}
-      />
+      {parent && (
+        <SubCategories
+          parent={parent}
+          categories={categories}
+          setcategories={setcategories}
+        />
+      )}
     </div>
   )
 }
