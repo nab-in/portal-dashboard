@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import SubCategory from "./SubCategory"
 import Input from "../inputs/Input"
 import { API } from "../api"
@@ -9,10 +9,9 @@ import Loader from "../loaders/ButtonLoader"
 import styles from "./category.module.sass"
 import { useAlertsDispatch } from "../../context/alerts"
 
-const SubCategories = ({ categories, parent }) => {
+const SubCategories = ({ categories, parent, setcategories }) => {
   let { id, name } = parent
-  let category
-  if (categories.length > 0) category = categories.filter((el) => el.id == id)
+  const [category, setCategory] = useState([])
   let [loading, setLoading] = useState(false)
   let [formData, setFormData] = useState({
     name: "",
@@ -38,7 +37,6 @@ const SubCategories = ({ categories, parent }) => {
       name: formData.name,
       parent: { id },
     }
-    console.log(body)
     setLoading(true)
     axios
       .post(`${API}/jobCategories`, body, config)
@@ -51,17 +49,47 @@ const SubCategories = ({ categories, parent }) => {
             message: res.data.message,
           },
         })
+        let categoryIndex = categories.findIndex(
+          (el) => el.id == category[0].id
+        )
+        let categoriesCopy = categories
+
+        console.log(categoriesCopy[categoryIndex])
+
+        if (categoriesCopy[categoryIndex]?.children?.length > 0) {
+          categoriesCopy[categoryIndex] = {
+            ...categoriesCopy[categoryIndex],
+            children: categoriesCopy[categoryIndex].children.concat(
+              res.data.payload
+            ),
+          }
+        } else {
+          categoriesCopy[categoryIndex] = {
+            ...categoriesCopy[categoryIndex],
+            children: [res.data.payload],
+          }
+        }
+
+        setcategories(categoriesCopy)
+        console.log(categories)
       })
       .catch((err) => {
         setLoading(false)
         console.log(err)
       })
   }
+
+  useEffect(() => {
+    setCategory(categories.filter((el) => el.id == id))
+  }, [categories])
+
   return (
     <div className={`card ${styles.card}`}>
-      <p>
-        <span>Category:</span> {name}
-      </p>
+      {name && (
+        <p>
+          <span>Category:</span> {name}
+        </p>
+      )}
       {category && category[0]?.children?.length > 0 && (
         <>
           <div className={styles.showcase}>

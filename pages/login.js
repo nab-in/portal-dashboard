@@ -45,11 +45,19 @@ const Login = () => {
       })
       .catch((err) => {
         setLoading(false)
-        // console.log(err?.response?.data.message)
-        setErrors({
-          type: "danger",
-          msg: err?.response?.data?.message,
-        })
+        // console.log(err?.message)
+        if (err?.response) {
+          setErrors({
+            type: "danger",
+            msg: err?.response?.data?.message,
+          })
+        }
+        if (err?.message == "Network Error") {
+          setErrors({
+            type: "danger",
+            msg: "Network Error",
+          })
+        }
       })
   }
 

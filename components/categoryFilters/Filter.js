@@ -9,8 +9,16 @@ const Filter = ({ categories, setcategories }) => {
   return (
     <div className={styles.card}>
       <h2>Add Job Category</h2>
-      <Categories categories={categories} setParent={setParent} />
-      <SubCategories parent={parent} categories={categories} />
+      <Categories
+        categories={categories}
+        setcategories={setcategories}
+        setParent={setParent}
+      />
+      <SubCategories
+        parent={parent}
+        categories={categories}
+        setcategories={setcategories}
+      />
     </div>
   )
 }

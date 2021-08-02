@@ -11,8 +11,6 @@ import Categories from "../components/category/Categories"
 
 const categories = () => {
   let [categories, setcategories] = useState([])
-  let [size, setSize] = useState(0)
-  let [pager, setPager] = useState(null)
   let router = useRouter()
   let page = router.query?.page ? router.query.page : 1
   useEffect(() => {
@@ -32,19 +30,12 @@ const categories = () => {
           data = data.filter((o) => o.id != el.id)
         })
         setcategories(data)
-        setSize(res.data.jobCategories.length)
-        setPager(res.data.pager)
       })
       .catch((err) => {
         console.log(err)
       })
   }, [])
-  let nextUrl = `/categories?page=${
-    page < Math.ceil(pager?.total / pager?.pageSize)
-      ? pager?.page + 1
-      : pager?.page
-  }`
-  let prevUrl = `/categories?page=${pager?.page > 1 ? pager?.page - 1 : 1}`
+
   return (
     <div>
       <div className="content">
