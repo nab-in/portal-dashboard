@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useMemo } from "react"
 import SubCategory from "./SubCategory"
 import Input from "../inputs/Input"
 import { API } from "../api"
@@ -25,15 +25,16 @@ const SubCategories = ({ categories, parent, setcategories }) => {
       })
       setCategory(i[0])
     }
-  }, [categories, parent])
+  }, [parent])
 
-  const handleChange = useCallback(
-    (e) => {
+  console.log(categories)
+
+  const handleChange = useMemo(() => {
+    return (e) => {
       let { value } = e.target
       setFormData({ name: value })
-    },
-    [formData]
-  )
+    }
+  }, [formData])
 
   let categoryIndex = categories.findIndex((el) => el.id == category?.id)
 
@@ -41,7 +42,7 @@ const SubCategories = ({ categories, parent, setcategories }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    e.preventDefault()
+
     let token = Cookies.get("token")
     let config = {
       headers: {
@@ -73,21 +74,31 @@ const SubCategories = ({ categories, parent, setcategories }) => {
               res.data.payload
             ),
           }
+          setcategories(categoriesCopy)
         } else {
           categoriesCopy[categoryIndex] = {
             ...categoriesCopy[categoryIndex],
             children: [res.data.payload],
           }
+          setcategories(categoriesCopy)
         }
 
-        setcategories(categoriesCopy)
-        // console.log(categories)
+        let index = categoriesCopy.findIndex((el) => el.id == category?.id)
+
+        categoriesCopy[categoryIndex] = categories[index]
+
+        setCategory(categoriesCopy[index])
+        setFormData({
+          name: "",
+        })
       })
       .catch((err) => {
         setLoading(false)
         console.log(err)
       })
   }
+
+  // console.log(categories)
 
   return (
     <div className={`card ${styles.card}`}>
@@ -99,7 +110,7 @@ const SubCategories = ({ categories, parent, setcategories }) => {
       {category && category?.children?.length > 0 && (
         <>
           <div className={styles.showcase}>
-            {category.children.map((sub) => (
+            {category?.children.map((sub) => (
               <SubCategory sub={sub} key={sub.id} />
             ))}
           </div>

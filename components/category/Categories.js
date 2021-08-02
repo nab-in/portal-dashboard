@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Category from "./Category"
 import Card from "../cards/Card"
 
@@ -9,7 +9,11 @@ const Categories = ({ categories, setcategories }) => {
         {categories.length > 0 ? (
           <>
             {categories.map((category) => (
-              <Category category={category} key={category.id} />
+              <Category
+                category={category}
+                categories={categories}
+                key={category.id}
+              />
             ))}
           </>
         ) : (

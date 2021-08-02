@@ -9,7 +9,11 @@ const Filter = ({ categories, setcategories }) => {
   useEffect(() => {
     if (categories)
       setParent(parent ? parent : categories.length > 0 ? categories[0] : {})
-  }, [categories, parent])
+  }, [parent])
+
+  useEffect(() => {
+    console.log("here")
+  }, [categories])
 
   return (
     <div className={styles.card}>
