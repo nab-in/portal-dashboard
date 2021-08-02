@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect, useCallback, useMemo } from "react"
 import SubCategory from "./SubCategory"
 import Input from "../inputs/Input"
 import { API } from "../api"
@@ -9,24 +9,40 @@ import Loader from "../loaders/ButtonLoader"
 import styles from "./category.module.sass"
 import { useAlertsDispatch } from "../../context/alerts"
 
-const SubCategories = ({ categories, parent }) => {
+const SubCategories = ({ categories, parent, setcategories }) => {
   let { id, name } = parent
-  let category
-  if (categories.length > 0) category = categories.filter((el) => el.id == id)
+  const [category, setCategory] = useState([])
   let [loading, setLoading] = useState(false)
   let [formData, setFormData] = useState({
     name: "",
   })
   const dispatch = useAlertsDispatch()
 
-  const handleChange = (e) => {
-    let { value } = e.target
-    setFormData({ name: value })
-  }
+  useEffect(() => {
+    if (categories.length > 0) {
+      let i = categories.filter((el) => {
+        return id == el.id
+      })
+      setCategory(i[0])
+    }
+  }, [parent])
+
+  console.log(categories)
+
+  const handleChange = useMemo(() => {
+    return (e) => {
+      let { value } = e.target
+      setFormData({ name: value })
+    }
+  }, [formData])
+
+  let categoryIndex = categories.findIndex((el) => el.id == category?.id)
+
+  let categoriesCopy = categories
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    e.preventDefault()
+
     let token = Cookies.get("token")
     let config = {
       headers: {
@@ -38,7 +54,6 @@ const SubCategories = ({ categories, parent }) => {
       name: formData.name,
       parent: { id },
     }
-    console.log(body)
     setLoading(true)
     axios
       .post(`${API}/jobCategories`, body, config)
@@ -51,21 +66,51 @@ const SubCategories = ({ categories, parent }) => {
             message: res.data.message,
           },
         })
+
+        if (categoriesCopy[categoryIndex]?.children?.length > 0) {
+          categoriesCopy[categoryIndex] = {
+            ...categoriesCopy[categoryIndex],
+            children: categoriesCopy[categoryIndex].children.concat(
+              res.data.payload
+            ),
+          }
+          setcategories(categoriesCopy)
+        } else {
+          categoriesCopy[categoryIndex] = {
+            ...categoriesCopy[categoryIndex],
+            children: [res.data.payload],
+          }
+          setcategories(categoriesCopy)
+        }
+
+        let index = categoriesCopy.findIndex((el) => el.id == category?.id)
+
+        categoriesCopy[categoryIndex] = categories[index]
+
+        setCategory(categoriesCopy[index])
+        setFormData({
+          name: "",
+        })
       })
       .catch((err) => {
         setLoading(false)
         console.log(err)
       })
   }
+
+  // console.log(categories)
+
   return (
     <div className={`card ${styles.card}`}>
-      <p>
-        <span>Category:</span> {name}
-      </p>
-      {category && category[0]?.children?.length > 0 && (
+      {name && (
+        <p>
+          <span>Category:</span> {name}
+        </p>
+      )}
+      {category && category?.children?.length > 0 && (
         <>
           <div className={styles.showcase}>
-            {category[0].children.map((sub) => (
+            {category?.children.map((sub) => (
               <SubCategory sub={sub} key={sub.id} />
             ))}
           </div>

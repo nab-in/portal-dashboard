@@ -11,12 +11,14 @@ import axios from "axios"
 import Cookies from "js-cookie"
 import { API } from "../components/api"
 import Pagination from "../components/pagination/Pagination"
+import Loader from "../components/loaders/cardLoader"
 
 const jobs = () => {
   const [size, setSize] = useState(0)
   const [jobs, setJobs] = useState([])
   const [pager, setPager] = useState(null)
   const [categories, setCategories] = useState([])
+  const [loading, setLoading] = useState(true)
   let [search, setSearch] = useState({
     keyword: "",
     location: "",
@@ -45,8 +47,10 @@ const jobs = () => {
           setPager(res.data.pager)
           setJobs(res.data.jobs)
           setSize(res.data.jobs.length)
+          setLoading(false)
         })
         .catch((err) => {
+          setLoading(false)
           console.log(err)
         })
     }
@@ -54,10 +58,11 @@ const jobs = () => {
       axios
         .get(`${API}/companies/${identity.id}?fields=jobs`, config)
         .then((res) => {
-          // console.log(res)
+          setLoading(false)
           setJobs(res.data.jobs)
         })
         .catch((err) => {
+          setLoading(false)
           console.log(err)
         })
     }
@@ -110,26 +115,36 @@ const jobs = () => {
             />
           </div>
           <Filter search={search} setSearch={setSearch} />
-          {jobs.length > 0 ? (
+          {loading ? (
             <>
-              {jobs.map((job) => (
-                <Job
-                  key={job.id}
-                  job={job}
-                  company={job?.company}
-                  identity={identity}
-                />
-              ))}
+              <Loader loadClass="no_border" />
+              <Loader loadClass="no_border" />
+              <Loader loadClass="no_border" />
             </>
           ) : (
-            <p
-              style={{
-                background: "white",
-                padding: "1rem",
-              }}
-            >
-              No job found
-            </p>
+            <>
+              {jobs.length > 0 ? (
+                <>
+                  {jobs.map((job) => (
+                    <Job
+                      key={job.id}
+                      job={job}
+                      company={job?.company}
+                      identity={identity}
+                    />
+                  ))}
+                </>
+              ) : (
+                <p
+                  style={{
+                    background: "white",
+                    padding: "1rem",
+                  }}
+                >
+                  No job found
+                </p>
+              )}
+            </>
           )}
           <Pagination
             size={size}

@@ -10,12 +10,14 @@ import Filter from "../components/applications/Filter"
 import Search from "../components/applications/Search"
 import Company from "../components/company/Company"
 import Pagination from "../components/pagination/Pagination"
+import Loader from "../components/loaders/UsersLoader"
 
 const companies = () => {
   const [keywords, setKeywords] = useState([])
   const [companies, setCompanies] = useState([])
   const [size, setSize] = useState(0)
   const [pager, setPager] = useState({})
+  const [loading, setLoading] = useState(true)
   const router = useRouter()
   const [page] = useState(router?.query?.page ? router.query.page : 1)
 
@@ -33,9 +35,11 @@ const companies = () => {
         setPager(res.data.pager)
         setCompanies(res.data.companies)
         setSize(res.data.companies.length)
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err)
+        setLoading(false)
       })
   }, [])
 
@@ -61,28 +65,38 @@ const companies = () => {
             <Search setKeywords={setKeywords} keywords={keywords} />
           </div>
           <Filter keywords={keywords} setKeywords={setKeywords} />
-          {companies.length > 0 ? (
+          {loading ? (
             <>
-              {companies.map((company) => (
-                <Company key={company.id} company={company} />
-              ))}
+              <Loader />
+              <Loader />
+              <Loader />
             </>
           ) : (
-            <p
-              style={{
-                background: "white",
-                padding: "1rem",
-              }}
-            >
-              No Company Found
-            </p>
+            <>
+              {companies.length > 0 ? (
+                <>
+                  {companies.map((company) => (
+                    <Company key={company.id} company={company} />
+                  ))}
+                </>
+              ) : (
+                <p
+                  style={{
+                    background: "white",
+                    padding: "1rem",
+                  }}
+                >
+                  No Company Found
+                </p>
+              )}
+              <Pagination
+                size={size}
+                pager={pager}
+                nextUrl={nextUrl}
+                prevUrl={prevUrl}
+              />
+            </>
           )}
-          <Pagination
-            size={size}
-            pager={pager}
-            nextUrl={nextUrl}
-            prevUrl={prevUrl}
-          />
         </MainContents>
         <SubContents>
           <div className="desktop-filter">

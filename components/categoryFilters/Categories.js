@@ -12,7 +12,7 @@ import { useAlertsDispatch } from "../../context/alerts"
 import useClickOutside from "../UseClickOutside"
 
 // filter dropdown component per each category
-const Categories = ({ categories, setParent }) => {
+const Categories = ({ categories, setParent, setcategories }) => {
   let [openDropdown, setOpenDropdown] = useState(false)
   let [loading, setLoading] = useState(false)
   let [formData, setFormData] = useState({
@@ -56,6 +56,7 @@ const Categories = ({ categories, setParent }) => {
             message: res.data.message,
           },
         })
+        setcategories(categories.concat(res.data.payload))
       })
       .catch((err) => {
         setLoading(false)
@@ -80,7 +81,7 @@ const Categories = ({ categories, setParent }) => {
             : `${styles.dropdown}`
         }
       >
-        {categories.map((category) => (
+        {categories?.map((category) => (
           <Category
             key={category.id}
             category={category}

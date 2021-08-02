@@ -1,7 +1,7 @@
 import styles from "./card.module.sass"
-const CardLoader = ({ stars }) => {
+const CardLoader = ({ stars, loadClass }) => {
   return (
-    <div className={`card ${styles.card}`}>
+    <div className={`card ${styles.card} ${loadClass}`}>
       <div className={styles.logo}></div>
       <div className={styles.details}>
         <h2>

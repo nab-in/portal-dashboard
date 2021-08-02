@@ -7,10 +7,12 @@ import Cookies from "js-cookie"
 import MainContents from "../../../components/templates/MainContents"
 import SubContents from "../../../components/templates/SubContents"
 import Job from "../../../components/job/Job"
+import Loader from "../../../components/loaders/cardLoader"
 
 const Jobs = () => {
   const [company, setCompany] = useState(null)
   const [jobs, setJobs] = useState(null)
+  const [loading, setLoading] = useState(true)
   const router = useRouter()
   useEffect(() => {
     let token = Cookies.get("token")
@@ -24,13 +26,15 @@ const Jobs = () => {
       .get(`${API}/companies/${router.query.id}?fields=jobs`, config)
       .then((res) => {
         setJobs(res.data.jobs)
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err)
+        setLoading(false)
       })
 
     axios
-      .get(`${API}/companies/${router.query.id}?fields=name,id,logo`, config)
+      .get(`${API}/companies/${router.query.id}?fields=name,id`, config)
       .then((res) => {
         setCompany(res.data)
       })
@@ -64,10 +68,27 @@ const Jobs = () => {
           <div className="mobile__link">
             <Link href={`/companies/${company?.id}`}>View Profile</Link>
           </div>
-          {jobs?.length > 0 ? (
-            jobs.map((job) => <Job key={job.id} job={job} />)
+          {loading ? (
+            <>
+              <Loader loadClass="no_border" />
+              <Loader loadClass="no_border" />
+              <Loader loadClass="no_border" />
+            </>
           ) : (
-            <>No Job Found</>
+            <>
+              {jobs?.length > 0 ? (
+                jobs.map((job) => <Job key={job.id} job={job} />)
+              ) : (
+                <p
+                  style={{
+                    background: "white",
+                    padding: "1rem",
+                  }}
+                >
+                  No job found
+                </p>
+              )}
+            </>
           )}
         </MainContents>
         <SubContents>
