@@ -11,13 +11,14 @@ const categories = () => {
   let [categories, setcategories] = useState([])
   let [loading, setLoading] = useState(true)
   useEffect(() => {
+    let data = []
+    let filter = []
     axios
       .get(
         `${API}/jobCategories?pageSize=200&fields=id,name,children[id, name]`
       )
       .then((res) => {
-        let data = res.data?.jobCategories
-        let filter = []
+        data = res.data?.jobCategories
         data.forEach((el) => {
           if (el.children) filter = filter.concat(el.children)
         })
@@ -31,6 +32,7 @@ const categories = () => {
         console.log(err)
         setLoading(false)
       })
+    console.log(data)
   }, [])
 
   return (
