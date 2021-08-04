@@ -19,7 +19,8 @@ const Accordion = ({ title, categories, children }) => {
       setHeight(
         !active ? "0px" : `calc( ${content.current.scrollHeight}px + 1rem )`
       )
-  }, [categories])
+    return
+  }, [categories, content])
 
   return (
     <div className={styles.accordion}>
@@ -32,7 +33,7 @@ const Accordion = ({ title, categories, children }) => {
       <div
         ref={content}
         style={{
-          minHeight: `${height}`,
+          minHeight: `100%`,
           maxHeight: height,
         }}
         className={styles.accordion__content}
