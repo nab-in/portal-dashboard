@@ -1,6 +1,7 @@
 import styles from "./action.module.sass"
 import Input from "../inputs/Input"
-import data from "../../data/chart"
+import rippleEffect from "../rippleEffect.js"
+import Loader from "../loaders/ButtonLoader"
 
 const Action = ({
   title,
@@ -16,10 +17,15 @@ const Action = ({
   setPassword,
   username,
   setUsername,
+  loading,
 }) => {
   const handleSelectChange = (e) => {
     setRole(e.target.value)
   }
+
+  // const act = () => {
+
+  // }
   return (
     <div className={styles.action}>
       <p>{title}</p>
@@ -78,8 +84,21 @@ const Action = ({
         <button onClick={() => setOpen(false)} className={styles.close}>
           Cancel
         </button>
-        <button className={`btn btn-primary ${styles.btn}`} onClick={action}>
+        <button
+          className={`btn btn-primary ${styles.btn}`}
+          onClick={(e) => {
+            rippleEffect(e)
+            action()
+          }}
+        >
           {btnText ? btnText : "Ok"}
+          {loading ? (
+            <>
+              <Loader />
+            </>
+          ) : (
+            <></>
+          )}
         </button>
       </div>
     </div>
