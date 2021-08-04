@@ -13,7 +13,7 @@ const Settings = ({ page }) => {
           <Username username={user.username && user.username} />
         )}
         <Email email={user?.email} />
-        <Password />
+        <Password details={user} />
       </article>
     </Section>
   )
