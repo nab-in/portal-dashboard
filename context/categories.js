@@ -1,5 +1,4 @@
 import { createContext, useReducer, useContext } from "react"
-import Cookies from "js-cookie"
 const CategoriesStateContext = createContext()
 const CategoriesDispatchContext = createContext()
 

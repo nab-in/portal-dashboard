@@ -15,22 +15,24 @@ const categories = () => {
   const { categories, loading } = useCategoriesState()
   const dispatch = useCategoriesDispatch()
   useEffect(() => {
-    axios
-      .get(
-        `${API}/jobCategories?pageSize=200&fields=id,name,children[id, name]`
-      )
-      .then((res) => {
-        dispatch({
-          type: "LOAD",
-          payload: res.data?.jobCategories,
+    if (categories?.length == 0) {
+      axios
+        .get(
+          `${API}/jobCategories?pageSize=200&fields=id,name,children[id, name]`
+        )
+        .then((res) => {
+          dispatch({
+            type: "LOAD",
+            payload: res.data?.jobCategories,
+          })
         })
-      })
-      .catch((err) => {
-        console.log(err)
-        dispatch({
-          type: "FAIL",
+        .catch((err) => {
+          console.log(err)
+          dispatch({
+            type: "FAIL",
+          })
         })
-      })
+    }
   }, [])
 
   return (

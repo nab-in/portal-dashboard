@@ -4,6 +4,10 @@ import axios from "axios"
 import Categories from "../categories/Categories"
 import SubCategories from "../categories/SubCategories"
 import styles from "./filter.module.sass"
+import {
+  useCategoriesDispatch,
+  useCategoriesState,
+} from "../../context/categories"
 
 const Filter = ({
   selected,
@@ -11,28 +15,25 @@ const Filter = ({
   selectedCategories,
   setCategories,
 }) => {
-  let [categories, setcategories] = useState([])
-  let [parent, setParent] = useState(categories.length > 0 && categories[0])
+  const { categories } = useCategoriesState()
+  let [parent, setParent] = useState(categories?.length > 0 && categories[0])
+  const dispatch = useCategoriesDispatch()
   useEffect(() => {
-    axios
-      .get(`${API}/jobCategories?fields=id,name,children[id, name]`)
-      .then((res) => {
-        // console.log(res.data)
-        let data = res.data?.jobCategories
-        let filter = []
-        data.forEach((el) => {
-          // console.log(el.children)
-          if (el.children) filter = filter.concat(el.children)
+    if (categories?.length == 0) {
+      axios
+        .get(
+          `${API}/jobCategories?pageSize=200&fields=id,name,children[id, name]`
+        )
+        .then((res) => {
+          dispatch({
+            type: "LOAD",
+            payload: res.data?.jobCategories,
+          })
         })
-        filter.forEach((el) => {
-          data = data.filter((o) => o.id != el.id)
+        .catch((err) => {
+          console.log(err)
         })
-        console.log(data)
-        setcategories(data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    }
   }, [])
   return (
     <div className={styles.card}>

@@ -1,10 +1,17 @@
-import { useCategoriesState } from "../../../context/categories"
+import { useEffect } from "react"
+import axios from "axios"
+import { API } from "../../api"
+import {
+  useCategoriesDispatch,
+  useCategoriesState,
+} from "../../../context/categories"
 import Input from "../../inputs/Input"
 import Category from "./Category"
 import styles from "./search.module.sass"
 
 const Search = ({ setSearch, search }) => {
   const { categories } = useCategoriesState()
+  const dispatch = useCategoriesDispatch()
   const handleChange = (e) => {
     let { name, value } = e.target
     setSearch({ ...search, [name]: value })
@@ -12,6 +19,24 @@ const Search = ({ setSearch, search }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
   }
+
+  useEffect(() => {
+    if (categories?.length == 0) {
+      axios
+        .get(
+          `${API}/jobCategories?pageSize=200&fields=id,name,children[id, name]`
+        )
+        .then((res) => {
+          dispatch({
+            type: "LOAD",
+            payload: res.data?.jobCategories,
+          })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  })
 
   return (
     <div className={styles.search}>
