@@ -6,33 +6,31 @@ import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
 import Filter from "../components/categoryFilters/Filter"
 import Categories from "../components/category/Categories"
+import {
+  useCategoriesDispatch,
+  useCategoriesState,
+} from "../context/categories"
 
 const categories = () => {
-  let [categories, setcategories] = useState([])
-  let [loading, setLoading] = useState(true)
+  const { categories, loading } = useCategoriesState()
+  const dispatch = useCategoriesDispatch()
   useEffect(() => {
-    let data = []
-    let filter = []
     axios
       .get(
         `${API}/jobCategories?pageSize=200&fields=id,name,children[id, name]`
       )
       .then((res) => {
-        data = res.data?.jobCategories
-        data.forEach((el) => {
-          if (el.children) filter = filter.concat(el.children)
+        dispatch({
+          type: "LOAD",
+          payload: res.data?.jobCategories,
         })
-        filter.forEach((el) => {
-          data = data.filter((o) => o.id != el.id)
-        })
-        setcategories(data)
-        setLoading(false)
       })
       .catch((err) => {
         console.log(err)
-        setLoading(false)
+        dispatch({
+          type: "FAIL",
+        })
       })
-    console.log(data)
   }, [])
 
   return (
@@ -46,25 +44,10 @@ const categories = () => {
             <span>/</span>
             <span>Categories</span>
           </div>
-          {loading ? (
-            <></>
-          ) : (
-            <>
-              {categories.length > 0 && (
-                <Categories
-                  categories={categories}
-                  setcategories={setcategories}
-                />
-              )}
-            </>
-          )}
+          {loading ? <></> : <>{categories.length > 0 && <Categories />}</>}
         </MainContents>
         <SubContents>
-          {loading ? (
-            <></>
-          ) : (
-            <Filter categories={categories} setcategories={setcategories} />
-          )}
+          {loading ? <></> : <Filter categories={categories} />}
         </SubContents>
       </div>
     </div>

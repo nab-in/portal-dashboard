@@ -1,9 +1,7 @@
 import { createContext, useReducer, useContext } from "react"
-import { useRouter } from "next/router"
 import Cookies from "js-cookie"
 const AuthStateContext = createContext()
 const AuthDispatchContext = createContext()
-// const router = useRouter()
 
 const authReducer = (state, action) => {
   let { type, payload } = action

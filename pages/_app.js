@@ -8,6 +8,7 @@ import Cookies from "js-cookie"
 import { API } from "../components/api"
 import axios from "axios"
 import { AlertsProvider } from "../context/alerts"
+import { CategoriesProvider } from "../context/categories"
 
 function MyApp({ Component, pageProps }) {
   const Site = () => {
@@ -67,10 +68,12 @@ function MyApp({ Component, pageProps }) {
   }
   return (
     <AuthProvider>
-      <AlertsProvider>
-        <Site />
-        <Alert />
-      </AlertsProvider>
+      <CategoriesProvider>
+        <AlertsProvider>
+          <Site />
+          <Alert />
+        </AlertsProvider>
+      </CategoriesProvider>
     </AuthProvider>
   )
 }

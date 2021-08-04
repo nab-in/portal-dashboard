@@ -1,8 +1,10 @@
+import { useCategoriesState } from "../../../context/categories"
 import Input from "../../inputs/Input"
 import Category from "./Category"
 import styles from "./search.module.sass"
 
-const Search = ({ setSearch, search, categories }) => {
+const Search = ({ setSearch, search }) => {
+  const { categories } = useCategoriesState()
   const handleChange = (e) => {
     let { name, value } = e.target
     setSearch({ ...search, [name]: value })

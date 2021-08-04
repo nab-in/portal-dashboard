@@ -8,15 +8,17 @@ import rippleEffect from "../rippleEffect.js"
 import Loader from "../loaders/ButtonLoader"
 import styles from "./category.module.sass"
 import { useAlertsDispatch } from "../../context/alerts"
+import { useCategoriesDispatch } from "../../context/categories"
 
-const SubCategories = ({ categories, parent, setcategories }) => {
+const SubCategories = ({ categories, parent }) => {
   let { id, name } = parent
+  const categoriesDispatch = useCategoriesDispatch()
+  const dispatch = useAlertsDispatch()
   const [category, setCategory] = useState([])
   let [loading, setLoading] = useState(false)
   let [formData, setFormData] = useState({
     name: "",
   })
-  const dispatch = useAlertsDispatch()
 
   const handleChange = useMemo(() => {
     return (e) => {
@@ -39,8 +41,6 @@ const SubCategories = ({ categories, parent, setcategories }) => {
       name: formData.name,
       parent: { id },
     }
-    setLoading(true)
-    let categoriesCopy = categories
 
     axios
       .post(`${API}/jobCategories`, body, config)
@@ -54,29 +54,13 @@ const SubCategories = ({ categories, parent, setcategories }) => {
           },
         })
 
-        let categoryIndex = categories.findIndex((el) => el.id == category?.id)
-
-        if (categoriesCopy[categoryIndex]?.children?.length > 0) {
-          categoriesCopy[categoryIndex] = {
-            ...categoriesCopy[categoryIndex],
-            children: categoriesCopy[categoryIndex].children.concat(
-              res.data.payload
-            ),
-          }
-          // setcategories(categoriesCopy)
-        } else {
-          categoriesCopy[categoryIndex] = {
-            ...categoriesCopy[categoryIndex],
-            children: [res.data.payload],
-          }
-          // setcategories(categoriesCopy)
-        }
-
-        let index = categoriesCopy.findIndex((el) => el.id == category?.id)
-
-        categoriesCopy[categoryIndex] = categories[index]
-
-        // setCategory(categoriesCopy[index])
+        categoriesDispatch({
+          type: "ADD_SUBCATEGORY",
+          payload: {
+            subcategory: res.data?.payload,
+            id,
+          },
+        })
         setFormData({
           name: "",
         })
@@ -85,11 +69,9 @@ const SubCategories = ({ categories, parent, setcategories }) => {
         setLoading(false)
         console.log(err)
       })
-    setcategories(categoriesCopy)
   }
 
   useEffect(() => {
-    console.log("here")
     if (categories.length > 0) {
       let i = categories.filter((el) => {
         return id == el.id
@@ -97,8 +79,6 @@ const SubCategories = ({ categories, parent, setcategories }) => {
       setCategory(i[0])
     }
   }, [parent, categories])
-
-  console.log(categories)
 
   return (
     <div className={`card ${styles.card}`}>
