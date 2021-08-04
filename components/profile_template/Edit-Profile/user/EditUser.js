@@ -6,8 +6,14 @@ import Upload from "../Upload"
 import styles from "../edit.module.sass"
 import Settings from "../settings/Settings"
 import CV from "./CV"
+import axios from "axios"
+import Cookies from "js-cookie"
+import { API } from "../../../api"
+import { useAlertsDispatch } from "../../../../context/alerts"
+import { useAuthDispatch } from "../../../../context/auth"
 
 const EditProfile = ({ details, page }) => {
+  const [loading, setLoading] = useState(false)
   let [formData, setFormData] = useState({
     firstname: details?.firstname ? details.firstname : "",
     lastname: details?.lastname ? details.lastname : "",
@@ -15,15 +21,57 @@ const EditProfile = ({ details, page }) => {
     bio: details?.bio ? details.bio : "",
     location: details?.location ? details.location : "",
     about: details?.about ? details.about : "",
-    website: details?.website ? details.website : "",
+    websitelink: details?.websitelink ? details.websitelink : "",
+    cvlink: details?.cvlink ? details.cvlink : "",
   })
-  let { firstname, lastname, title, bio, location, about, website } = formData
+
+  let {
+    firstname,
+    lastname,
+    title,
+    bio,
+    location,
+    about,
+    websitelink,
+    cvlink,
+  } = formData
+
+  const dispatch = useAlertsDispatch()
+  const authDispatch = useAuthDispatch()
   const handleChange = (e) => {
     let { name, value } = e.target
     setFormData({ ...formData, [name]: value })
   }
   const handleSubmit = (e) => {
     e.preventDefault(e)
+    const token = Cookies.get("token")
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ` + token,
+      },
+    }
+    setLoading(true)
+    axios
+      .put(`${API}/users/${details?.id}`, formData, config)
+      .then((res) => {
+        dispatch({
+          type: "ADD",
+          payload: {
+            type: "success",
+            message: "Profile updates successfully",
+          },
+        })
+        authDispatch({
+          type: "ADD_PROFILE",
+          payload: res.data.payload,
+        })
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.log(err?.response)
+        setLoading(false)
+      })
   }
 
   return (
@@ -88,17 +136,26 @@ const EditProfile = ({ details, page }) => {
             <Input
               type="url"
               title="Website"
-              name="website"
+              name="websitelink"
               id="website"
-              value={website}
+              value={websitelink}
               handleChange={handleChange}
               placeholder="http://..."
             />
-            <Button text="Save" btnClass="btn-primary" />
+            <Input
+              type="url"
+              title="Enter url if you have your cv on other website"
+              name="cvlink"
+              id="cvlink"
+              value={cvlink}
+              handleChange={handleChange}
+              placeholder="http://..."
+            />
+            <Button text="Save" btnClass="btn-primary" loading={loading} />
           </form>
         </article>
       </Section>
-      <CV />
+      <CV userCv={details.cv} />
       <Settings page="user" />
     </div>
   )

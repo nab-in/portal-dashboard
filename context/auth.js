@@ -6,6 +6,7 @@ const AuthDispatchContext = createContext()
 const authReducer = (state, action) => {
   let { type, payload } = action
   let userCopy
+  let id
   switch (type) {
     case "LOGIN":
       Cookies.set("token", payload.token)
@@ -15,7 +16,32 @@ const authReducer = (state, action) => {
         user: payload,
         loading: false,
       }
-
+    case "ADD_DP":
+      userCopy = {
+        ...state.user,
+        dp: `http://localhost:5000${payload.path}`,
+      }
+      return {
+        ...state,
+        user: userCopy,
+      }
+    case "ADD_CV":
+      userCopy = {
+        ...state.user,
+        cv: `http://localhost:5000${payload.path}`,
+      }
+      return {
+        ...state,
+        user: userCopy,
+      }
+    case "ADD_PROFILE":
+      let id = Cookies.get("identity")
+      if (id) id = JSON.parse(id)
+      userCopy = { ...payload, identity: id }
+      return {
+        ...state,
+        user: userCopy,
+      }
     case "SELECT":
       userCopy = {
         ...state.user,
@@ -53,7 +79,7 @@ const authReducer = (state, action) => {
 
     // Get user data
     case "AUTH":
-      let id = Cookies.get("identity")
+      id = Cookies.get("identity")
       if (id) id = JSON.parse(id)
       userCopy = { ...payload, identity: id }
       return {
