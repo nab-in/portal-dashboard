@@ -10,15 +10,17 @@ import Loader from "../loaders/ButtonLoader"
 import styles from "./category.module.sass"
 import { useAlertsDispatch } from "../../context/alerts"
 import useClickOutside from "../UseClickOutside"
+import { useCategoriesDispatch } from "../../context/categories"
 
 // filter dropdown component per each category
-const Categories = ({ categories, setParent, selected, setSelected }) => {
+const Categories = ({ categories, setParent }) => {
   let [openDropdown, setOpenDropdown] = useState(false)
   let [loading, setLoading] = useState(false)
   let [formData, setFormData] = useState({
     name: "",
   })
   const dispatch = useAlertsDispatch()
+  const categoriesDispatch = useCategoriesDispatch()
   let { name } = formData
   // let { name, sub_categories, id } = category
   const open = () => {
@@ -56,6 +58,13 @@ const Categories = ({ categories, setParent, selected, setSelected }) => {
             message: res.data.message,
           },
         })
+        categoriesDispatch({
+          type: "ADD_CATEGORY",
+          payload: res.data?.payload,
+        })
+        setFormData({
+          name: "",
+        })
       })
       .catch((err) => {
         setLoading(false)
@@ -86,8 +95,6 @@ const Categories = ({ categories, setParent, selected, setSelected }) => {
             category={category}
             setParent={setParent}
             setOpenDropdown={setOpenDropdown}
-            setSelected={setSelected}
-            selected={selected}
           />
         ))}
         <div>

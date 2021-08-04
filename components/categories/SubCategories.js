@@ -8,6 +8,7 @@ import rippleEffect from "../rippleEffect.js"
 import Loader from "../loaders/ButtonLoader"
 import styles from "./category.module.sass"
 import { useAlertsDispatch } from "../../context/alerts"
+import { useCategoriesDispatch } from "../../context/categories"
 
 const SubCategories = ({
   categories,
@@ -25,6 +26,7 @@ const SubCategories = ({
     name: "",
   })
   const dispatch = useAlertsDispatch()
+  const categoriesDispatch = useCategoriesDispatch()
 
   const handleChange = (e) => {
     let { value } = e.target
@@ -32,7 +34,6 @@ const SubCategories = ({
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault()
     e.preventDefault()
     let token = Cookies.get("token")
     let config = {
@@ -58,6 +59,16 @@ const SubCategories = ({
             message: res.data.message,
           },
         })
+        categoriesDispatch({
+          type: "ADD_SUBCATEGORY",
+          payload: {
+            subcategory: res.data?.payload,
+            id,
+          },
+        })
+        setFormData({
+          name: "",
+        })
       })
       .catch((err) => {
         setLoading(false)
@@ -66,9 +77,11 @@ const SubCategories = ({
   }
   return (
     <div className={`card ${styles.card}`}>
-      <p>
-        <span>Category:</span> {name}
-      </p>
+      {name && (
+        <p>
+          <span>Category:</span> {name}
+        </p>
+      )}
       {category && category[0]?.children?.length > 0 && (
         <>
           <div className={styles.showcase}>

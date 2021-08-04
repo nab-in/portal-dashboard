@@ -16,8 +16,11 @@ const Filter = ({
   setCategories,
 }) => {
   const { categories } = useCategoriesState()
-  let [parent, setParent] = useState(categories?.length > 0 && categories[0])
+  let [parent, setParent] = useState(
+    categories?.length > 0 ? categories[0] : {}
+  )
   const dispatch = useCategoriesDispatch()
+
   useEffect(() => {
     if (categories?.length == 0) {
       axios
@@ -34,16 +37,14 @@ const Filter = ({
           console.log(err)
         })
     }
+    if (categories > 0) {
+      setParent(categories?.length > 0 && categories[0])
+    }
   }, [])
   return (
     <div className={styles.card}>
       <h2>Add Job Category</h2>
-      <Categories
-        categories={categories}
-        setParent={setParent}
-        setSelected={setSelected}
-        selected={selected}
-      />
+      <Categories categories={categories} setParent={setParent} />
       <SubCategories
         parent={parent}
         categories={categories}

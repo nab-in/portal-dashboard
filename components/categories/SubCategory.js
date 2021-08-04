@@ -35,8 +35,10 @@ const SubCategory = ({
   // toggling sub category
   const toggleSubCategory = () => {
     // if category exists this run
-    if (selectedsubcategoryIndex >= 0)
+    if (selectedsubcategoryIndex >= 0) {
       selectedCopy = selectedCopy.filter((u) => u.id != id)
+      setCategories(selectedCopy)
+    }
 
     if (categoryIndex >= 0) {
       if (subCategoryIndex >= 0) {
@@ -114,10 +116,14 @@ const SubCategory = ({
     // updating UI when subcategory is removed from filter criteria
     if (subCategoryIndex === -1 || subCategoryIndex === undefined) {
       setChecked(false)
-    } else if (subCategoryIndex >= 0) {
-      setChecked(true)
     }
   }, [selected])
+
+  useEffect(() => {
+    if (subCategoryIndex >= 0) {
+      setChecked(true)
+    }
+  }, [])
 
   return (
     <div
