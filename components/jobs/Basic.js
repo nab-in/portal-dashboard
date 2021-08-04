@@ -5,6 +5,7 @@ import Input from "../inputs/Input"
 import Button from "../buttons/FormButton"
 import { API } from "../api"
 import axios from "axios"
+import moment from "moment"
 import { useAuthState } from "../../context/auth"
 import { useAlertsDispatch } from "../../context/alerts"
 
@@ -171,12 +172,12 @@ const Basic = ({ job, setJob, setSelected, categories }) => {
             value={location}
           />
           <Input
-            title="Close Date"
+            title="Application Deadline"
             type="datetime-local"
             handleChange={handleChange}
             name="closeDate"
             id="closedate"
-            value={closeDate}
+            value={moment(closeDate).format("YYYY-MM-DDTHH:mm")}
           />
           <Button text="Save" btnClass="btn-primary" loading={loading} />
         </Card>
