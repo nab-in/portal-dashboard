@@ -9,9 +9,25 @@ const categoriesReducer = (state, action) => {
   let filter = []
   switch (type) {
     case "REMOVE":
+      categoriesCopy = [...state.categories]
+      if (payload?.type == "parent") {
+        categoriesCopy = categoriesCopy.filter((el) => el.id != payload?.id)
+      } else if (payload?.type == "child") {
+        let categoryIndex = categoriesCopy.findIndex(
+          (el) => el.id == payload?.parent
+        )
+        categoriesCopy[categoryIndex] = {
+          ...categoriesCopy[categoryIndex],
+          children: categoriesCopy[categoryIndex]?.children?.filter(
+            (el) => el.id != payload?.id
+          ),
+        }
+      }
+
       return {
         ...state,
         loading: false,
+        categories: categoriesCopy,
       }
 
     case "FAIL":
@@ -31,7 +47,7 @@ const categoriesReducer = (state, action) => {
       }
 
     case "ADD_SUBCATEGORY":
-      const { subcategory, id } = payload
+      let { subcategory, id } = payload
       categoriesCopy = [...state.categories]
       let categoryIndex = categoriesCopy.findIndex((el) => el.id == id)
 

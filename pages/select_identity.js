@@ -33,7 +33,7 @@ const select_identity = () => {
     }
     setLoading(true)
     axios
-      .get(`${API}/me?fields=companies`, config)
+      .get(`${API}/me?fields=companies,userRoles`, config)
       .then((res) => {
         setLoading(false)
         setCompanies(res.data.companies)

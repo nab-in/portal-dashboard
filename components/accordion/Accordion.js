@@ -10,11 +10,15 @@ const Accordion = ({ title, categories, children }) => {
 
   const toggleAccordion = () => {
     setActive(active ? false : true)
-    setHeight(active ? "0px" : `${content.current.scrollHeight}px`)
+    setHeight(
+      active ? "0px" : `calc( ${content.current.scrollHeight}px + 1rem )`
+    )
   }
   useEffect(() => {
     if (categories)
-      setHeight(!active ? "0px" : `${content.current.scrollHeight}px`)
+      setHeight(
+        !active ? "0px" : `calc( ${content.current.scrollHeight}px + 1rem )`
+      )
   }, [categories])
 
   return (
