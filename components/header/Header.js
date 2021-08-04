@@ -8,8 +8,8 @@ import UseClickOutside from "../UseClickOutside"
 
 const Header = ({ navOpen }) => {
   const [open, setOpen] = useState(false)
-  const [notify, setNotify] = useState(false)
-  let number = 5
+  // const [notify, setNotify] = useState(false)
+  // let number = 5
 
   const dispatch = useAuthDispatch()
 
@@ -54,7 +54,7 @@ const Header = ({ navOpen }) => {
           </div>
         </div>
         <div className={styles.right__nav}>
-          <div className={styles.notify} onClick={() => setNotify(true)}>
+          {/* <div className={styles.notify} onClick={() => setNotify(true)}>
             <Link href="/notifications">
               <a>
                 <FaBell className={styles.icon} />
@@ -62,7 +62,7 @@ const Header = ({ navOpen }) => {
                 {number > 99 && <span>99+</span>}
               </a>
             </Link>
-          </div>
+          </div> */}
           <div className={styles.profile__container} ref={node}>
             <div onClick={() => setOpen(!open)} className={styles.profile}>
               <div className={styles.dp__container}>
