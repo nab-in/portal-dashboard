@@ -1,6 +1,6 @@
 import { useState } from "react"
 import styles from "./categories.module.sass"
-import { GoVerified } from "react-icons/go"
+// import { GoVerified } from "react-icons/go"
 import Action from "../actions/Action"
 import Modal from "../modal/Modal"
 import { API } from "../api"
@@ -9,7 +9,7 @@ import Cookies from "js-cookie"
 import { useAlertsDispatch } from "../../context/alerts"
 import { useCategoriesDispatch } from "../../context/categories"
 
-let verified = true
+let verified = false
 const SubCategory = ({ name, id, parent }) => {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -75,7 +75,7 @@ const SubCategory = ({ name, id, parent }) => {
           className={verified ? "badge verified" : "badge unverified"}
           onClick={verify}
         >
-          Verify {verified && <GoVerified className="icon" />}
+          {verified ? <>Unverify</> : "Verify"}
         </button>
         <button
           className={`${styles.btn} btn btn-primary`}

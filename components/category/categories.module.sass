@@ -5,6 +5,7 @@
         display: flex
         justify-content: flex-end
         padding-bottom: 1rem
+        align-items: center
         button
             margin-left: .7rem
             cursor: pointer
@@ -13,3 +14,22 @@
                 padding: .7rem 1rem
     article
         background: $bg
+        display: flex
+        justify-content: space-between
+        align-items: center
+        .sub_actions
+            display: flex
+            justify-content: flex-end
+            button
+                margin-left: .7rem
+                cursor: pointer
+                &.btn
+                    min-width: 50px
+                    padding: .7rem 1rem
+                    background: none
+                    box-shadow: none
+                    color: $secondary
+                    border: 1px solid $secondary
+                    &:hover
+                        background: $secondary
+                        color: white

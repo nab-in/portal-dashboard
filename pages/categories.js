@@ -46,10 +46,15 @@ const categories = () => {
             <span>/</span>
             <span>Categories</span>
           </div>
+          <div className="mobile-filter">
+            {loading ? <></> : <Filter categories={categories} />}
+          </div>
           {loading ? <></> : <>{categories.length > 0 && <Categories />}</>}
         </MainContents>
         <SubContents>
-          {loading ? <></> : <Filter categories={categories} />}
+          <div className="desktop-filter">
+            {loading ? <></> : <Filter categories={categories} />}
+          </div>
         </SubContents>
       </div>
     </div>

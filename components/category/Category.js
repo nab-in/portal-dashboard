@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { GoVerified } from "react-icons/go"
 import {
   useCategoriesDispatch,
   useCategoriesState,
@@ -86,7 +85,7 @@ const Category = ({ category }) => {
             className={verified ? "badge verified" : "badge unverified"}
             onClick={verify}
           >
-            Verify {verified && <GoVerified className="icon" />}
+            {verified ? <>Unverify</> : "Verify"}
           </button>
           <button
             className={`${styles.btn} btn btn-primary`}
