@@ -8,8 +8,17 @@ const Filter = ({ categories }) => {
 
   useEffect(() => {
     if (categories)
-      setParent(parent ? parent : categories.length > 0 ? categories[0] : {})
-  }, [parent])
+      if (parent) {
+        let check = categories?.filter((el) => el.id == parent.id)
+        setParent(
+          check.length > 0 ? parent : categories.length > 0 ? categories[0] : {}
+        )
+      } else if (categories?.length > 0) {
+        setParent(categories[0])
+      } else {
+        setParent({})
+      }
+  }, [categories])
 
   return (
     <div className={styles.card}>

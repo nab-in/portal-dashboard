@@ -25,8 +25,7 @@ const Categories = ({ setParent }) => {
   })
   const dispatch = useAlertsDispatch()
   const categoriesDispatch = useCategoriesDispatch()
-  let { name } = formData
-  // let { name, sub_categories, id } = category
+
   const open = () => {
     setOpenDropdown(!openDropdown)
   }
@@ -108,7 +107,7 @@ const Categories = ({ setParent }) => {
               placeholder="Add category"
               inputClass="form__control__filter"
               name="name"
-              value={name}
+              value={formData.name}
             />
             <button
               className={`${styles.btn__primary} btn btn-primary`}
