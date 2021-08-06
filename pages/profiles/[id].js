@@ -12,14 +12,17 @@ import Modal from "../../components/modal/Modal"
 import Action from "../../components/actions/Action"
 import Error from "../../components/error/Error"
 import Loader from "../../components/loaders/UserLoader"
+import Roles from "../../components/roles/Roles"
+import { useAuthState } from "../../context/auth"
 
 const profile = () => {
-  const [user, setUser] = useState(null)
+  const [userData, setUser] = useState(null)
   const [open, setOpen] = useState(false)
   const [roles, setRoles] = useState([])
   const [loading, setLoading] = useState(true)
   const [role, setRole] = useState("")
   const router = useRouter()
+  const { user } = useAuthState()
   const addRole = () => {
     setOpen(false)
   }
@@ -56,23 +59,28 @@ const profile = () => {
               <Link href="/profiles">Profiles</Link>
             </span>
             <span>/</span>
-            {user && <span>{user.username}</span>}
+            {userData && <span>{userData.username}</span>}
           </div>
-          {user && (
+          {userData && (
             <div className="mobile__link">
               <button onClick={() => setOpen(true)}>Add Role</button>
             </div>
           )}
+          <div className="mobile-filter">
+            {user?.identity?.name == "admin" && user?.role == "admin" && (
+              <Roles />
+            )}
+          </div>
           {loading ? (
             <>
               <Loader />
             </>
           ) : (
-            <>{user ? <Profile details={user} /> : <Error />}</>
+            <>{userData ? <Profile details={userData} /> : <Error />}</>
           )}
         </MainContents>
         <SubContents>
-          {user && (
+          {userData && user && (
             <button
               className="sub_btn span__full btn btn-primary"
               onClick={() => setOpen(true)}
@@ -81,6 +89,11 @@ const profile = () => {
             </button>
           )}
           <RecentUsers size={4} />
+          <div className="desktop-filter">
+            {user?.identity?.name == "admin" && user?.role == "admin" && (
+              <Roles />
+            )}
+          </div>
         </SubContents>
       </div>
       {open && (

@@ -6,6 +6,7 @@ const AuthDispatchContext = createContext()
 const authReducer = (state, action) => {
   let { type, payload } = action
   let userCopy
+  let rolesCopy
   let id
   switch (type) {
     case "LOGIN":
@@ -46,6 +47,7 @@ const authReducer = (state, action) => {
       userCopy = {
         ...state.user,
         identity: { id: payload.id, name: payload.name },
+        role: "admin",
       }
       Cookies.set("identity", JSON.stringify(payload))
       return {
@@ -62,7 +64,29 @@ const authReducer = (state, action) => {
       return {
         ...state,
         user: userCopy,
-        loading: false,
+      }
+
+    case "ROLES":
+      return {
+        ...state,
+        roles: payload,
+      }
+
+    case "ADD_ROLE":
+      rolesCopy = [...state.roles]
+      rolesCopy = rolesCopy.concat(payload)
+      return {
+        ...state,
+        roles: rolesCopy,
+      }
+
+    case "REMOVE_ROLE":
+      rolesCopy = [...state.roles]
+      rolesCopy = rolesCopy.filter((el) => el.id != payload)
+      console.log(payload, rolesCopy)
+      return {
+        ...state,
+        roles: rolesCopy,
       }
 
     // Logout
@@ -81,7 +105,7 @@ const authReducer = (state, action) => {
     case "AUTH":
       id = Cookies.get("identity")
       if (id) id = JSON.parse(id)
-      userCopy = { ...payload, identity: id }
+      userCopy = { ...payload, identity: id, role: id?.name }
       return {
         ...state,
         user: userCopy,
@@ -103,6 +127,7 @@ const authReducer = (state, action) => {
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
+    roles: [],
     isAuthenticated: false,
     loading: true,
   })

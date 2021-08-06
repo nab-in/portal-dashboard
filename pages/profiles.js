@@ -7,10 +7,12 @@ import Cookies from "js-cookie"
 import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
 import Pagination from "../components/pagination/Pagination"
+import Roles from "../components/roles/Roles"
 import Search from "../components/applications/Search"
 import Filter from "../components/applications/Filter"
 import User from "../components/user/User"
 import Loader from "../components/loaders/UsersLoader"
+import { useAuthState } from "../context/auth"
 
 const profiles = () => {
   const [users, setUsers] = useState([])
@@ -20,6 +22,7 @@ const profiles = () => {
   let [error, setError] = useState("")
   const [keywords, setKeywords] = useState([])
   const router = useRouter()
+  const { user } = useAuthState()
   const [page] = useState(router?.query?.page ? router.query.page : 1)
   useEffect(() => {
     let token = Cookies.get("token")
@@ -61,13 +64,16 @@ const profiles = () => {
             <span>/</span>
             <span>Profiles</span>
           </div>
-          <div className="mobile__link">
+          {/* <div className="mobile__link">
             <Link href="/jobs/new_job">
               <a>Add New Job</a>
             </Link>
-          </div>
+          </div> */}
           <div className="mobile-filter">
             <Search setKeywords={setKeywords} keywords={keywords} />
+            {user?.identity?.name == "admin" && user?.role == "admin" && (
+              <Roles />
+            )}
           </div>
           <Filter keywords={keywords} setKeywords={setKeywords} />
           {loading ? (
@@ -105,12 +111,12 @@ const profiles = () => {
           />
         </MainContents>
         <SubContents>
-          <Link href="/jobs/new_job">
-            <a className="sub_btn btn btn-primary">Add New Job</a>
-          </Link>
           <div className="desktop-filter">
             <Search setKeywords={setKeywords} keywords={keywords} />
-          </div>{" "}
+            {user?.identity?.name == "admin" && user?.role == "admin" && (
+              <Roles />
+            )}
+          </div>
         </SubContents>
       </div>
     </div>
