@@ -6,9 +6,12 @@ import { API } from "../api"
 import { useAlertsDispatch } from "../../context/alerts"
 import { useAuthDispatch } from "../../context/auth"
 import styles from "./roles.module.sass"
+import Modal from "../modal/Modal"
+import Action from "../actions/Action"
 
 const Role = ({ role }) => {
   let { id, name } = role
+  const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const dispatch = useAuthDispatch()
   const alertsDispatch = useAlertsDispatch()
@@ -30,24 +33,44 @@ const Role = ({ role }) => {
         alertsDispatch({
           type: "ADD",
           payload: {
-            message: res.data.message,
+            message: "Item removed successfully",
             type: "success",
           },
         })
         setLoading(false)
+        setOpen(false)
       })
       .catch((err) => {
         console.log(err)
         setLoading(false)
+        setOpen(false)
       })
   }
+  const title = (
+    <>
+      Users with <span>{name}</span> role will no longer have this role. Are you
+      sure you want to continue?
+    </>
+  )
   return (
-    <p key={id}>
-      <span>{name}</span>
-      {name != "Super User" && (
-        <FaTrash className={styles.icon} onClick={remove} />
+    <>
+      <p key={id}>
+        <span>{name}</span>
+        {name != "Super User" && (
+          <FaTrash className={styles.icon} onClick={setOpen} />
+        )}
+      </p>
+      {open && (
+        <Modal setOpen={setOpen}>
+          <Action
+            setOpen={setOpen}
+            action={remove}
+            btnText="Delete"
+            title={title}
+          />
+        </Modal>
       )}
-    </p>
+    </>
   )
 }
 
