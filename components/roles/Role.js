@@ -48,13 +48,13 @@ const Role = ({ role }) => {
   }
   const title = (
     <>
-      Users with <span>{name}</span> role will no longer have this role. Are you
-      sure you want to continue?
+      Users with <span className={styles.name}>{name}</span> role will no longer
+      have this role. Are you sure you want to continue?
     </>
   )
   return (
     <>
-      <p key={id}>
+      <p key={id} className={styles.title}>
         <span>{name}</span>
         {name != "Super User" && (
           <FaTrash className={styles.icon} onClick={setOpen} />

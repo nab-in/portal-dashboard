@@ -8,6 +8,18 @@
     box-shadow: 5px 4px 30px 5px rgba(0, 0, 0, 0.15)
     h2
         font-size: clamp(1.1rem, 2vw, 1.3rem)
+    p.title
+        display: flex
+        justify-content: space-between
+        margin: 1rem 0
+        .icon
+            margin-left: 1rem
+            color: $secondary
+            cursor: pointer
+            &:hover
+                color: $primary
+    .name
+        font-weight: bold
 
     form.form
         display: flex

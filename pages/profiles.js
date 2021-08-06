@@ -71,9 +71,6 @@ const profiles = () => {
           </div> */}
           <div className="mobile-filter">
             <Search setKeywords={setKeywords} keywords={keywords} />
-            {user?.identity?.name == "admin" && user?.role == "admin" && (
-              <Roles />
-            )}
           </div>
           <Filter keywords={keywords} setKeywords={setKeywords} />
           {loading ? (
@@ -113,10 +110,10 @@ const profiles = () => {
         <SubContents>
           <div className="desktop-filter">
             <Search setKeywords={setKeywords} keywords={keywords} />
-            {user?.identity?.name == "admin" && user?.role == "admin" && (
-              <Roles />
-            )}
           </div>
+          {user?.identity?.name == "admin" && user?.role == "admin" && (
+            <Roles />
+          )}
         </SubContents>
       </div>
     </div>
