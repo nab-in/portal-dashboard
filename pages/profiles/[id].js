@@ -18,11 +18,10 @@ import { useAuthState } from "../../context/auth"
 const profile = () => {
   const [userData, setUser] = useState(null)
   const [open, setOpen] = useState(false)
-  const [roles, setRoles] = useState([])
   const [loading, setLoading] = useState(true)
   const [role, setRole] = useState("")
   const router = useRouter()
-  const { user } = useAuthState()
+  const { user, roles } = useAuthState()
   const addRole = () => {
     setOpen(false)
   }
@@ -88,7 +87,7 @@ const profile = () => {
               Add Role
             </button>
           )}
-          <RecentUsers size={4} />
+          <RecentUsers size={3} />
           <div className="desktop-filter">
             {user?.identity?.name == "admin" && user?.role == "admin" && (
               <Roles />

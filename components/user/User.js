@@ -3,11 +3,13 @@ import Link from "next/link"
 import Modal from "../modal/Modal"
 import styles from "./user.module.sass"
 import Action from "../actions/Action"
+import { useAuthState } from "../../context/auth"
 
 const User = ({ user }) => {
   const [open, setOpen] = useState(false)
   const [role, setRole] = useState("")
-  const [roles, setRoles] = useState([])
+  const { roles } = useAuthState()
+
   const addRole = () => {
     setOpen(false)
   }

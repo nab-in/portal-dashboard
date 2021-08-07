@@ -76,8 +76,8 @@ const select_identity = () => {
                               loading="lazy"
                             />
                           </div>
+                          <div className={styles.name}>{name}</div>
                         </div>
-                        <div className={styles.name}>{name}</div>
                         <div className={styles.details}>
                           <button>Select</button>
                         </div>

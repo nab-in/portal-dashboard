@@ -23,9 +23,6 @@ const Action = ({
     setRole(e.target.value)
   }
 
-  // const act = () => {
-
-  // }
   return (
     <div className={styles.action}>
       <p>{title}</p>
@@ -62,7 +59,7 @@ const Action = ({
           />
         </>
       )}
-      {setRole && roles.length > 0 && (
+      {setRole && roles?.length > 0 && (
         <div className="select-group">
           <label>
             <select onChange={(e) => handleSelectChange(e)}>
