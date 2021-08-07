@@ -18,12 +18,16 @@ import { useAuthState } from "../../context/auth"
 const profile = () => {
   const [userData, setUser] = useState(null)
   const [open, setOpen] = useState(false)
+  const [companyOpen, setCompanyOpen] = useState(false)
   const [loading, setLoading] = useState(true)
   const [role, setRole] = useState("")
   const router = useRouter()
   const { user, roles } = useAuthState()
   const addRole = () => {
     setOpen(false)
+  }
+  const remove = () => {
+    setCompanyOpen(false)
   }
   useEffect(() => {
     let token = Cookies.get("token")
@@ -60,9 +64,18 @@ const profile = () => {
             <span>/</span>
             {userData && <span>{userData.username}</span>}
           </div>
-          {userData && (
+          {user?.identity?.name == "admin" &&
+            user?.role == "admin" &&
+            userData?.id != user?.id && (
+              <div className="mobile__link">
+                <button onClick={() => setOpen(true)}>Add Role</button>
+              </div>
+            )}
+          {user?.identity?.name == "company" && user?.id != userData?.id && (
             <div className="mobile__link">
-              <button onClick={() => setOpen(true)}>Add Role</button>
+              <button onClick={() => setCompanyOpen(true)}>
+                Remove member
+              </button>
             </div>
           )}
           <div className="mobile-filter">
@@ -79,12 +92,22 @@ const profile = () => {
           )}
         </MainContents>
         <SubContents>
-          {userData && user && (
+          {user?.identity?.name == "admin" &&
+            user?.role == "admin" &&
+            userData?.id != user?.id && (
+              <button
+                className="sub_btn span__full btn btn-primary"
+                onClick={() => setOpen(true)}
+              >
+                Add Role
+              </button>
+            )}
+          {user?.identity?.name == "company" && user?.id != userData?.id && (
             <button
+              onClick={() => setCompanyOpen(true)}
               className="sub_btn span__full btn btn-primary"
-              onClick={() => setOpen(true)}
             >
-              Add Role
+              Remove member
             </button>
           )}
           <RecentUsers size={3} />
@@ -104,6 +127,16 @@ const profile = () => {
             role={role}
             setRole={setRole}
             title={`Add role to ${user.firstname}`}
+          />
+        </Modal>
+      )}
+      {companyOpen && (
+        <Modal setOpen={setCompanyOpen}>
+          <Action
+            title={`Are you sure you want to remove ${userData?.firstname} from your company?`}
+            setOpen={setCompanyOpen}
+            action={remove}
+            btnText="Remove"
           />
         </Modal>
       )}

@@ -37,8 +37,8 @@ const User = ({ userData }) => {
           )}
         {user?.role == "admin" &&
           user?.identity?.name == "admin" &&
-          user?.id == userData.id && <p>You</p>}
-        {user?.identity?.name == "company" && user?.id != userData.id && (
+          user?.id == userData?.id && <p>You</p>}
+        {user?.identity?.name == "company" && user?.id != userData?.id && (
           <button onClick={() => setCompanyOpen(true)}>Remove member</button>
         )}
         {user?.identity?.name == "company" && user?.id == userData.id && (
