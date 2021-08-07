@@ -42,9 +42,8 @@ const profiles = () => {
     if (keyword?.trim().length > 0) {
       url = `&filter=firstname:ilike:${keyword}`
       axios
-        .get(`${API}/users?page=${page}&pageSize=1${url}`, config)
+        .get(`${API}/users?page=${page}&pageSize=4${url}`, config)
         .then((res) => {
-          console.log(res.data)
           setPager(res.data.pager)
           setResults(res.data.users)
           setSize(res.data.users.length)
