@@ -15,42 +15,20 @@ import Loader from "../components/loaders/UsersLoader"
 import { useAuthState } from "../context/auth"
 
 const profiles = () => {
+  const router = useRouter()
   const [users, setUsers] = useState([])
   const [size, setSize] = useState(0)
   const [pager, setPager] = useState(null)
   const [loading, setLoading] = useState(true)
   let [error, setError] = useState("")
-  const [searchItems, setSearchItems] = useState(null)
-  const [results, setResults] = useState([])
-  const [keywords, setKeywords] = useState([])
-  const router = useRouter()
+  const [results, setResults] = useState(null)
+  const [keyword, setKeyword] = useState(
+    router.query?.keyword ? router.query.keyword : ""
+  )
   const { user } = useAuthState()
   const [page] = useState(router?.query?.page ? router.query.page : 1)
 
-  useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ` + token,
-      },
-    }
-    setLoading(true)
-    console.log("here")
-    axios
-      .get(`${API}/users?page=${page}&pageSize=4`, config)
-      .then((res) => {
-        setPager(res.data.pager)
-        setResults(res.data.users)
-        setSize(res.data.users.length)
-        setLoading(false)
-      })
-      .catch((err) => {
-        console.log(err.response)
-        setError(err?.response?.data?.message)
-        setLoading(false)
-      })
-  }, [searchItems])
+  let url = router.query?.url ? router.query.url : ""
 
   useEffect(() => {
     let token = Cookies.get("token")
@@ -60,12 +38,15 @@ const profiles = () => {
         authorization: `Bearer ` + token,
       },
     }
-    if (user?.identity?.name == "admin") {
+
+    if (keyword?.trim().length > 0) {
+      url = `&filter=firstname:ilike:${keyword}`
       axios
-        .get(`${API}/users?page=${page}&pageSize=4`, config)
+        .get(`${API}/users?page=${page}&pageSize=1${url}`, config)
         .then((res) => {
+          console.log(res.data)
           setPager(res.data.pager)
-          setUsers(res.data.users)
+          setResults(res.data.users)
           setSize(res.data.users.length)
           setLoading(false)
         })
@@ -74,26 +55,56 @@ const profiles = () => {
           setError(err?.response?.data?.message)
           setLoading(false)
         })
-    } else if (user?.identity?.name == "company") {
-      axios
-        .get(`${API}/companies/${user?.identity?.id}?fields=users`, config)
-        .then((res) => {
-          setUsers(res.data.users)
-          setLoading(false)
-        })
-        .catch((err) => {
-          console.log(err.response)
-          setError(err?.response?.data?.message)
-          setLoading(false)
-        })
+    }
+  }, [keyword])
+
+  useEffect(() => {
+    let token = Cookies.get("token")
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ` + token,
+      },
+    }
+    if (keyword?.trim().length == 0) {
+      if (user?.identity?.name == "admin") {
+        axios
+          .get(`${API}/users?page=${page}&pageSize=4`, config)
+          .then((res) => {
+            setPager(res.data.pager)
+            setUsers(res.data.users)
+            setSize(res.data.users.length)
+            setLoading(false)
+          })
+          .catch((err) => {
+            console.log(err.response)
+            setError(err?.response?.data?.message)
+            setLoading(false)
+          })
+      }
+      if (user?.identity?.name == "company") {
+        axios
+          .get(`${API}/companies/${user?.identity?.id}?fields=users`, config)
+          .then((res) => {
+            setUsers(res.data.users)
+            setLoading(false)
+          })
+          .catch((err) => {
+            console.log(err.response)
+            setError(err?.response?.data?.message)
+            setLoading(false)
+          })
+      }
     }
   }, [])
   let nextUrl = `/profiles?page=${
     page < Math.ceil(pager?.total / pager?.pageSize)
       ? pager?.page + 1
       : pager?.page
-  }`
-  let prevUrl = `/profiles?page=${pager?.page > 1 ? pager?.page - 1 : 1}`
+  }&url=${url}&keyword=${keyword}`
+  let prevUrl = `/profiles?page=${
+    pager?.page > 1 ? pager?.page - 1 : 1
+  }&url=${url}&keyword=${keyword}`
   return (
     <div>
       <div className="content">
@@ -111,9 +122,13 @@ const profiles = () => {
             </Link>
           </div> */}
           <div className="mobile-filter">
-            <Search setKeywords={setKeywords} keywords={keywords} />
+            <Search setKeyword={setKeyword} />
           </div>
-          <Filter keywords={keywords} setKeywords={setKeywords} />
+          <Filter
+            keyword={keyword}
+            setKeyword={setKeyword}
+            setResults={setResults}
+          />
           {loading ? (
             <>
               <Loader />
@@ -123,21 +138,44 @@ const profiles = () => {
             </>
           ) : (
             <>
-              {users.length > 0 ? (
+              {results !== null ? (
                 <>
-                  {users.map((user) => (
-                    <User key={user.id} userData={user} />
-                  ))}
+                  {results.length > 0 ? (
+                    <>
+                      {results.map((user) => (
+                        <User key={user.id} userData={user} />
+                      ))}
+                    </>
+                  ) : (
+                    <p
+                      style={{
+                        background: "white",
+                        padding: "1rem",
+                      }}
+                    >
+                      No user found
+                    </p>
+                  )}
                 </>
               ) : (
-                <p
-                  style={{
-                    background: "white",
-                    padding: "1rem",
-                  }}
-                >
-                  No user found
-                </p>
+                <>
+                  {users.length > 0 ? (
+                    <>
+                      {users.map((user) => (
+                        <User key={user.id} userData={user} />
+                      ))}
+                    </>
+                  ) : (
+                    <p
+                      style={{
+                        background: "white",
+                        padding: "1rem",
+                      }}
+                    >
+                      No user found
+                    </p>
+                  )}
+                </>
               )}
             </>
           )}
@@ -152,7 +190,7 @@ const profiles = () => {
         </MainContents>
         <SubContents>
           <div className="desktop-filter">
-            <Search setKeywords={setKeywords} keywords={keywords} />
+            <Search setKeyword={setKeyword} />
           </div>
           {user?.identity?.name == "admin" && user?.role == "admin" && (
             <Roles />
