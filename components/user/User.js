@@ -5,39 +5,66 @@ import styles from "./user.module.sass"
 import Action from "../actions/Action"
 import { useAuthState } from "../../context/auth"
 
-const User = ({ user }) => {
+const User = ({ userData }) => {
   const [open, setOpen] = useState(false)
+  const [companyOpen, setCompanyOpen] = useState(false)
   const [role, setRole] = useState("")
-  const { roles } = useAuthState()
+  const { roles, user } = useAuthState()
 
   const addRole = () => {
     setOpen(false)
   }
+  const remove = () => {
+    setCompanyOpen(false)
+  }
   return (
     <article className={`card ${styles.card}`}>
       <div className={styles.dp}>
-        <img src={user.dp} alt={`${user.username} dp`} />
+        <img src={userData?.dp} alt={`${userData?.username} dp`} />
       </div>
       <div className={styles.name}>
-        <Link href={`/profiles/${user.id}`}>
+        <Link href={`/profiles/${userData?.id}`}>
           <a>
-            {user.firstname} {user.lastname}
+            {userData?.firstname} {userData?.lastname}
           </a>
         </Link>
       </div>
       <div className={styles.role}>
-        <button onClick={() => setOpen(true)}>Add Role</button>
+        {user?.role == "admin" &&
+          user?.identity?.name == "admin" &&
+          user?.id != userData.id && (
+            <button onClick={() => setOpen(true)}>Add Role</button>
+          )}
+        {user?.role == "admin" &&
+          user?.identity?.name == "admin" &&
+          user?.id == userData.id && <p>You</p>}
+        {user?.identity?.name == "company" && user?.id != userData.id && (
+          <button onClick={() => setCompanyOpen(true)}>Remove member</button>
+        )}
+        {user?.identity?.name == "company" && user?.id == userData.id && (
+          <p>You</p>
+        )}
       </div>
       {open && (
         <Modal setOpen={setOpen}>
           <Action
-            title={`Add role to ${user.firstname}`}
+            title={`Add role to ${userData?.firstname}`}
             role={role}
             setRole={setRole}
             setOpen={setOpen}
             action={addRole}
             btnText="Add"
             roles={roles}
+          />
+        </Modal>
+      )}
+      {companyOpen && (
+        <Modal setOpen={setCompanyOpen}>
+          <Action
+            title={`Are you sure you want to remove ${userData?.firstname} from your company?`}
+            setOpen={setCompanyOpen}
+            action={remove}
+            btnText="Remove"
           />
         </Modal>
       )}

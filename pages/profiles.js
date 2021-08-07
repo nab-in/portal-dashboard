@@ -17,7 +17,7 @@ import { useAuthState } from "../context/auth"
 const profiles = () => {
   const [users, setUsers] = useState([])
   const [size, setSize] = useState(0)
-  const [pager, setPager] = useState({})
+  const [pager, setPager] = useState(null)
   const [loading, setLoading] = useState(false)
   let [error, setError] = useState("")
   const [keywords, setKeywords] = useState([])
@@ -33,19 +33,33 @@ const profiles = () => {
       },
     }
     setLoading(true)
-    axios
-      .get(`${API}/users?page=${page}&pageSize=4`, config)
-      .then((res) => {
-        setPager(res.data.pager)
-        setUsers(res.data.users)
-        setSize(res.data.users.length)
-        setLoading(false)
-      })
-      .catch((err) => {
-        console.log(err.response)
-        setError(err?.response?.data?.message)
-        setLoading(false)
-      })
+    if (user?.identity?.name == "admin") {
+      axios
+        .get(`${API}/users?page=${page}&pageSize=4`, config)
+        .then((res) => {
+          setPager(res.data.pager)
+          setUsers(res.data.users)
+          setSize(res.data.users.length)
+          setLoading(false)
+        })
+        .catch((err) => {
+          console.log(err.response)
+          setError(err?.response?.data?.message)
+          setLoading(false)
+        })
+    } else if (user?.identity?.name == "company") {
+      axios
+        .get(`${API}/companies/${user?.identity?.id}?fields=users`, config)
+        .then((res) => {
+          setUsers(res.data.users)
+          setLoading(false)
+        })
+        .catch((err) => {
+          console.log(err.response)
+          setError(err?.response?.data?.message)
+          setLoading(false)
+        })
+    }
   }, [])
   let nextUrl = `/profiles?page=${
     page < Math.ceil(pager?.total / pager?.pageSize)
@@ -85,7 +99,7 @@ const profiles = () => {
               {users.length > 0 ? (
                 <>
                   {users.map((user) => (
-                    <User key={user.id} user={user} />
+                    <User key={user.id} userData={user} />
                   ))}
                 </>
               ) : (
@@ -100,12 +114,14 @@ const profiles = () => {
               )}
             </>
           )}
-          <Pagination
-            size={size}
-            pager={pager}
-            nextUrl={nextUrl}
-            prevUrl={prevUrl}
-          />
+          {pager && (
+            <Pagination
+              size={size}
+              pager={pager}
+              nextUrl={nextUrl}
+              prevUrl={prevUrl}
+            />
+          )}
         </MainContents>
         <SubContents>
           <div className="desktop-filter">
