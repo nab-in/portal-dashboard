@@ -110,11 +110,6 @@ const Header = ({ navOpen }) => {
                       </Link>
                     </li>
                     <li>
-                      <Link href="/drafts">
-                        <a onClick={() => setOpen(false)}>Drafts</a>
-                      </Link>
-                    </li>
-                    <li>
                       <Link href="/profile">
                         <a onClick={() => setOpen(false)}>Profile</a>
                       </Link>
