@@ -18,12 +18,15 @@ const profiles = () => {
   const [users, setUsers] = useState([])
   const [size, setSize] = useState(0)
   const [pager, setPager] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   let [error, setError] = useState("")
+  const [searchItems, setSearchItems] = useState(null)
+  const [results, setResults] = useState([])
   const [keywords, setKeywords] = useState([])
   const router = useRouter()
   const { user } = useAuthState()
   const [page] = useState(router?.query?.page ? router.query.page : 1)
+
   useEffect(() => {
     let token = Cookies.get("token")
     let config = {
@@ -33,6 +36,30 @@ const profiles = () => {
       },
     }
     setLoading(true)
+    console.log("here")
+    axios
+      .get(`${API}/users?page=${page}&pageSize=4`, config)
+      .then((res) => {
+        setPager(res.data.pager)
+        setResults(res.data.users)
+        setSize(res.data.users.length)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.log(err.response)
+        setError(err?.response?.data?.message)
+        setLoading(false)
+      })
+  }, [searchItems])
+
+  useEffect(() => {
+    let token = Cookies.get("token")
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ` + token,
+      },
+    }
     if (user?.identity?.name == "admin") {
       axios
         .get(`${API}/users?page=${page}&pageSize=4`, config)
