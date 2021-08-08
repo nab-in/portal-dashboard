@@ -3,6 +3,7 @@ import styles from "./sub_category.module.sass"
 
 const SubCategory = ({ sub, setSearch, search, category, url, setUrl }) => {
   let { name, id } = sub //sub category destructuring
+  let [urlCopy, setUrlCopy] = useState("")
   let [checked, setChecked] = useState(false)
 
   let searchCopy = search?.categories
@@ -29,30 +30,19 @@ const SubCategory = ({ sub, setSearch, search, category, url, setUrl }) => {
     return el.includes("categories")
   })
 
-  console.log(categoriesStr)
-
   if (categoriesStr) {
     categoriesArray = categoriesStr?.split(":")
-    console.log(categoriesArray)
     categoriesArray = categoriesArray[categoriesArray?.length - 1]
-    console.log(categoriesArray)
     categoriesArray = categoriesArray?.split("[")
-    console.log(categoriesArray)
     categoriesArray = categoriesArray[1]?.split("]")
-    console.log(categoriesArray)
     if (categoriesArray[0]?.length > 1) {
       categoriesArray = categoriesArray[0]?.split(",")
     }
-    console.log(categoriesArray)
     filterCategories = categoriesArray
   }
 
-  console.log(url)
-
   // toggling sub category
   const toggleSubCategory = () => {
-    // search url
-
     // if category exists this run
     if (categoryIndex >= 0) {
       if (subCategoryIndex >= 0) {
@@ -62,19 +52,36 @@ const SubCategory = ({ sub, setSearch, search, category, url, setUrl }) => {
         ].sub_categories.filter((el) => el.id !== id)
 
         filterCategories = filterCategories.filter((el) => {
-          console.log(id, el)
-          el.id != id
+          return el !== id
         })
-        setUrl(`&filter=categories:eq:[${filterCategories}]`)
+
+        setUrl(
+          url.replace(
+            url?.split("&")?.find((el) => el.includes("eq")),
+            `filter=categories:eq:[${filterCategories}]`
+          )
+        )
 
         //   removing category in categories array
         if (searchCopy[categoryIndex].sub_categories.length === 0) {
           searchCopy = searchCopy.filter((el) => el.id != category.id)
           filterCategories = filterCategories.filter((el) => {
-            console.log(category.id, el)
-            el.id != category?.id
+            return el !== category?.id
           })
-          setUrl(``)
+          setUrl(
+            url.replace(
+              url?.split("&")?.find((el) => el.includes("eq")),
+              `filter=categories:eq:[${filterCategories}]`
+            )
+          )
+          if (filterCategories?.length < 1) {
+            setUrl(
+              url.replace(
+                url?.split("&")?.find((el) => el.includes("eq")),
+                ``
+              )
+            )
+          }
         }
 
         //   updating state with new categories
@@ -97,7 +104,12 @@ const SubCategory = ({ sub, setSearch, search, category, url, setUrl }) => {
 
         // setUrl(url + `&filter=categories:eq:[${filterCategories.push(id)}]`)
         filterCategories.push(id)
-        setUrl(`&filter=categories:eq:[${filterCategories}]`)
+        setUrl(
+          url.replace(
+            url?.split("&")?.find((el) => el.includes("eq")),
+            `filter=categories:eq:[${filterCategories}]`
+          )
+        )
 
         setSearch({
           ...search,
@@ -120,7 +132,16 @@ const SubCategory = ({ sub, setSearch, search, category, url, setUrl }) => {
       filterCategories.push(id)
       filterCategories.push(category?.id)
       setChecked(true)
-      setUrl(`&filter=categories:eq:[${filterCategories}]`)
+      if (categoriesStr) {
+        setUrl(
+          url.replace(
+            url?.split("&")?.find((el) => el.includes("eq")),
+            `filter=categories:eq:[${filterCategories}]`
+          )
+        )
+      } else {
+        setUrl(url + `&filter=categories:eq:[${filterCategories}]`)
+      }
     }
   }
 
