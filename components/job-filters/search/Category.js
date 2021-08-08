@@ -4,7 +4,7 @@ import SubCategory from "./SubCategory"
 import UseClickOutside from "../../UseClickOutside"
 import styles from "./category.module.sass"
 
-const Category = ({ category, search, setSearch }) => {
+const Category = ({ category, search, setSearch, url, setUrl }) => {
   let [openDropdown, setOpenDropdown] = useState(false)
   let { name, children, id } = category
   const open = () => {
@@ -41,6 +41,8 @@ const Category = ({ category, search, setSearch }) => {
                 search={search}
                 setSearch={setSearch}
                 category={category}
+                url={url}
+                setUrl={setUrl}
               />
             ))}
           </div>

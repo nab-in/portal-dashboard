@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import styles from "./sub_category.module.sass"
 
-const SubCategory = ({ sub, setSearch, search, category }) => {
+const SubCategory = ({ sub, setSearch, search, category, url, setUrl }) => {
   let { name, id } = sub //sub category destructuring
   let [checked, setChecked] = useState(false)
 
@@ -18,8 +18,41 @@ const SubCategory = ({ sub, setSearch, search, category }) => {
     )
   }
 
+  // working on search url
+  let urlBreak = url?.split("&")
+
+  let categoriesArray = []
+
+  let filterCategories = []
+
+  let categoriesStr = urlBreak?.find((el) => {
+    return el.includes("categories")
+  })
+
+  console.log(categoriesStr)
+
+  if (categoriesStr) {
+    categoriesArray = categoriesStr?.split(":")
+    console.log(categoriesArray)
+    categoriesArray = categoriesArray[categoriesArray?.length - 1]
+    console.log(categoriesArray)
+    categoriesArray = categoriesArray?.split("[")
+    console.log(categoriesArray)
+    categoriesArray = categoriesArray[1]?.split("]")
+    console.log(categoriesArray)
+    if (categoriesArray[0]?.length > 1) {
+      categoriesArray = categoriesArray[0]?.split(",")
+    }
+    console.log(categoriesArray)
+    filterCategories = categoriesArray
+  }
+
+  console.log(url)
+
   // toggling sub category
   const toggleSubCategory = () => {
+    // search url
+
     // if category exists this run
     if (categoryIndex >= 0) {
       if (subCategoryIndex >= 0) {
@@ -28,9 +61,21 @@ const SubCategory = ({ sub, setSearch, search, category }) => {
           categoryIndex
         ].sub_categories.filter((el) => el.id !== id)
 
+        filterCategories = filterCategories.filter((el) => {
+          console.log(id, el)
+          el.id != id
+        })
+        setUrl(`&filter=categories:eq:[${filterCategories}]`)
+
         //   removing category in categories array
-        if (searchCopy[categoryIndex].sub_categories.length === 0)
+        if (searchCopy[categoryIndex].sub_categories.length === 0) {
           searchCopy = searchCopy.filter((el) => el.id != category.id)
+          filterCategories = filterCategories.filter((el) => {
+            console.log(category.id, el)
+            el.id != category?.id
+          })
+          setUrl(``)
+        }
 
         //   updating state with new categories
         setSearch({
@@ -50,6 +95,10 @@ const SubCategory = ({ sub, setSearch, search, category }) => {
           sub_categories: searchCopy[categoryIndex].sub_categories.concat(sub),
         }
 
+        // setUrl(url + `&filter=categories:eq:[${filterCategories.push(id)}]`)
+        filterCategories.push(id)
+        setUrl(`&filter=categories:eq:[${filterCategories}]`)
+
         setSearch({
           ...search,
           categories: searchCopy,
@@ -68,9 +117,14 @@ const SubCategory = ({ sub, setSearch, search, category }) => {
           sub_categories: [sub],
         }),
       })
+      filterCategories.push(id)
+      filterCategories.push(category?.id)
       setChecked(true)
+      setUrl(`&filter=categories:eq:[${filterCategories}]`)
     }
   }
+
+  // console.log(filterCategories)
 
   useEffect(() => {
     // updating UI when subcategory is removed from filter criteria

@@ -7,18 +7,18 @@ const Filter = ({ search, setSearch }) => {
       {(search.keyword || search.location || search.categories.length > 0) && (
         <div className="filter__criteria">
           <h2>Criteria</h2>
-          {search?.keyword && (
+          {search?.name && (
             <div className="criteria">
               <div className="criteria__title">Keyword:</div>
               <div className="criteria__showcase">
                 <span>
-                  {search.keyword}
+                  {search.name}
                   <span
                     className="close"
                     onClick={() =>
                       setSearch({
                         ...search,
-                        keyword: "",
+                        name: "",
                       })
                     }
                   >

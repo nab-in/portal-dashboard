@@ -9,12 +9,13 @@ import Input from "../../inputs/Input"
 import Category from "./Category"
 import styles from "./search.module.sass"
 
-const Search = ({ setSearch, search }) => {
+const Search = ({ setSearch, search, setUrl, url }) => {
   const { categories } = useCategoriesState()
   const dispatch = useCategoriesDispatch()
   const handleChange = (e) => {
     let { name, value } = e.target
     setSearch({ ...search, [name]: value })
+    setUrl(url + `&filter=${[name]}:ilike:${value}`)
   }
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -47,7 +48,7 @@ const Search = ({ setSearch, search }) => {
             handleChange={(e) => handleChange(e)}
             placeholder="Keyword"
             inputClass="filter_input"
-            name="keyword"
+            name="name"
             value={search.keyword}
           />
           <Input
@@ -66,6 +67,8 @@ const Search = ({ setSearch, search }) => {
                 category={category}
                 search={search}
                 setSearch={setSearch}
+                url={url}
+                setUrl={setUrl}
               />
             ))}
           </div>

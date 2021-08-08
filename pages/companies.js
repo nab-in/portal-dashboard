@@ -80,8 +80,10 @@ const companies = () => {
     page < Math.ceil(pager.total / pager.pageSize)
       ? pager?.page + 1
       : pager?.page
-  }`
-  let prevUrl = `/companies?page=${pager.page > 1 ? pager?.page - 1 : 1}`
+  }&url=${url}&keyword=${keyword}`
+  let prevUrl = `/companies?page=${
+    pager.page > 1 ? pager?.page - 1 : 1
+  }&url=${url}&keyword=${keyword}`
 
   return (
     <div>

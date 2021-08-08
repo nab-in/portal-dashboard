@@ -14,16 +14,22 @@ import Pagination from "../components/pagination/Pagination"
 import Loader from "../components/loaders/cardLoader"
 
 const jobs = () => {
+  let router = useRouter()
   const [size, setSize] = useState(0)
   const [jobs, setJobs] = useState([])
+  const [results, setResults] = useState(null)
+  let [url, setUrl] = useState(router.query?.url ? router.query.url : "")
   const [pager, setPager] = useState(null)
   const [loading, setLoading] = useState(true)
-  let [search, setSearch] = useState({
-    keyword: "",
-    location: "",
-    categories: [],
-  })
-  const router = useRouter()
+  let [search, setSearch] = useState(
+    router.query?.search
+      ? JSON.parse(router.query.search)
+      : {
+          name: "",
+          location: "",
+          categories: [],
+        }
+  )
   const [page] = useState(router?.query?.page ? router.query.page : 1)
   const { user } = useAuthState()
   let identity = user?.identity
@@ -65,12 +71,48 @@ const jobs = () => {
         })
     }
   }, [])
+
+  useEffect(() => {
+    let token = Cookies.get("token")
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ` + token,
+      },
+    }
+    if (
+      identity?.name == "admin" &&
+      (search.name.trim().length > 0 ||
+        search.location.trim().length > 0 ||
+        search.categories?.length > 0)
+    ) {
+      axios
+        .get(
+          `${API}/jobs?page=${page}&pageSize=4&fields=id,name,company,location,created,closeDate${url}`,
+          config
+        )
+        .then((res) => {
+          // console.log(res.data)
+          setPager(res.data.pager)
+          setSize(res.data.jobs.length)
+          setLoading(false)
+        })
+        .catch((err) => {
+          setLoading(false)
+          console.log(err?.response)
+        })
+    }
+  }, [search])
+
   let nextUrl = `/jobs?page=${
     page < Math.ceil(pager?.total / pager?.pageSize)
       ? pager?.page + 1
       : pager?.page
-  }`
-  let prevUrl = `/jobs?page=${pager?.page > 1 ? pager?.page - 1 : 1}`
+  }&url=${url}&search=${JSON.stringify(search)}`
+  let prevUrl = `/jobs?page=${
+    pager?.page > 1 ? pager?.page - 1 : 1
+  }&url=${url}&${JSON.stringify(search)}`
+
   return (
     <div>
       <div className="content">
@@ -87,10 +129,24 @@ const jobs = () => {
               <a>Add New Job</a>
             </Link>
           </div>
-          <div className="mobile-filter">
-            <Search setSearch={setSearch} search={search} />
-          </div>
-          <Filter search={search} setSearch={setSearch} />
+          {user?.identity?.name == "admin" && (
+            <div className="mobile-filter">
+              <Search
+                setSearch={setSearch}
+                search={search}
+                url={url}
+                setUrl={setUrl}
+              />
+            </div>
+          )}
+          {user?.identity?.name == "admin" && (
+            <Filter
+              search={search}
+              setSearch={setSearch}
+              url={url}
+              setUrl={setUrl}
+            />
+          )}
           {loading ? (
             <>
               <Loader loadClass="no_border" />
@@ -133,9 +189,16 @@ const jobs = () => {
           <Link href="/jobs/new_job">
             <a className="sub_btn btn btn-primary">Add New Job</a>
           </Link>
-          <div className="desktop-filter">
-            <Search setSearch={setSearch} search={search} />
-          </div>
+          {user?.identity?.name == "admin" && (
+            <div className="desktop-filter">
+              <Search
+                setSearch={setSearch}
+                search={search}
+                url={url}
+                setUrl={setUrl}
+              />
+            </div>
+          )}
         </SubContents>
       </div>
     </div>
