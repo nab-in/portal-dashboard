@@ -12,11 +12,37 @@ import styles from "./search.module.sass"
 const Search = ({ setSearch, search, setUrl, url }) => {
   const { categories } = useCategoriesState()
   const dispatch = useCategoriesDispatch()
+
+  // working on search url
+  let urlBreak = url?.split("&")
+
+  let inputArr = urlBreak?.filter((el) => {
+    return el.includes("ilike")
+  })
+
   const handleChange = (e) => {
     let { name, value } = e.target
     setSearch({ ...search, [name]: value })
-    setUrl(url + `&filter=${[name]}:ilike:${value}`)
+    let input = inputArr.find((el) => el.includes(name))
+    if (value.trim().length > 0 && input) {
+      setUrl(
+        url.replace(
+          url?.split("&")?.find((el) => el.includes(name)),
+          `filter=${[name]}:ilike:${value}`
+        )
+      )
+    } else if (value.trim().length > 0 && !input) {
+      setUrl(url + `&filter=${[name]}:ilike:${value}`)
+    } else if (value.trim().length == 0 && input) {
+      setUrl(
+        url.replace(
+          url?.split("&")?.find((el) => el.includes(name)),
+          ``
+        )
+      )
+    }
   }
+
   const handleSubmit = (e) => {
     e.preventDefault()
   }
