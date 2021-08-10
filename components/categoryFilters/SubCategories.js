@@ -9,11 +9,13 @@ import Loader from "../loaders/ButtonLoader"
 import styles from "./category.module.sass"
 import { useAlertsDispatch } from "../../context/alerts"
 import { useCategoriesDispatch } from "../../context/categories"
+import checkSymbols, { checkChange } from "../checkSymbols"
 
 const SubCategories = ({ categories, parent }) => {
   let { id, name } = parent
   const categoriesDispatch = useCategoriesDispatch()
   const dispatch = useAlertsDispatch()
+  const [error, setError] = useState(null)
   const [category, setCategory] = useState([])
   let [loading, setLoading] = useState(false)
   let [formData, setFormData] = useState({
@@ -24,6 +26,7 @@ const SubCategories = ({ categories, parent }) => {
     return (e) => {
       let { value } = e.target
       setFormData({ name: value })
+      checkChange(formData.name, setError)
     }
   }, [formData])
 
@@ -80,6 +83,8 @@ const SubCategories = ({ categories, parent }) => {
     }
   }, [parent, categories])
 
+  checkSymbols(formData.name, setError)
+
   return (
     <div className={`card ${styles.card}`}>
       {name && (
@@ -111,6 +116,7 @@ const SubCategories = ({ categories, parent }) => {
           {loading ? <Loader /> : "Add"}
         </button>
       </form>
+      {error && <p className={`alerts ${error.type}`}>{error.msg}</p>}
     </div>
   )
 }

@@ -16,9 +16,6 @@ import {
 } from "../../context/categories"
 import checkSymbols, { checkChange } from "../checkSymbols"
 
-// checks for symbols
-// let format = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,<>\/?~]/
-
 // filter dropdown component per each category
 const Categories = ({ setParent }) => {
   let [openDropdown, setOpenDropdown] = useState(false)
@@ -85,23 +82,6 @@ const Categories = ({ setParent }) => {
   }
 
   checkSymbols(formData.name, setError)
-
-  // useEffect(() => {
-  //   const timeout = setTimeout(() => {
-  //     let chars = format.exec(formData.name)
-  //     if (format.test(formData.name))
-  //       setError({
-  //         msg: "Your username contains reserved character(s)",
-  //         type: "danger",
-  //       })
-  //     if (chars)
-  //       setError({
-  //         msg: `${chars[0]} is reserved character`,
-  //         type: "danger",
-  //       })
-  //   }, 50)
-  //   return () => clearTimeout(timeout)
-  // }, [formData.name])
 
   return (
     <div className={styles.category} ref={node}>
