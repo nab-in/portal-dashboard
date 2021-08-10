@@ -125,7 +125,7 @@ const jobs = () => {
     ) {
       axios
         .get(
-          `${API}/jobs?page=${page}&pageSize=1&fields=id,name,company,location,created,closeDate${url}`,
+          `${API}/jobs?page=${page}&pageSize=4&fields=id,name,company,location,created,closeDate${url}`,
           config
         )
         .then((res) => {
