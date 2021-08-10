@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useEffect, useState } from "react"
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"
 import Category from "./Category"
 import Input from "../inputs/Input"
@@ -14,6 +14,10 @@ import {
   useCategoriesDispatch,
   useCategoriesState,
 } from "../../context/categories"
+import checkSymbols, { checkChange } from "../checkSymbols"
+
+// checks for symbols
+// let format = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,<>\/?~]/
 
 // filter dropdown component per each category
 const Categories = ({ setParent }) => {
@@ -23,6 +27,7 @@ const Categories = ({ setParent }) => {
   let [formData, setFormData] = useState({
     name: "",
   })
+  const [error, setError] = useState(null)
   const dispatch = useAlertsDispatch()
   const categoriesDispatch = useCategoriesDispatch()
 
@@ -38,6 +43,7 @@ const Categories = ({ setParent }) => {
   const handleChange = (e) => {
     let { value } = e.target
     setFormData({ name: value })
+    checkChange(formData.name, setError)
   }
 
   const handleSubmit = (e) => {
@@ -49,31 +55,53 @@ const Categories = ({ setParent }) => {
         Authorization: `Bearer ` + token,
       },
     }
-    setLoading(true)
-    axios
-      .post(`${API}/jobCategories`, formData, config)
-      .then((res) => {
-        setLoading(false)
-        dispatch({
-          type: "ADD",
-          payload: {
-            type: "success",
-            message: res.data.message,
-          },
+    if (!error) {
+      setLoading(true)
+
+      axios
+        .post(`${API}/jobCategories`, formData, config)
+        .then((res) => {
+          setLoading(false)
+          dispatch({
+            type: "ADD",
+            payload: {
+              type: "success",
+              message: res.data.message,
+            },
+          })
+          categoriesDispatch({
+            type: "ADD_CATEGORY",
+            payload: res.data?.payload,
+          })
+          setFormData({
+            name: "",
+          })
         })
-        categoriesDispatch({
-          type: "ADD_CATEGORY",
-          payload: res.data?.payload,
+        .catch((err) => {
+          setLoading(false)
+          console.log(err)
         })
-        setFormData({
-          name: "",
-        })
-      })
-      .catch((err) => {
-        setLoading(false)
-        console.log(err)
-      })
+    }
   }
+
+  checkSymbols(formData.name, setError)
+
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     let chars = format.exec(formData.name)
+  //     if (format.test(formData.name))
+  //       setError({
+  //         msg: "Your username contains reserved character(s)",
+  //         type: "danger",
+  //       })
+  //     if (chars)
+  //       setError({
+  //         msg: `${chars[0]} is reserved character`,
+  //         type: "danger",
+  //       })
+  //   }, 50)
+  //   return () => clearTimeout(timeout)
+  // }, [formData.name])
 
   return (
     <div className={styles.category} ref={node}>
@@ -116,6 +144,7 @@ const Categories = ({ setParent }) => {
               {loading ? <Loader /> : "Add"}
             </button>
           </form>
+          {error && <p className={`alerts ${error.type}`}>{error.msg}</p>}
         </div>
       </div>
     </div>
