@@ -150,6 +150,7 @@ const jobs = () => {
         })
     } else {
       setResults(null)
+      setError(null)
     }
   }, [search, url])
 
