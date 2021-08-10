@@ -6,7 +6,7 @@ const Filter = ({ search, setSearch, setUrl, url }) => {
 
   return (
     <>
-      {(search.keyword || search.location || search.categories.length > 0) && (
+      {(search?.name || search?.location || search.categories?.length > 0) && (
         <div className="filter__criteria">
           <h2>Criteria</h2>
           {search?.name && (

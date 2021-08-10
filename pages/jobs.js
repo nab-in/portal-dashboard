@@ -16,23 +16,53 @@ import Loader from "../components/loaders/cardLoader"
 const jobs = () => {
   let router = useRouter()
   const [size, setSize] = useState(0)
+  const [error, setError] = useState(null)
   const [jobs, setJobs] = useState([])
   const [results, setResults] = useState(null)
-  let [url, setUrl] = useState(router.query?.url ? router.query.url : "")
+  let [url, setUrl] = useState("")
   const [pager, setPager] = useState(null)
   const [loading, setLoading] = useState(true)
-  let [search, setSearch] = useState(
-    router.query?.search
-      ? JSON.parse(router.query.search)
-      : {
-          name: "",
-          location: "",
-          categories: [],
-        }
-  )
+  let [search, setSearch] = useState({
+    name: "",
+    location: "",
+    categories: [],
+  })
   const [page] = useState(router?.query?.page ? router.query.page : 1)
   const { user } = useAuthState()
   let identity = user?.identity
+
+  useEffect(() => {
+    let urlObj
+    let filterCategories = []
+    if (router.query?.search) {
+      urlObj = JSON.parse(router.query?.search)
+      setSearch(urlObj)
+    }
+    if (urlObj) {
+      if (urlObj.categories?.length > 0) {
+        urlObj.categories.forEach((el) => {
+          filterCategories.push(el.id)
+          if (el?.sub_categories?.length > 0) {
+            el?.sub_categories.forEach((sub) => {
+              filterCategories.push(sub.id)
+            })
+          }
+        })
+      }
+      setUrl(
+        `${urlObj?.name ? "&filter=name:ilike:" + urlObj.name : ""}` +
+          `${
+            urlObj?.location ? "&filter=location:ilike:" + urlObj.location : ""
+          }` +
+          `${
+            filterCategories?.length > 0
+              ? "&filter=categories:eq:[" + filterCategories + "]"
+              : ""
+          }`
+      )
+    }
+  }, [router.query])
+
   useEffect(() => {
     let token = Cookies.get("token")
     let config = {
@@ -42,21 +72,27 @@ const jobs = () => {
       },
     }
     if (identity?.name == "admin") {
-      axios
-        .get(
-          `${API}/jobs?page=${page}&pageSize=4&fields=id,name,company,location,created,closeDate`,
-          config
-        )
-        .then((res) => {
-          setPager(res.data.pager)
-          setJobs(res.data.jobs)
-          setSize(res.data.jobs.length)
-          setLoading(false)
-        })
-        .catch((err) => {
-          setLoading(false)
-          console.log(err)
-        })
+      if (
+        search?.name?.trim().length == 0 ||
+        search?.location.trim().length == 0 ||
+        search?.categories?.length == 0
+      )
+        axios
+          .get(
+            `${API}/jobs?page=${page}&pageSize=4&fields=id,name,company,location,created,closeDate`,
+            config
+          )
+          .then((res) => {
+            setPager(res.data.pager)
+            setJobs(res.data.jobs)
+            setSize(res.data.jobs.length)
+            setLoading(false)
+            setError(null)
+          })
+          .catch((err) => {
+            setLoading(false)
+            console.log(err)
+          })
     }
     if (identity?.name == "company") {
       axios
@@ -64,6 +100,7 @@ const jobs = () => {
         .then((res) => {
           setLoading(false)
           setJobs(res.data.jobs)
+          setError(null)
         })
         .catch((err) => {
           setLoading(false)
@@ -82,36 +119,48 @@ const jobs = () => {
     }
     if (
       identity?.name == "admin" &&
-      (search.name.trim().length > 0 ||
-        search.location.trim().length > 0 ||
-        search.categories?.length > 0)
+      (search?.name?.trim().length > 0 ||
+        search?.location.trim().length > 0 ||
+        search?.categories?.length > 0)
     ) {
       axios
         .get(
-          `${API}/jobs?page=${page}&pageSize=4&fields=id,name,company,location,created,closeDate${url}`,
+          `${API}/jobs?page=${page}&pageSize=1&fields=id,name,company,location,created,closeDate${url}`,
           config
         )
         .then((res) => {
-          // console.log(res.data)
+          console.log(res.data)
+          setError(null)
           setPager(res.data.pager)
+          setResults(res.data.jobs)
           setSize(res.data.jobs.length)
           setLoading(false)
         })
         .catch((err) => {
+          console.log(err.response)
           setLoading(false)
-          console.log(err?.response)
+          setResults(null)
+          setPager({
+            page,
+            total: 0,
+            pageSize: 1,
+          })
+          setSize(0)
+          setError(err?.response?.statusText)
         })
+    } else {
+      setResults(null)
     }
-  }, [search])
+  }, [search, url])
 
   let nextUrl = `/jobs?page=${
     page < Math.ceil(pager?.total / pager?.pageSize)
       ? pager?.page + 1
       : pager?.page
-  }&url=${url}&search=${JSON.stringify(search)}`
+  }&search=${JSON.stringify(search)}`
   let prevUrl = `/jobs?page=${
     pager?.page > 1 ? pager?.page - 1 : 1
-  }&url=${url}&${JSON.stringify(search)}`
+  }&search=${JSON.stringify(search)}`
 
   return (
     <div>
@@ -155,26 +204,69 @@ const jobs = () => {
             </>
           ) : (
             <>
-              {jobs.length > 0 ? (
+              {error ? (
                 <>
-                  {jobs.map((job) => (
-                    <Job
-                      key={job.id}
-                      job={job}
-                      company={job?.company}
-                      identity={identity}
-                    />
-                  ))}
+                  <p
+                    style={{
+                      background: "white",
+                      padding: "1rem",
+                    }}
+                  >
+                    {error}
+                  </p>
                 </>
               ) : (
-                <p
-                  style={{
-                    background: "white",
-                    padding: "1rem",
-                  }}
-                >
-                  No job found
-                </p>
+                <>
+                  {results ? (
+                    <>
+                      {results.length > 0 ? (
+                        <>
+                          {results.map((job) => (
+                            <Job
+                              key={job.id}
+                              job={job}
+                              company={job?.company}
+                              identity={identity}
+                            />
+                          ))}
+                        </>
+                      ) : (
+                        <p
+                          style={{
+                            background: "white",
+                            padding: "1rem",
+                          }}
+                        >
+                          No job found
+                        </p>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {jobs.length > 0 ? (
+                        <>
+                          {jobs.map((job) => (
+                            <Job
+                              key={job.id}
+                              job={job}
+                              company={job?.company}
+                              identity={identity}
+                            />
+                          ))}
+                        </>
+                      ) : (
+                        <p
+                          style={{
+                            background: "white",
+                            padding: "1rem",
+                          }}
+                        >
+                          No job found
+                        </p>
+                      )}
+                    </>
+                  )}
+                </>
               )}
             </>
           )}

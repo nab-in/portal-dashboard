@@ -86,8 +86,6 @@ const FilterItem = ({ sub, search, category, setSearch, url, setUrl }) => {
     }
   }
 
-  console.log(filterCategories, filterCategories.length, url)
-
   return (
     <span>
       {name}

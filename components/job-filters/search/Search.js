@@ -75,7 +75,7 @@ const Search = ({ setSearch, search, setUrl, url }) => {
             placeholder="Keyword"
             inputClass="filter_input"
             name="name"
-            value={search.keyword}
+            value={search.name}
           />
           <Input
             handleChange={(e) => handleChange(e)}
