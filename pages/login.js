@@ -50,11 +50,15 @@ const Login = () => {
             type: "danger",
             msg: err?.response?.data?.message,
           })
-        }
-        if (err?.message == "Network Error") {
+        } else if (err?.message == "Network Error") {
           setErrors({
             type: "danger",
             msg: "Network Error",
+          })
+        } else {
+          setErrors({
+            type: "danger",
+            msg: "Internal server error, please try again",
           })
         }
       })

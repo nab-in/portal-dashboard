@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 
-let format = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,<>\/?~]/
+let format = /[`!@#$%^&*()+\-=\[\]{};':"\\|,<>\/?~]/
 
 const checkSymbols = (name, setError) => {
   useEffect(() => {
