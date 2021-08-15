@@ -1,7 +1,10 @@
-import React, { useState, useRef, useEffect } from "react"
-import Image from "next/image"
+import React, { useState } from "react"
+import { API } from "../api"
+import axios from "axios"
+import Cookies from "js-cookie"
 import Link from "next/link"
 import { useAuthDispatch, useAuthState } from "../../context/auth"
+import { useAlertsDispatch } from "../../context/alerts"
 import { FaAngleDown, FaBell } from "react-icons/fa"
 import styles from "./header.module.sass"
 import UseClickOutside from "../UseClickOutside"
@@ -12,15 +15,52 @@ const Header = ({ navOpen }) => {
   // let number = 5
 
   const dispatch = useAuthDispatch()
+  const alertsDispatch = useAlertsDispatch()
 
   const { user } = useAuthState()
   // check if outside is clicked
   let node = UseClickOutside(() => setOpen(false))
 
   const logout = () => {
-    dispatch({
-      type: "LOGOUT",
-    })
+    const token = Cookies.get("token")
+    const config = {
+      headers: {
+        authorization: `Bearer ` + token,
+      },
+    }
+    axios(`${API}/logout`, config)
+      .then((res) => {
+        dispatch({
+          type: "LOGOUT",
+        })
+      })
+      .catch((err) => {
+        if (err?.response) {
+          alertsDispatch({
+            type: "ADD",
+            payload: {
+              type: "danger",
+              message: err?.response?.data?.message,
+            },
+          })
+        } else if (err?.message == "Network Error") {
+          alertsDispatch({
+            type: "ADD",
+            payload: {
+              type: "danger",
+              message: "Network Error",
+            },
+          })
+        } else {
+          alertsDispatch({
+            type: "ADD",
+            payload: {
+              type: "danger",
+              message: "Internal server error, please try again",
+            },
+          })
+        }
+      })
   }
 
   let data
