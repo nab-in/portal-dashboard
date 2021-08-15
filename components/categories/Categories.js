@@ -11,11 +11,13 @@ import styles from "./category.module.sass"
 import { useAlertsDispatch } from "../../context/alerts"
 import useClickOutside from "../UseClickOutside"
 import { useCategoriesDispatch } from "../../context/categories"
+import checkSymbols, { checkChange } from "../checkSymbols"
 
 // filter dropdown component per each category
 const Categories = ({ categories, setParent }) => {
   let [openDropdown, setOpenDropdown] = useState(false)
   let [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
   let [formData, setFormData] = useState({
     name: "",
   })
@@ -35,6 +37,7 @@ const Categories = ({ categories, setParent }) => {
   const handleChange = (e) => {
     let { value } = e.target
     setFormData({ name: value })
+    checkChange(formData.name, setError)
   }
 
   const handleSubmit = (e) => {
@@ -46,31 +49,35 @@ const Categories = ({ categories, setParent }) => {
         Authorization: `Bearer ` + token,
       },
     }
-    setLoading(true)
-    axios
-      .post(`${API}/jobCategories`, formData, config)
-      .then((res) => {
-        setLoading(false)
-        dispatch({
-          type: "ADD",
-          payload: {
-            type: "success",
-            message: res.data.message,
-          },
+    if (!error) {
+      setLoading(true)
+      axios
+        .post(`${API}/jobCategories`, formData, config)
+        .then((res) => {
+          setLoading(false)
+          dispatch({
+            type: "ADD",
+            payload: {
+              type: "success",
+              message: res.data.message,
+            },
+          })
+          categoriesDispatch({
+            type: "ADD_CATEGORY",
+            payload: res.data?.payload,
+          })
+          setFormData({
+            name: "",
+          })
         })
-        categoriesDispatch({
-          type: "ADD_CATEGORY",
-          payload: res.data?.payload,
+        .catch((err) => {
+          setLoading(false)
+          console.log(err)
         })
-        setFormData({
-          name: "",
-        })
-      })
-      .catch((err) => {
-        setLoading(false)
-        console.log(err)
-      })
+    }
   }
+
+  checkSymbols(formData.name, setError)
 
   return (
     <div className={styles.category} ref={node}>
@@ -113,6 +120,7 @@ const Categories = ({ categories, setParent }) => {
               {loading ? <Loader /> : "Add"}
             </button>
           </form>
+          {error && <p className={`alerts ${error.type}`}>{error.msg}</p>}
         </div>
       </div>
     </div>

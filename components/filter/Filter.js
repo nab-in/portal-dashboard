@@ -36,6 +36,7 @@ const Filter = ({
         .catch((err) => {
           console.log(err)
         })
+      setParent(categories?.length > 0 && categories[0])
     }
     if (categories > 0) {
       setParent(categories?.length > 0 && categories[0])

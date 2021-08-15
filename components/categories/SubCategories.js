@@ -9,6 +9,7 @@ import Loader from "../loaders/ButtonLoader"
 import styles from "./category.module.sass"
 import { useAlertsDispatch } from "../../context/alerts"
 import { useCategoriesDispatch } from "../../context/categories"
+import checkSymbols, { checkChange } from "../checkSymbols"
 
 const SubCategories = ({
   categories,
@@ -22,6 +23,7 @@ const SubCategories = ({
   let category
   if (categories.length > 0) category = categories.filter((el) => el.id == id)
   let [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
   let [formData, setFormData] = useState({
     name: "",
   })
@@ -31,6 +33,7 @@ const SubCategories = ({
   const handleChange = (e) => {
     let { value } = e.target
     setFormData({ name: value })
+    checkChange(formData.name, setError)
   }
 
   const handleSubmit = (e) => {
@@ -75,6 +78,9 @@ const SubCategories = ({
         console.log(err)
       })
   }
+
+  checkSymbols(formData.name, setError)
+
   return (
     <div className={`card ${styles.card}`}>
       {name && (
@@ -114,6 +120,7 @@ const SubCategories = ({
           {loading ? <Loader /> : "Add"}
         </button>
       </form>
+      {error && <p className={`alerts ${error.type}`}>{error.msg}</p>}
     </div>
   )
 }
