@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 import { API } from "../../api"
 import {
@@ -7,9 +7,15 @@ import {
 } from "../../../context/categories"
 import Input from "../../inputs/Input"
 import Category from "./Category"
+import checkSymbols, { checkChange } from "../../checkSymbols"
 import styles from "./search.module.sass"
 
 const Search = ({ setSearch, search, setUrl, url }) => {
+  const [error, setError] = useState(null)
+  const [formData, setFormData] = useState({
+    name: search?.name ? search.name : "",
+    location: search?.location ? search.location : "",
+  })
   const { categories } = useCategoriesState()
   const dispatch = useCategoriesDispatch()
 
@@ -22,30 +28,37 @@ const Search = ({ setSearch, search, setUrl, url }) => {
 
   const handleChange = (e) => {
     let { name, value } = e.target
-    setSearch({ ...search, [name]: value })
+    checkChange(value, setError)
     let input = inputArr.find((el) => el.includes(name))
-    if (value.trim().length > 0 && input) {
-      setUrl(
-        url.replace(
-          url?.split("&")?.find((el) => el.includes(name)),
-          `filter=${[name]}:ilike:${value}`
+    setFormData({ ...formData, [name]: value })
+    if (!error) {
+      setSearch({ ...search, [name]: value })
+      if (value.trim().length > 0 && input) {
+        setUrl(
+          url.replace(
+            url?.split("&")?.find((el) => el.includes(name)),
+            `filter=${[name]}:ilike:${value}`
+          )
         )
-      )
-    } else if (value.trim().length > 0 && !input) {
-      setUrl(url + `&filter=${[name]}:ilike:${value}`)
-    } else if (value.trim().length == 0 && input) {
-      setUrl(
-        url.replace(
-          url?.split("&")?.find((el) => el.includes(name)),
-          ``
+      } else if (value.trim().length > 0 && !input) {
+        setUrl(url + `&filter=${[name]}:ilike:${value}`)
+      } else if (value.trim().length == 0 && input) {
+        setUrl(
+          url.replace(
+            url?.split("&")?.find((el) => el.includes(name)),
+            ``
+          )
         )
-      )
+      }
     }
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
   }
+
+  checkSymbols(search.name, setError)
+  checkSymbols(search.location, setError)
 
   useEffect(() => {
     if (categories?.length == 0) {
@@ -75,16 +88,17 @@ const Search = ({ setSearch, search, setUrl, url }) => {
             placeholder="Keyword"
             inputClass="filter_input"
             name="name"
-            value={search.name}
+            value={formData.name}
           />
           <Input
             handleChange={(e) => handleChange(e)}
             inputClass="filter_input"
             name="location"
             placeholder="Location"
-            value={search.location}
+            value={formData.location}
           />
         </div>
+        {error && <p className={`alerts ${error.type}`}>{error.msg}</p>}
         {categories?.length > 0 && (
           <div>
             {categories.map((category) => (
