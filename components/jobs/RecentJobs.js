@@ -3,7 +3,7 @@ import Cookies from "js-cookie"
 import axios from "axios"
 import { API } from "../api"
 import Link from "next/link"
-import moment from "moment"
+import dayjs from "dayjs"
 import styles from "./recent_jobs.module.sass"
 import { useAuthState } from "../../context/auth"
 import CardLoader from "../loaders/cardLoader"
@@ -66,12 +66,12 @@ const RelatedJobs = () => {
                   <div className={styles.time__details}>
                     <p className={styles.time}>
                       Posted:{" "}
-                      <span>{moment(created).format("MMM DD, YYYY")}</span>
+                      <span>{dayjs(created).format("MMM DD, YYYY")}</span>
                     </p>
                     <p className={styles.time}>
                       Deadline:{" "}
                       <span>
-                        {moment(closeDate).format("MMM DD, YYYY HH:mm")}
+                        {dayjs(closeDate).format("MMM DD, YYYY HH:mm")}
                       </span>
                     </p>
                   </div>

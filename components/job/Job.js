@@ -1,6 +1,6 @@
 import { useState } from "react"
 import Link from "next/link"
-import moment from "moment"
+import dayjs from "dayjs"
 import styles from "./job.module.sass"
 import Modal from "../modal/Modal"
 import Action from "../actions/Action"
@@ -17,10 +17,8 @@ const Job = ({ job, company, identity }) => {
     closeDate,
     job_type,
     location,
-    // reviews: 0.8
   } = job
   let reviews = 0.85
-  let style = { "--rating": reviews * 5 }
 
   const deleteJob = () => {
     const token = Cookies.get("token")
@@ -46,7 +44,6 @@ const Job = ({ job, company, identity }) => {
           <div className={styles.logo}>
             <img
               src={company.logo}
-              // src="/assets/companies/logo1.png"
               alt={`${job.company?.name} logo`}
               loading="lazy"
             />
@@ -63,13 +60,12 @@ const Job = ({ job, company, identity }) => {
         <h2>
           <Link href={`/jobs/${id}`}>{name}</Link>
         </h2>
-        {/* {reviews && <div className="stars" style={style}></div>} */}
         <p>
-          Posted: <span>{moment(created).format("MMM DD, YYYY")}</span>
+          Posted: <span>{dayjs(created).format("MMM DD, YYYY")}</span>
         </p>
         <p>
           Deadline:{" "}
-          <span>{moment(closeDate).format("MMM DD, YYYY HH:mm")}</span>
+          <span>{dayjs(closeDate).format("MMM DD, YYYY HH:mm")}</span>
         </p>
       </div>
       <div

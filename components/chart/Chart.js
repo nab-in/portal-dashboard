@@ -10,7 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts"
-import moment from "moment"
+import dayjs from "dayjs"
 import styles from "./chart.module.sass"
 import data from "../../data/chart.js"
 
@@ -46,7 +46,7 @@ const CustomTooltip = ({ active, payload, label }) => {
             marginBottom: ".5rem",
           }}
         >
-          {moment(date, "DD/MM/YYYY").format("dddd MMMM D, yyyy")}
+          {dayjs(date, "DD/MM/YYYY").format("dddd MMMM D, yyyy")}
         </p>
         <p>{payload[0].value} Applicants</p>
       </div>
@@ -77,8 +77,6 @@ const Chart = ({ title }) => {
         >
         <ResponsiveContainer height={300}>
           <BarChart
-            // width={700}
-            // height={300}
             data={data}
             margin={{
               top: 10,

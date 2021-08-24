@@ -1,6 +1,6 @@
-import moment from "moment"
+import dayjs from "dayjs"
 
-moment.updateLocale('en', { weekdaysMin: 'S_M_T_W_T_F_S'.split('_') });
+// dayjs.updateLocale('en', { weekdaysMin: 'S_M_T_W_T_F_S'.split('_') });
 
 const data = [
   {
