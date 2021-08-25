@@ -52,7 +52,6 @@ const Upload = ({ id, img, name, page }) => {
             })
           })
           .catch((err) => {
-            // setLoading(false)
             console.log(err)
           })
       }
@@ -61,10 +60,8 @@ const Upload = ({ id, img, name, page }) => {
           .post(`${API}/companies/${id}/logo`, data, config)
           .then((res) => {
             console.log(res.data)
-            // setLoading(false)
           })
           .catch((err) => {
-            // setLoading(false)
             console.log(err)
           })
       }

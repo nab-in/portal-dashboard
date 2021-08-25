@@ -49,7 +49,7 @@ const categoriesReducer = (state, action) => {
     case "ADD_SUBCATEGORY":
       let { subcategory, id } = payload
       categoriesCopy = [...state.categories]
-      let categoryIndex = categoriesCopy.findIndex((el) => el.id == id)
+      let categoryIndex = categoriesCopy.findIndex((el) => el.id === id)
 
       if (!id) {
         categoriesCopy = categoriesCopy.concat(subcategory)

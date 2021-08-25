@@ -1,7 +1,5 @@
 import dayjs from "dayjs"
 
-// dayjs.updateLocale('en', { weekdaysMin: 'S_M_T_W_T_F_S'.split('_') });
-
 const data = [
   {
     name: dayjs("12-3-2021", 'DD/MM/YYYY').format("dd"),

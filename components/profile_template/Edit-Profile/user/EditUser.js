@@ -13,6 +13,7 @@ import { useAlertsDispatch } from "../../../../context/alerts"
 import { useAuthDispatch } from "../../../../context/auth"
 
 const EditProfile = ({ details, page }) => {
+  const token = Cookies.get("token")
   const [loading, setLoading] = useState(false)
   let [formData, setFormData] = useState({
     firstname: details?.firstname ? details.firstname : "",
@@ -23,6 +24,7 @@ const EditProfile = ({ details, page }) => {
     about: details?.about ? details.about : "",
     websitelink: details?.websitelink ? details.websitelink : "",
     cvlink: details?.cvlink ? details.cvlink : "",
+    token: `Bearer ` + token,
   })
 
   let {
@@ -44,7 +46,6 @@ const EditProfile = ({ details, page }) => {
   }
   const handleSubmit = (e) => {
     e.preventDefault(e)
-    const token = Cookies.get("token")
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -53,7 +54,7 @@ const EditProfile = ({ details, page }) => {
     }
     setLoading(true)
     axios
-      .put(`${API}/users/${details?.id}`, formData, config)
+      .put(`${API}/users`, formData, config)
       .then((res) => {
         dispatch({
           type: "ADD",

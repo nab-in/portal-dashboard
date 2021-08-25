@@ -33,10 +33,10 @@ const select_identity = () => {
     }
     setLoading(true)
     axios
-      .get(`${API}/me?fields=companies,userRoles`, config)
+      .get(`${API}/me?fields=userRoles,companies`, config)
       .then((res) => {
         setLoading(false)
-        setCompanies(res.data.companies)
+        setCompanies(res.data?.companies)
         console.log(res.data)
       })
       .catch((err) => {
@@ -58,7 +58,7 @@ const select_identity = () => {
               </div>
               <p>Welcome {user?.username}</p>
               <h1>Please select dashboard to view</h1>
-              {companies.length > 0 && (
+              {companies?.length > 0 && (
                 <>
                   <h2>Your Companies</h2>
                   {companyLoading}

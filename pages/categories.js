@@ -46,15 +46,27 @@ const categories = () => {
             <span>/</span>
             <span>Categories</span>
           </div>
-          <div className="mobile-filter">
-            {loading ? <></> : <Filter categories={categories} />}
-          </div>
-          {loading ? <></> : <>{categories.length > 0 && <Categories />}</>}
+          {loading ? (
+            <></>
+          ) : (
+            <>
+              {categories.length > 0 ? (
+                <Categories />
+              ) : (
+                <p
+                  style={{
+                    background: "white",
+                    padding: "1rem",
+                  }}
+                >
+                  No category found
+                </p>
+              )}
+            </>
+          )}
         </MainContents>
         <SubContents>
-          <div className="desktop-filter">
-            {loading ? <></> : <Filter categories={categories} />}
-          </div>
+          {loading ? <></> : <Filter categories={categories} />}
         </SubContents>
       </div>
     </div>

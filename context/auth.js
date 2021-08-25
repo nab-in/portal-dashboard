@@ -26,6 +26,18 @@ const authReducer = (state, action) => {
         ...state,
         user: userCopy,
       }
+    case "ADD_LOGO":
+      userCopy = {
+        ...state.user,
+        company: {
+          ...state.user.company,
+          logo: `http://localhost:5000${payload.path}`,
+        },
+      }
+      return {
+        ...state,
+        user: userCopy,
+      }
     case "ADD_CV":
       userCopy = {
         ...state.user,

@@ -70,6 +70,7 @@ const profiles = () => {
         axios
           .get(`${API}/users?page=${page}&pageSize=4`, config)
           .then((res) => {
+            console.log(res.data)
             setPager(res.data.pager)
             setUsers(res.data.users)
             setSize(res.data.users.length)

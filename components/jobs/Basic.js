@@ -5,7 +5,7 @@ import Input from "../inputs/Input"
 import Button from "../buttons/FormButton"
 import { API } from "../api"
 import axios from "axios"
-import dayjs from "moment"
+import dayjs from "dayjs"
 import { useAuthState } from "../../context/auth"
 import { useAlertsDispatch } from "../../context/alerts"
 

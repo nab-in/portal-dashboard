@@ -13,6 +13,9 @@ import {
 import dayjs from "dayjs"
 import styles from "./chart.module.sass"
 import data from "../../data/chart.js"
+// import customParseFormat from "dayjs"
+
+console.log(data);
 
 // calculating total number of values
 let number = (item) => {
@@ -65,6 +68,7 @@ let Subtitle = ({ title }) => {
 }
 
 const Chart = ({ title }) => {
+  // dayjs.extend(window.customParseFormat)
   return (
     <div className={styles.chart}>
       <Card title={title}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { API } from "../api"
 import axios from "axios"
 import Cookies from "js-cookie"
@@ -69,15 +69,17 @@ const Header = ({ navOpen }) => {
 
   let img
 
-  if (user?.identity?.name == "company") {
-    data = user.company
-    n = data?.name?.split("")[0].toUpperCase()
-    img = data?.logo
-  } else {
-    data = user
-    n = data?.username.split("")[0].toUpperCase()
-    img = data?.dp
-  }
+  useEffect(() => {
+    if (user?.identity?.name == "company") {
+      data = user.company
+      n = data?.name?.split("")[0].toUpperCase()
+      img = data?.logo
+    } else {
+      data = user
+      n = data?.username.split("")[0].toUpperCase()
+      img = data?.dp
+    }
+  }, [user])
 
   return (
     <header
