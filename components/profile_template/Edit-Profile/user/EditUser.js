@@ -53,6 +53,7 @@ const EditProfile = ({ details, page }) => {
       },
     }
     setLoading(true)
+    setFormData({ ...formData, token })
     axios
       .put(`${API}/users`, formData, config)
       .then((res) => {

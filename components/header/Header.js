@@ -69,7 +69,7 @@ const Header = ({ navOpen }) => {
 
   useEffect(() => {
     if (user?.identity?.name == "company") {
-      setData((data = user.company))
+      setData(user?.company)
       setImg(data?.logo)
     } else {
       setData(user)
