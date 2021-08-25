@@ -18,7 +18,7 @@ const Layout = ({ loading, children }) => {
   }
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) router.push("/login")
+    if (!loading && !isAuthenticated && !user) router.push("/login")
 
     if (!loading && isAuthenticated && !user?.identity)
       router.push("/select_identity")
@@ -29,7 +29,6 @@ const Layout = ({ loading, children }) => {
       axios
         .get(`${API}/companies/${user.identity.id}`)
         .then((res) => {
-          // console.log(res)
           dispatch({
             type: "COMPANY",
             payload: res.data,

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import Link from "next/link"
 import styles from "../styles/select.module.sass"
 import { useRouter } from "next/router"
 import { useAuthState, useAuthDispatch } from "../context/auth"
@@ -119,7 +120,8 @@ const select_identity = () => {
                   <>
                     <h2>We could't find any company which you belong</h2>
                     <p>
-                      <a href="http://localhost:3000">Visit home</a>
+                      <a href="http://localhost:3000">Visit home</a> OR &nbsp;
+                      <Link href="/login">Login with Different account</Link>
                     </p>
                   </>
                 )}
