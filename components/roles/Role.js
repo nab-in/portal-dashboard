@@ -56,7 +56,7 @@ const Role = ({ role }) => {
     <>
       <p key={id} className={styles.title}>
         <span>{name}</span>
-        {name != "Super User" && (
+        {(name != "SUPER USER" && name != "ADMIN") && (
           <FaTrash className={styles.icon} onClick={setOpen} />
         )}
       </p>

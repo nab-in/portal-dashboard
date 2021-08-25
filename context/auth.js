@@ -58,7 +58,7 @@ const authReducer = (state, action) => {
     case "SELECT":
       userCopy = {
         ...state.user,
-        identity: { id: payload.id, name: payload.name },
+        identity: { id: payload.id, name: payload.name, value: payload.value },
         role: "admin",
       }
       Cookies.set("identity", JSON.stringify(payload))

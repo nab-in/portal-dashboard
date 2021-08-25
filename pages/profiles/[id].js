@@ -39,14 +39,14 @@ const profile = () => {
     }
     setLoading(true)
     axios
-      .get(`${API}/users/${router.query.id}`, config)
+      .get(`${API}/users?filter=id:eq:${router.query.id}`, config)
       .then((res) => {
-        setUser(res.data)
+        setUser(res.data.users[0])
         setLoading(false)
       })
       .catch((err) => {
         setLoading(false)
-        console.log(err)
+        console.log(err.response)
       })
   }, [])
   return (

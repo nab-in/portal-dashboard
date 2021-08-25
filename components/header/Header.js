@@ -11,6 +11,7 @@ import UseClickOutside from "../UseClickOutside"
 
 const Header = ({ navOpen }) => {
   const [open, setOpen] = useState(false)
+  let [img, setImg] = useState(null)
   // const [notify, setNotify] = useState(false)
   // let number = 5
 
@@ -67,17 +68,15 @@ const Header = ({ navOpen }) => {
 
   let n
 
-  let img
-
   useEffect(() => {
     if (user?.identity?.name == "company") {
       data = user.company
       n = data?.name?.split("")[0].toUpperCase()
-      img = data?.logo
+      setImg(data?.logo)
     } else {
       data = user
       n = data?.username.split("")[0].toUpperCase()
-      img = data?.dp
+      setImg(data?.dp)
     }
   }, [user])
 

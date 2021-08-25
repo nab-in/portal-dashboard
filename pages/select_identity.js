@@ -10,14 +10,16 @@ const select_identity = () => {
   let { user, isAuthenticated, loading } = useAuthState()
   let [companies, setCompanies] = useState([])
   let [companyLoading, setLoading] = useState(false)
+  let [roles, setRoles] = useState([])
   let dispatch = useAuthDispatch()
   let router = useRouter()
-  const select = (id, name) => {
+  const select = (id, name, value) => {
     dispatch({
       type: "SELECT",
       payload: {
         id,
         name,
+        value,
       },
     })
     if (id && name) router.push("/")
@@ -37,7 +39,7 @@ const select_identity = () => {
       .then((res) => {
         setLoading(false)
         setCompanies(res.data?.companies)
-        console.log(res.data)
+        setRoles(res.data?.userRoles)
       })
       .catch((err) => {
         setLoading(false)
@@ -67,7 +69,7 @@ const select_identity = () => {
                       <div
                         key={id}
                         className={`card ${styles.card}`}
-                        onClick={() => select(id, "company")}
+                        onClick={() => select(id, "company", "")}
                       >
                         <div className={styles.company}>
                           <div className={styles.logo}>
@@ -87,18 +89,33 @@ const select_identity = () => {
                 </>
               )}
 
-              <h2>An Admin?</h2>
-              <div className={styles.showcase}>
-                <div
-                  className={`card ${styles.card}`}
-                  onClick={() => select(1, "admin")}
-                >
-                  <div className={styles.name}>Super User</div>
-                  <div className={styles.details}>
-                    <button>Select</button>
+              {roles?.length > 0 && (
+                <>
+                  <h2>An Admin?</h2>
+                  <div className={styles.showcase}>
+                    {roles.map(({ id, name }) => (
+                      <div
+                        className={`card ${styles.card}`}
+                        onClick={() => select(id, "admin", name)}
+                        key={id}
+                      >
+                        <div className={styles.name}>{name}</div>
+                        <div className={styles.details}>
+                          <button>Select</button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                </div>
-              </div>
+                </>
+              )}
+              {roles?.length === 0 && companies?.length === 0 && (
+                <>
+                  <h2>We could't find any company which you belong</h2>
+                  <p>
+                    <a href="http://localhost:3000">Visit home</a>
+                  </p>
+                </>
+              )}
             </section>
           </div>
         </>

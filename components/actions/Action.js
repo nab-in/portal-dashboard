@@ -67,7 +67,7 @@ const Action = ({
                 <option
                   value={name}
                   key={id}
-                  selected={role == name ? true : false}
+                  defaultValue={role == name ? true : false}
                 >
                   {name}
                 </option>
