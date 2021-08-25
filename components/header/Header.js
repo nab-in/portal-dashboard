@@ -12,6 +12,7 @@ import UseClickOutside from "../UseClickOutside"
 const Header = ({ navOpen }) => {
   const [open, setOpen] = useState(false)
   let [img, setImg] = useState(null)
+  const [data, setData] = useState({})
   // const [notify, setNotify] = useState(false)
   // let number = 5
 
@@ -64,18 +65,14 @@ const Header = ({ navOpen }) => {
       })
   }
 
-  let data
-
-  let n
+  // let n
 
   useEffect(() => {
     if (user?.identity?.name == "company") {
-      data = user.company
-      n = data?.name?.split("")[0].toUpperCase()
+      setData((data = user.company))
       setImg(data?.logo)
     } else {
-      data = user
-      n = data?.username.split("")[0].toUpperCase()
+      setData(user)
       setImg(data?.dp)
     }
   }, [user])
@@ -107,11 +104,7 @@ const Header = ({ navOpen }) => {
           <div className={styles.profile__container} ref={node}>
             <div onClick={() => setOpen(!open)} className={styles.profile}>
               <div className={styles.dp__container}>
-                {img ? (
-                  <img src={img} alt={`logo`} />
-                ) : (
-                  <div className={styles.default}>{n}</div>
-                )}
+                {img && <img src={img} alt={`logo`} />}{" "}
               </div>
               <div className={styles.name}>
                 <span>{data?.name ? data.name : data?.username}</span>
@@ -127,11 +120,7 @@ const Header = ({ navOpen }) => {
             >
               <div className={styles.profile}>
                 <div className={styles.dp__container}>
-                  {img ? (
-                    <img src={user.dp} alt={`dp`} />
-                  ) : (
-                    <div className={styles.default}>{n}</div>
-                  )}
+                  {img && <img src={user.dp} alt={`dp`} />}
                 </div>
                 <div className={styles.name}>
                   {user.firstname} {user.lastname}
