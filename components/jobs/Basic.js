@@ -19,6 +19,8 @@ const Basic = ({ job, setJob, setSelected, categories }) => {
     website: job?.website ? job.wensite : "",
     closeDate: job?.closeDate ? job.closeDate : "",
     email: job?.email ? job.email : "",
+    openTo: job?.openTo ? job.openTo : "",
+    jobType: job?.jobType ? job.jobType : "",
     categories,
   })
 
@@ -48,7 +50,7 @@ const Basic = ({ job, setJob, setSelected, categories }) => {
     }
   }, [user])
 
-  const { name, website, closeDate, location, email } = formData
+  const { name, website, closeDate, location, email, jobType } = formData
 
   const handleChange = (e) => {
     let { name, value } = e.target
@@ -85,7 +87,7 @@ const Basic = ({ job, setJob, setSelected, categories }) => {
         })
         .catch((err) => {
           setLoading(false)
-          console.log(err)
+          console.log(err.response)
         })
     if (!job?.id)
       axios
@@ -104,7 +106,7 @@ const Basic = ({ job, setJob, setSelected, categories }) => {
         })
         .catch((err) => {
           setLoading(false)
-          console.log(err)
+          console.log(err.response)
         })
   }
 
@@ -127,13 +129,14 @@ const Basic = ({ job, setJob, setSelected, categories }) => {
             id="email"
             value={email}
           />
-          <div className="select-group">
+          {/* <div className="select-group">
             <label htmlFor="opento">
               Open To?
               <select
                 name="opento"
                 id="opento"
                 onChange={(e) => handleChange(e)}
+                defaultValue={openTo ? openTo : ""}
               >
                 <option value="Individual" defaultValue>
                   Individual
@@ -141,19 +144,28 @@ const Basic = ({ job, setJob, setSelected, categories }) => {
                 <option value="Company">Company/Organisation</option>
               </select>
             </label>
-          </div>
+          </div> */}
           <div className="select-group">
             <label htmlFor="jobtype">
               Select Job Type?
               <select
-                name="jobtype"
+                name="jobType"
                 id="jobtype"
                 onChange={(e) => handleChange(e)}
               >
-                <option value="Freelance" defaultValue>
+                <option>Select</option>
+                <option
+                  value="Freelance"
+                  defaultValue={jobType == "Freelance" ? true : false}
+                >
                   Freelance
                 </option>
-                <option value="Full Time">Full Time</option>
+                <option
+                  value="Full Time"
+                  defaultValue={jobType == "Full Time" ? true : false}
+                >
+                  Full Time
+                </option>
               </select>
             </label>
           </div>

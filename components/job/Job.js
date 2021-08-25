@@ -10,15 +10,7 @@ import axios from "axios"
 
 const Job = ({ job, company, identity }) => {
   const [open, setOpen] = useState(false)
-  let {
-    id,
-    name,
-    created,
-    closeDate,
-    job_type,
-    location,
-  } = job
-  let reviews = 0.85
+  let { id, name, created, closeDate, jobType, location } = job
 
   const deleteJob = () => {
     const token = Cookies.get("token")
@@ -64,8 +56,7 @@ const Job = ({ job, company, identity }) => {
           Posted: <span>{dayjs(created).format("MMM DD, YYYY")}</span>
         </p>
         <p>
-          Deadline:{" "}
-          <span>{dayjs(closeDate).format("MMM DD, YYYY HH:mm")}</span>
+          Deadline: <span>{dayjs(closeDate).format("MMM DD, YYYY HH:mm")}</span>
         </p>
       </div>
       <div
@@ -83,9 +74,9 @@ const Job = ({ job, company, identity }) => {
             </Link>
           </p>
         )}
-        {job_type && (
+        {jobType && (
           <p>
-            Job Type: <span>{job_type}</span>
+            Job Type: <span>{jobType}</span>
           </p>
         )}
         {location && (

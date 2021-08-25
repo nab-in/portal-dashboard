@@ -7,8 +7,7 @@ import { useAuthState } from "../../context/auth"
 
 const Details = ({ job }) => {
   let {
-    id,
-    job_type,
+    jobType,
     location,
     company,
     email,
@@ -44,9 +43,9 @@ const Details = ({ job }) => {
               Location: <span>{location}</span>
             </div>
           )}
-          {job_type && (
+          {jobType && (
             <div className={styles.title}>
-              Open To: <span>{job_type}</span>
+              Open To: <span>{jobType}</span>
             </div>
           )}
           {bio && (
