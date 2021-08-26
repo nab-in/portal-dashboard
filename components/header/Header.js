@@ -14,12 +14,12 @@ const Header = ({ navOpen }) => {
   let [img, setImg] = useState(null)
   const [data, setData] = useState({})
   // const [notify, setNotify] = useState(false)
-  // let number = 5
 
   const dispatch = useAuthDispatch()
   const alertsDispatch = useAlertsDispatch()
 
   const { user } = useAuthState()
+
   // check if outside is clicked
   let node = UseClickOutside(() => setOpen(false))
 
@@ -65,17 +65,21 @@ const Header = ({ navOpen }) => {
       })
   }
 
-  // let n
-
   useEffect(() => {
     if (user?.identity?.name == "company") {
       setData(user?.company)
-      setImg(data?.logo)
     } else {
       setData(user)
-      setImg(data?.dp)
     }
   }, [user])
+
+  useEffect(() => {
+    if (user?.identity?.name == "company") {
+      setImg(data?.logo)
+    } else {
+      setImg(data?.dp)
+    }
+  }, [data])
 
   return (
     <header

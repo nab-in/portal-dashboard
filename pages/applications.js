@@ -14,31 +14,31 @@ import { useAuthState } from "../context/auth"
 const applications = ({ data, error, page }) => {
   const [apps, setApps] = useState([])
   const [keywords, setKeywords] = useState([])
-  const [size, setSize] = useState(0)
+  // const [size, setSize] = useState(0)
   const [errors, setErrors] = useState(null)
   const { user } = useAuthState()
-  useEffect(() => {
-    if (data) {
-      let results = []
-      data?.jobs.forEach((el) => {
-        if (el.users?.length > 0) {
-          el.users.forEach((o) => {
-            let app = {
-              id: el.id,
-              name: el.name,
-              user: o,
-            }
-            results.push(app)
-          })
-        }
-      })
-      setApps(results)
-      setSize(data.jobs.length)
-    }
-    if (error) {
-      setErrors(error)
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (data) {
+  //     let results = []
+  //     data?.jobs.forEach((el) => {
+  //       if (el.users?.length > 0) {
+  //         el.users.forEach((o) => {
+  //           let app = {
+  //             id: el.id,
+  //             name: el.name,
+  //             user: o,
+  //           }
+  //           results.push(app)
+  //         })
+  //       }
+  //     })
+  //     setApps(results)
+  //     setSize(data.jobs.length)
+  //   }
+  //   if (error) {
+  //     setErrors(error)
+  //   }
+  // }, [])
 
   useEffect(() => {
     let token = Cookies.get("token")
@@ -51,20 +51,35 @@ const applications = ({ data, error, page }) => {
       .get(`${API}/companies/${user?.company?.id}?fields=jobs[users]`, config)
       .then((res) => {
         console.log(res.data)
+        let results = []
+        res.data?.jobs.forEach((el) => {
+          if (el.users?.length > 0) {
+            el.users.forEach((o) => {
+              let app = {
+                id: el.id,
+                name: el.name,
+                user: o,
+              }
+              results.push(app)
+            })
+          }
+        })
+        setApps(results)
+        setSize(res.data.jobs.length)
       })
       .catch((err) => {
         console.log(err?.response)
       })
   }, [user])
 
-  let nextUrl = `/applications?page=${
-    page < Math.ceil(data?.pager.total / data?.pager.pageSize)
-      ? data?.pager?.page + 1
-      : data?.pager?.page
-  }`
-  let prevUrl = `/applications?page=${
-    data?.pager.page > 1 ? data?.pager?.page - 1 : 1
-  }`
+  // let nextUrl = `/applications?page=${
+  //   page < Math.ceil(data?.pager.total / data?.pager.pageSize)
+  //     ? data?.pager?.page + 1
+  //     : data?.pager?.page
+  // }`
+  // let prevUrl = `/applications?page=${
+  //   data?.pager.page > 1 ? data?.pager?.page - 1 : 1
+  // }`
 
   return (
     <div>
@@ -98,12 +113,12 @@ const applications = ({ data, error, page }) => {
               No Application found
             </p>
           )}
-          <Pagination
+          {/* <Pagination
             size={size}
             pager={data?.pager}
             nextUrl={nextUrl}
             prevUrl={prevUrl}
-          />
+          /> */}
         </MainContents>
         <SubContents>
           <Link href="/jobs/new_job">
@@ -118,30 +133,30 @@ const applications = ({ data, error, page }) => {
   )
 }
 
-export async function getServerSideProps({ query }) {
-  let data = null
-  let error = null
-  let page = 1
+// export async function getServerSideProps({ query }) {
+//   let data = null
+//   let error = null
+//   let page = 1
 
-  if (query?.page) page = query?.page
+//   if (query?.page) page = query?.page
 
-  try {
-    const res = await fetch(
-      `${API}/jobs?pageSize=3&page=${page}&fields=id,name,users`
-    )
-    data = await res.json()
-  } catch (err) {
-    console.log(err)
-    error = JSON.stringify(err)
-  }
+//   try {
+//     const res = await fetch(
+//       `${API}/jobs?pageSize=3&page=${page}&fields=id,name,users`
+//     )
+//     data = await res.json()
+//   } catch (err) {
+//     console.log(err)
+//     error = JSON.stringify(err)
+//   }
 
-  return {
-    props: {
-      error,
-      data,
-      page,
-    },
-  }
-}
+//   return {
+//     props: {
+//       error,
+//       data,
+//       page,
+//     },
+//   }
+// }
 
 export default applications

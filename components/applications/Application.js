@@ -24,6 +24,8 @@ const Application = ({ app }) => {
     setReject(false)
   }
 
+  console.log(app)
+
   return (
     <article className={`card ${styles.card}`}>
       <div className={styles.user}>
@@ -31,7 +33,7 @@ const Application = ({ app }) => {
           <img src={app.user.dp} />
         </div>
         <div className={styles.name}>
-          <Link href={`/applications/${app.id}`}>
+          <Link href={`/applications/${app?.user?.id}?job=${app?.id}`}>
             <a>
               {app.user.firstname} {app.user.lastname}
             </a>
@@ -39,7 +41,9 @@ const Application = ({ app }) => {
         </div>
       </div>
       <div className={styles.job}>
-        <Link href={`/applications/${app.id}`}>{app.name}</Link>
+        <Link href={`/applications/${app?.user?.id}?job=${app?.id}`}>
+          {app.name}
+        </Link>
       </div>
       <div className={styles.actions}>
         <button onClick={() => setInterview(true)}>

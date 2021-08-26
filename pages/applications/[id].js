@@ -31,9 +31,13 @@ const application = () => {
       },
     }
     axios
-      .get(`${API}/jobs/${router.query.id}?fields=id,name`, config)
+      .get(
+        `${API}/jobs/${router.query?.job}/applications/${router.query?.id}`,
+        config
+      )
       .then((res) => {
-        setJob(res.data)
+        console.log(res.data)
+        setJob(res.data?.job)
       })
       .catch((err) => {
         console.log(err)
@@ -103,13 +107,13 @@ const application = () => {
             </button>
             <div>
               <button
-                className="btn btn-tertiary"
+                className="sub_btn btn btn-tertiary"
                 onClick={() => setReject(true)}
               >
                 Reject
               </button>
               <button
-                className="btn btn-primary"
+                className="sub_btn btn btn-primary"
                 onClick={() => setInterview(true)}
               >
                 Interview
