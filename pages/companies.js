@@ -69,24 +69,24 @@ const companies = () => {
         setCompanies(res.data.companies)
         setSize(res.data.companies.length)
         setLoading(false)
-        dispatch({
-            type: "ADD",
-            payload: {
-              type: "success",
-              message: res.data?.message,
-            },
-          })
+        // dispatch({
+        //     type: "ADD",
+        //     payload: {
+        //       type: "success",
+        //       message: res.data?.message,
+        //     },
+        //   })
       })
       .catch((err) => {
         console.log(err)
         setLoading(false)
-        dispatch({
-            type: "ADD",
-            payload: {
-              type: "danger",
-              message: err.data?.message,
-            },
-          })
+        // dispatch({
+        //     type: "ADD",
+        //     payload: {
+        //       type: "danger",
+        //       message: err.data?.message,
+        //     },
+        //   })
       })
   }, [])
 
