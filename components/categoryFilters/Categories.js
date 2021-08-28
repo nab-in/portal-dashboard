@@ -63,7 +63,7 @@ const Categories = ({ setParent }) => {
             type: "ADD",
             payload: {
               type: "success",
-              message: res.data.message,
+              message: res.data?.message,
             },
           })
           categoriesDispatch({
@@ -76,7 +76,14 @@ const Categories = ({ setParent }) => {
         })
         .catch((err) => {
           setLoading(false)
-          console.log(err)
+          // console.log(err)
+          dispatch({
+            type: "ADD",
+            payload: {
+              type: "danger",
+              message: err?.data?.message,
+            },
+          })
         })
     }
   }

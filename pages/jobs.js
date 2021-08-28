@@ -12,6 +12,8 @@ import Cookies from "js-cookie"
 import { API } from "../components/api"
 import Pagination from "../components/pagination/Pagination"
 import Loader from "../components/loaders/cardLoader"
+import { useAlertsDispatch } from "../context/alerts"
+
 
 const jobs = () => {
   let router = useRouter()
@@ -22,6 +24,8 @@ const jobs = () => {
   let [url, setUrl] = useState("")
   const [pager, setPager] = useState(null)
   const [loading, setLoading] = useState(true)
+  const dispatch = useAlertsDispatch()
+
   let [search, setSearch] = useState({
     name: "",
     location: "",
@@ -87,11 +91,25 @@ const jobs = () => {
             setJobs(res.data.jobs)
             setSize(res.data.jobs.length)
             setLoading(false)
+            dispatch({
+            type: "ADD",
+            payload: {
+              type: "success",
+              message: res.data?.message,
+            },
+          })
             setError(null)
           })
           .catch((err) => {
             setLoading(false)
-            console.log(err)
+            dispatch({
+            type: "ADD",
+            payload: {
+              type: "data",
+              message: err?.data?.message,
+            },
+          })
+            // console.log(err)
           })
     }
     if (identity?.name == "company") {
@@ -99,12 +117,27 @@ const jobs = () => {
         .get(`${API}/companies/${identity.id}?fields=jobs`, config)
         .then((res) => {
           setLoading(false)
+          dispatch({
+            type: "ADD",
+            payload: {
+              type: "success",
+              message: res.response?.data?.message,
+            },
+          })
           setJobs(res.data.jobs)
           setError(null)
+          
         })
         .catch((err) => {
           setLoading(false)
-          console.log(err)
+          dispatch({
+            type: "ADD",
+            payload: {
+              type: "danger",
+              message: err?.data?.message,
+            },
+          })
+          // console.log(err)
         })
     }
   }, [])
