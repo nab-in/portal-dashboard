@@ -91,24 +91,28 @@ const jobs = () => {
             setJobs(res.data.jobs)
             setSize(res.data.jobs.length)
             setLoading(false)
-            dispatch({
-            type: "ADD",
-            payload: {
-              type: "success",
-              message: res.data?.message,
-            },
-          })
             setError(null)
           })
           .catch((err) => {
             setLoading(false)
-            dispatch({
-            type: "ADD",
-            payload: {
-              type: "data",
-              message: err?.data?.message,
-            },
-          })
+            if (err?.response) {
+              setErrors({
+                type: "danger",
+                msg: err?.response?.data?.message,
+              })
+            } 
+            else if (err?.message == "Network Error") {
+              setErrors({
+                type: "danger",
+                msg: "Network Error",
+              })
+            }
+             else {
+               setErrors({
+                 type: "danger",
+                 msg: "Internal server error, please try again",
+                })
+              }
             // console.log(err)
           })
     }
@@ -117,27 +121,30 @@ const jobs = () => {
         .get(`${API}/companies/${identity.id}?fields=jobs`, config)
         .then((res) => {
           setLoading(false)
-          dispatch({
-            type: "ADD",
-            payload: {
-              type: "success",
-              message: res.response?.data?.message,
-            },
-          })
           setJobs(res.data.jobs)
           setError(null)
           
         })
         .catch((err) => {
           setLoading(false)
-          dispatch({
-            type: "ADD",
-            payload: {
+          if (err?.response) {
+            setErrors({
               type: "danger",
-              message: err?.data?.message,
-            },
-          })
-          // console.log(err)
+              msg: err?.response?.data?.message,
+             })
+            
+            } 
+            else if (err?.message == "Network Error") {
+              setErrors({
+                type: "danger",
+                msg: "Network Error",
+              })
+            } else {
+              setErrors({
+                type: "danger",
+                msg: "Internal server error, please try again",
+               })
+              }
         })
     }
   }, [])
