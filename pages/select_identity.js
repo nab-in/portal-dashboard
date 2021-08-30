@@ -14,6 +14,7 @@ const select_identity = () => {
   let [roles, setRoles] = useState([])
   let dispatch = useAuthDispatch()
   let router = useRouter()
+  const [errors, setErrors] = useState({})
   const select = (id, name, value) => {
     dispatch({
       type: "SELECT",
@@ -50,7 +51,23 @@ const select_identity = () => {
       })
       .catch((err) => {
         setLoading(false)
-        console.log(err)
+        // console.log(err)
+        if (err?.response) {
+          setErrors({
+            type: "danger",
+            msg: err?.response?.data?.message,
+          })
+        } else if (err?.message == "Network Error") {
+          setErrors({
+            type: "danger",
+            msg: "Network Error",
+          })
+        } else {
+          setErrors({
+            type: "danger",
+            msg: "Internal server error, please try again",
+          })
+        }
       })
   }, [])
 
