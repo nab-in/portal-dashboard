@@ -29,7 +29,7 @@ const categories = () => {
         .catch((err) => {
           console.log(err)
           dispatch({
-            type: "FAIL",
+            type: "PROCESS FAILED",
           })
         })
     }

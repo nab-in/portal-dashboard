@@ -68,7 +68,23 @@ const applications = ({ data, error, page }) => {
         setSize(res.data.jobs.length)
       })
       .catch((err) => {
-        console.log(err?.response)
+        // console.log(err?.response)
+        if (err?.response) {
+          setErrors({
+            type: "danger",
+            msg: err?.response?.data?.message,
+          })
+        } else if (err?.message == "Network Error") {
+          setErrors({
+            type: "danger",
+            msg: "Network Error",
+          })
+        } else {
+          setErrors({
+            type: "danger",
+            msg: "Internal server error, please try again",
+          })
+        }
       })
   }, [user])
 

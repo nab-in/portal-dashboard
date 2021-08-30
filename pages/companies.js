@@ -69,24 +69,27 @@ const companies = () => {
         setCompanies(res.data.companies)
         setSize(res.data.companies.length)
         setLoading(false)
-        // dispatch({
-        //     type: "ADD",
-        //     payload: {
-        //       type: "success",
-        //       message: res.data?.message,
-        //     },
-        //   })
       })
       .catch((err) => {
         console.log(err)
         setLoading(false)
-        // dispatch({
-        //     type: "ADD",
-        //     payload: {
-        //       type: "danger",
-        //       message: err.data?.message,
-        //     },
-        //   })
+        //Displaying Errors
+        if (err?.response) {
+          setErrors({
+            type: "danger",
+            msg: err?.response?.data?.message,
+          })
+        } else if (err?.message == "Network Error") {
+          setErrors({
+            type: "danger",
+            msg: "Network Error",
+          })
+        } else {
+          setErrors({
+            type: "danger",
+            msg: "Internal server error, please try again",
+          })
+        }
       })
   }, [])
 
