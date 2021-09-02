@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import { API } from "../components/api"
 import axios from "axios"
-import Cookies from "js-cookie"
+import { config } from "../components/config"
 import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
 import Pagination from "../components/pagination/Pagination"
@@ -31,14 +31,6 @@ const profiles = () => {
   let url = router.query?.url ? router.query.url : ""
 
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ` + token,
-      },
-    }
-
     if (keyword?.trim().length > 0) {
       url = `&filter=firstname:ilike:${keyword}`
       axios
@@ -58,13 +50,6 @@ const profiles = () => {
   }, [keyword])
 
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ` + token,
-      },
-    }
     if (keyword?.trim().length == 0) {
       if (user?.identity?.name == "admin") {
         axios
@@ -104,6 +89,7 @@ const profiles = () => {
   let prevUrl = `/profiles?page=${
     pager?.page > 1 ? pager?.page - 1 : 1
   }&url=${url}&keyword=${keyword}`
+
   return (
     <div>
       <div className="content">

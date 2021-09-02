@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef } from "react"
 import { BiPlus, BiMinus } from "react-icons/bi"
 import styles from "./accordion.module.sass"
 
@@ -15,11 +15,15 @@ const Accordion = ({ title, categories, children }) => {
     )
   }
   useEffect(() => {
-    if (categories)
-      setHeight(
-        !active ? "0px" : `calc( ${content.current.scrollHeight}px + 1rem )`
-      )
-    return
+    let isMounted
+    if (isMounted)
+      if (categories)
+        setHeight(
+          !active ? "0px" : `calc( ${content.current.scrollHeight}px + 1rem )`
+        )
+    return () => {
+      isMounted = false
+    }
   }, [categories, content])
 
   return (

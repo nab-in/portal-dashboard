@@ -6,7 +6,6 @@ import { useAuthState, useAuthDispatch } from "../context/auth"
 import { API } from "../components/api"
 import { config } from "../components/config"
 import axios from "axios"
-import Cookies from "js-cookie"
 
 const select_identity = () => {
   let { user, isAuthenticated, loading } = useAuthState()

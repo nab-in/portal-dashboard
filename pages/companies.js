@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { API } from "../components/api"
-import Cookies from "js-cookie"
+import { config } from "../components/config"
 import axios from "axios"
 import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
@@ -28,14 +28,6 @@ const companies = () => {
   let url = router.query?.url ? router.query.url : ""
 
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ` + token,
-      },
-    }
-
     if (keyword?.trim().length > 0) {
       url = `&filter=name:ilike:${keyword}`
       axios
@@ -55,13 +47,6 @@ const companies = () => {
   }, [keyword])
 
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ` + token,
-      },
-    }
     axios
       .get(`${API}/companies?page=${page}&pageSize=8`, config)
       .then((res) => {

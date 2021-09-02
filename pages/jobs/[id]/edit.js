@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import { API } from "../../../components/api"
 import axios from "axios"
-import Cookies from "js-cookie"
+import { config } from "../../../components/config"
 import MainContents from "../../../components/templates/MainContents"
 import SubContents from "../../../components/templates/SubContents"
 import Filter from "../../../components/filter/Filter"
@@ -15,13 +15,6 @@ const edit = () => {
   const [job, setJob] = useState(null)
   const router = useRouter()
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ` + token,
-      },
-    }
     axios
       .get(
         `${API}/jobs/${router.query?.id}?fields=name,title,closeDate,created,company,id,description,bio,location,email,attachment`,

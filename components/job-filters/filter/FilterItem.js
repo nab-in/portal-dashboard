@@ -1,4 +1,3 @@
-import React from "react"
 import { AiOutlineClose } from "react-icons/ai"
 
 const FilterItem = ({ sub, search, category, setSearch, url, setUrl }) => {

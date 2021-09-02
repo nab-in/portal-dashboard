@@ -3,7 +3,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { API } from "../../components/api"
 import axios from "axios"
-import Cookies from "js-cookie"
+import { config } from "../../components/config"
 import MainContents from "../../components/templates/MainContents"
 import SubContents from "../../components/templates/SubContents"
 import Profile from "../../components/profile_template/profile/Profile"
@@ -30,13 +30,6 @@ const profile = () => {
     setCompanyOpen(false)
   }
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ` + token,
-      },
-    }
     setLoading(true)
     axios
       .get(`${API}/users/${router.query.id}`, config)
@@ -49,6 +42,7 @@ const profile = () => {
         console.log(err.response)
       })
   }, [])
+
   return (
     <div>
       <div className="content">

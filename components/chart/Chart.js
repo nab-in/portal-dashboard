@@ -1,4 +1,3 @@
-import React from "react"
 import Card from "../cards/Card"
 import {
   BarChart,
@@ -14,8 +13,6 @@ import dayjs from "dayjs"
 import styles from "./chart.module.sass"
 import data from "../../data/chart.js"
 // import customParseFormat from "dayjs"
-
-console.log(data);
 
 // calculating total number of values
 let number = (item) => {
@@ -79,22 +76,22 @@ const Chart = ({ title }) => {
             margin: "2rem 0",
           }}
         >
-        <ResponsiveContainer height={300}>
-          <BarChart
-            data={data}
-            margin={{
-              top: 10,
-              right: 30,
-              left: -25,
-              bottom: 10,
-            }}
-          >
-            <CartesianGrid strokeDasharray="0 0" />
-            <XAxis dataKey="name" fontSize={12} />
-            <YAxis fontSize={12} />
-            <Tooltip content={<CustomTooltip />} />
-            <Bar dataKey="value" barSize={15} fill="#007CA9" />
-          </BarChart>
+          <ResponsiveContainer height={300}>
+            <BarChart
+              data={data}
+              margin={{
+                top: 10,
+                right: 30,
+                left: -25,
+                bottom: 10,
+              }}
+            >
+              <CartesianGrid strokeDasharray="0 0" />
+              <XAxis dataKey="name" fontSize={12} />
+              <YAxis fontSize={12} />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar dataKey="value" barSize={15} fill="#007CA9" />
+            </BarChart>
           </ResponsiveContainer>
         </div>
         <div className={styles.metrics}>

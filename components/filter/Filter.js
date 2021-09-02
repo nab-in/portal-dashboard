@@ -22,26 +22,33 @@ const Filter = ({
   const dispatch = useCategoriesDispatch()
 
   useEffect(() => {
-    if (categories?.length == 0) {
-      axios
-        .get(
-          `${API}/jobCategories?pageSize=200&fields=id,name,children[id, name]`
-        )
-        .then((res) => {
-          dispatch({
-            type: "LOAD",
-            payload: res.data?.jobCategories,
+    let isMounted = true
+    if (isMounted) {
+      if (categories?.length == 0) {
+        axios
+          .get(
+            `${API}/jobCategories?pageSize=200&fields=id,name,children[id, name]`
+          )
+          .then((res) => {
+            dispatch({
+              type: "LOAD",
+              payload: res.data?.jobCategories,
+            })
           })
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-      setParent(categories?.length > 0 && categories[0])
+          .catch((err) => {
+            console.log(err)
+          })
+        setParent(categories?.length > 0 && categories[0])
+      }
+      if (categories > 0) {
+        setParent(categories?.length > 0 && categories[0])
+      }
     }
-    if (categories > 0) {
-      setParent(categories?.length > 0 && categories[0])
+    return () => {
+      isMounted = false
     }
   }, [])
+
   return (
     <div className={styles.card}>
       <h2>Add Job Category</h2>

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { API } from "../../components/api"
+import { config } from "../../components/config"
 import axios from "axios"
-import Cookies from "js-cookie"
 import MainContents from "../../components/templates/MainContents"
 import SubContents from "../../components/templates/SubContents"
 import Details from "../../components/job/Details"
@@ -12,13 +12,6 @@ const jobDetails = () => {
   const [job, setJob] = useState(null)
   const router = useRouter()
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ` + token,
-      },
-    }
     axios
       .get(
         `${API}/jobs/${router.query?.id}?fields=name,title,closeDate,created,company,id,description,bio,location,email,attachment`,
@@ -31,6 +24,7 @@ const jobDetails = () => {
         console.log(err)
       })
   }, [])
+
   return (
     <div>
       <div className="content">

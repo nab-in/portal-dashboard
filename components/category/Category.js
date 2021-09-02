@@ -9,8 +9,8 @@ import Accordion from "../accordion/Accordion"
 import Action from "../actions/Action"
 import Modal from "../modal/Modal"
 import { API } from "../api"
+import { config } from "../config"
 import axios from "axios"
-import Cookies from "js-cookie"
 import { useAlertsDispatch } from "../../context/alerts"
 
 let verified = false
@@ -25,12 +25,6 @@ const Category = ({ category }) => {
 
   const deleteCategory = () => {
     setLoading(true)
-    const token = Cookies.get("token")
-    const config = {
-      headers: {
-        authorization: `Bearer ` + token,
-      },
-    }
     axios
       .delete(`${API}/jobCategories/${category?.id}`, config)
       .then((res) => {

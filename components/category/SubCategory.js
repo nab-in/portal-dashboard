@@ -1,8 +1,8 @@
 import { useState } from "react"
 import styles from "./categories.module.sass"
-// import { GoVerified } from "react-icons/go"
 import Action from "../actions/Action"
 import Modal from "../modal/Modal"
+import { config } from "../config"
 import { API } from "../api"
 import axios from "axios"
 import Cookies from "js-cookie"
@@ -19,12 +19,6 @@ const SubCategory = ({ name, id, parent }) => {
 
   const deleteCategory = () => {
     setLoading(true)
-    const token = Cookies.get("token")
-    const config = {
-      headers: {
-        authorization: `Bearer ` + token,
-      },
-    }
     axios
       .delete(`${API}/jobCategories/${id}`, config)
       .then((res) => {
@@ -67,6 +61,7 @@ const SubCategory = ({ name, id, parent }) => {
   }
 
   const verify = () => {}
+
   return (
     <article>
       {name}

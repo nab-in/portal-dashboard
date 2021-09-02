@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import Link from "next/link"
-import Cookies from "js-cookie"
+import { config } from "../config"
 import { API } from "../api"
 import styles from "./recent.module.sass"
 import RecentUser from "./RecentUser"
@@ -12,43 +12,44 @@ const RecentUsers = ({ size }) => {
   let [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const { user } = useAuthState()
+
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ` + token,
-      },
+    let isMounted = true
+    if (isMounted) {
+      if (user?.identity?.name == "admin") {
+        axios
+          .get(
+            `${API}/users?pageSize=${size}&fields=id,dp,firstname,lastname,username`,
+            config
+          )
+          .then((res) => {
+            setUsers(res.data.users)
+            setLoading(false)
+          })
+          .catch((err) => {
+            setLoading(false)
+            console.log(err)
+          })
+      }
+      if (user?.identity?.name == "company") {
+        axios
+          .get(`${API}/companies/${user?.identity?.id}?fields=users`, config)
+          .then((res) => {
+            setUsers(res.data.users)
+            setLoading(false)
+          })
+          .catch((err) => {
+            console.log(err.response)
+            setError(err?.response?.data?.message)
+            setLoading(false)
+          })
+      }
     }
-    if (user?.identity?.name == "admin") {
-      axios
-        .get(
-          `${API}/users?pageSize=${size}&fields=id,dp,firstname,lastname,username`,
-          config
-        )
-        .then((res) => {
-          setUsers(res.data.users)
-          setLoading(false)
-        })
-        .catch((err) => {
-          setLoading(false)
-          console.log(err)
-        })
-    }
-    if (user?.identity?.name == "company") {
-      axios
-        .get(`${API}/companies/${user?.identity?.id}?fields=users`, config)
-        .then((res) => {
-          setUsers(res.data.users)
-          setLoading(false)
-        })
-        .catch((err) => {
-          console.log(err.response)
-          setError(err?.response?.data?.message)
-          setLoading(false)
-        })
+    return () => {
+      isMounted = false
     }
   }, [])
+
   return (
     <>
       {users.length > 0 && (

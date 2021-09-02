@@ -1,9 +1,9 @@
-import { useState, useEffect, useCallback, useMemo } from "react"
+import { useState, useEffect, useMemo } from "react"
 import SubCategory from "./SubCategory"
 import Input from "../inputs/Input"
 import { API } from "../api"
 import axios from "axios"
-import Cookies from "js-cookie"
+import { config } from "../config"
 import rippleEffect from "../rippleEffect.js"
 import Loader from "../loaders/ButtonLoader"
 import styles from "./category.module.sass"
@@ -32,14 +32,6 @@ const SubCategories = ({ categories, parent }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ` + token,
-      },
-    }
     let body = {
       name: formData.name,
       parent: { id },
@@ -75,11 +67,16 @@ const SubCategories = ({ categories, parent }) => {
   }
 
   useEffect(() => {
-    if (categories.length > 0) {
-      let i = categories.filter((el) => {
-        return id == el.id
-      })
-      setCategory(i[0])
+    let isMounted = true
+    if (isMounted)
+      if (categories.length > 0) {
+        let i = categories.filter((el) => {
+          return id == el.id
+        })
+        setCategory(i[0])
+      }
+    return () => {
+      isMounted = false
     }
   }, [parent, categories])
 

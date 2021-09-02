@@ -1,5 +1,3 @@
-import React from "react"
-import Image from "next/image"
 import {
   RiHome2Line,
   RiBriefcase2Line,
@@ -95,12 +93,7 @@ const Aside = ({ navOpen, handleNav, isMobile, setnavOpen }) => {
         </div>
         <div className={styles.logo__container}>
           <div className={styles.logo}>
-            <Image
-              src="/assets/images/logo.png"
-              alt={`logo`}
-              layout="fill"
-              objectFit="contain"
-            />
+            <img src="/assets/images/logo.png" alt={`logo`} loading="lazy" />
           </div>
         </div>
         <nav>

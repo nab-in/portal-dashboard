@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"
 import Category from "./Category"
 import Input from "../inputs/Input"
 import { API } from "../api"
 import axios from "axios"
-import Cookies from "js-cookie"
+import { config } from "../config"
 import rippleEffect from "../rippleEffect.js"
 import Loader from "../loaders/ButtonLoader"
 import styles from "./category.module.sass"
@@ -45,16 +45,8 @@ const Categories = ({ setParent }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ` + token,
-      },
-    }
     if (!error) {
       setLoading(true)
-
       axios
         .post(`${API}/jobCategories`, formData, config)
         .then((res) => {

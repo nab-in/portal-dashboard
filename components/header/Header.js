@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { API } from "../api"
 import axios from "axios"
-import Cookies from "js-cookie"
+import { config } from "../config"
 import Link from "next/link"
 import { useAuthDispatch, useAuthState } from "../../context/auth"
 import { useAlertsDispatch } from "../../context/alerts"
@@ -24,12 +24,6 @@ const Header = ({ navOpen }) => {
   let node = UseClickOutside(() => setOpen(false))
 
   const logout = () => {
-    const token = Cookies.get("token")
-    const config = {
-      headers: {
-        authorization: `Bearer ` + token,
-      },
-    }
     axios(`${API}/logout`, config)
       .then((res) => {
         dispatch({
@@ -66,18 +60,28 @@ const Header = ({ navOpen }) => {
   }
 
   useEffect(() => {
-    if (user?.identity?.name == "company") {
-      setData(user?.company)
-    } else {
-      setData(user)
+    let isMounted = true
+    if (isMounted)
+      if (user?.identity?.name == "company") {
+        setData(user?.company)
+      } else {
+        setData(user)
+      }
+    return () => {
+      isMounted = false
     }
   }, [user])
 
   useEffect(() => {
-    if (user?.identity?.name == "company") {
-      setImg(data?.logo)
-    } else {
-      setImg(data?.dp)
+    let isMounted = true
+    if (isMounted)
+      if (user?.identity?.name == "company") {
+        setImg(data?.logo)
+      } else {
+        setImg(data?.dp)
+      }
+    return () => {
+      isMounted = false
     }
   }, [data])
 

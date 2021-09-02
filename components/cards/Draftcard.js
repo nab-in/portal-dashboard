@@ -1,9 +1,8 @@
-import React from "react";
-import styles from "./draftcard.module.sass";
-import Link from "next/link";
-import FormButton from "../buttons/FormButton";
+import styles from "./draftcard.module.sass"
+import Link from "next/link"
+import FormButton from "../buttons/FormButton"
 
-const Draftcard = ({draft}) => {
+const Draftcard = ({ draft }) => {
   return (
     <div className={`card ${styles.draftcard}`}>
       <div className={styles.draftcard_left}>
@@ -29,7 +28,7 @@ const Draftcard = ({draft}) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Draftcard;
+export default Draftcard

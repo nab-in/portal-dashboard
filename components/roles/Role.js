@@ -15,6 +15,7 @@ const Role = ({ role }) => {
   const [loading, setLoading] = useState(false)
   const dispatch = useAuthDispatch()
   const alertsDispatch = useAlertsDispatch()
+
   const remove = () => {
     const token = Cookies.get("token")
     const config = {
@@ -46,17 +47,19 @@ const Role = ({ role }) => {
         setOpen(false)
       })
   }
+
   const title = (
     <>
       Users with <span className={styles.name}>{name}</span> role will no longer
       have this role. Are you sure you want to continue?
     </>
   )
+
   return (
     <>
       <p key={id} className={styles.title}>
         <span>{name}</span>
-        {(name != "SUPER USER" && name != "ADMIN") && (
+        {name != "SUPER USER" && name != "ADMIN" && (
           <FaTrash className={styles.icon} onClick={setOpen} />
         )}
       </p>
@@ -67,6 +70,7 @@ const Role = ({ role }) => {
             action={remove}
             btnText="Delete"
             title={title}
+            loading={loading}
           />
         </Modal>
       )}

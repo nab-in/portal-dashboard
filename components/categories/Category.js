@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react"
 import styles from "./category.module.sass"
 
 const Category = ({ category, setParent, setOpenDropdown }) => {

@@ -14,6 +14,7 @@ import {
 const categories = () => {
   const { categories, loading } = useCategoriesState()
   const dispatch = useCategoriesDispatch()
+
   useEffect(() => {
     if (categories?.length == 0) {
       axios

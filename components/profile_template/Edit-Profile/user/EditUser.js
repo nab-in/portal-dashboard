@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import Section from "../../Section"
 import Input from "../../../inputs/Input"
 import Button from "../../../buttons/FormButton"

@@ -1,4 +1,3 @@
-import React from "react"
 import Link from "next/link"
 import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"

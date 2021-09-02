@@ -4,8 +4,8 @@ import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
 import { API } from "../components/api"
 import axios from "axios"
-import Cookies from "js-cookie"
-import Pagination from "../components/pagination/Pagination"
+import { config } from "../components/config"
+// import Pagination from "../components/pagination/Pagination"
 import Application from "../components/applications/Application"
 import Filter from "../components/applications/Filter"
 import Search from "../components/applications/Search"
@@ -41,12 +41,6 @@ const applications = ({ data, error, page }) => {
   // }, [])
 
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        authorization: `Bearer ` + token,
-      },
-    }
     axios
       .get(`${API}/companies/${user?.company?.id}?fields=jobs[users]`, config)
       .then((res) => {
@@ -68,7 +62,6 @@ const applications = ({ data, error, page }) => {
         setSize(res.data.jobs.length)
       })
       .catch((err) => {
-        // console.log(err?.response)
         if (err?.response) {
           setErrors({
             type: "danger",

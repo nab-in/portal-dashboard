@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import Cookies from "js-cookie"
 import Card from "../cards/Card"
 import Input from "../inputs/Input"
 import Button from "../buttons/FormButton"
 import { API } from "../api"
+import { config } from "../config"
 import axios from "axios"
 import dayjs from "dayjs"
 import { useAuthState } from "../../context/auth"
@@ -62,13 +62,6 @@ const Basic = ({ job, setJob, setSelected, categories }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ` + token,
-      },
-    }
     setLoading(true)
     if (job?.id)
       axios

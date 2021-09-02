@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { FaCamera } from "react-icons/fa"
 import axios from "axios"
 import Cookies from "js-cookie"

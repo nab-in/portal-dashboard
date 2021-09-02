@@ -1,4 +1,4 @@
-import React, { Children } from "react"
+import { Children } from "react"
 import { withRouter } from "next/router"
 import Link from "next/link"
 import styles from "./aside/aside.module.sass"

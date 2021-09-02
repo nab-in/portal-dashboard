@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import Cookies from "js-cookie"
 import axios from "axios"
 import { API } from "../api"
+import { config } from "../config"
 import Link from "next/link"
 import dayjs from "dayjs"
 import styles from "./recent_jobs.module.sass"
@@ -13,14 +13,8 @@ const RelatedJobs = () => {
   const [loading, setLoading] = useState(true)
 
   const { user } = useAuthState()
+
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ` + token,
-      },
-    }
     axios
       .get(
         `${API}/jobs?pageSize=3&fields=id,name,created,closeDate,company,location`,

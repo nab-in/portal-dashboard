@@ -5,7 +5,7 @@ import styles from "./job.module.sass"
 import Modal from "../modal/Modal"
 import Action from "../actions/Action"
 import { API } from "../api"
-import Cookies from "js-cookie"
+import { config } from "../config"
 import axios from "axios"
 
 const Job = ({ job, company, identity }) => {
@@ -13,12 +13,6 @@ const Job = ({ job, company, identity }) => {
   let { id, name, created, closeDate, jobType, location } = job
 
   const deleteJob = () => {
-    const token = Cookies.get("token")
-    const config = {
-      headers: {
-        authorization: `Bearer ` + token,
-      },
-    }
     axios
       .delete(`${API}/jobs/${id}`, config)
       .then((res) => {
@@ -29,6 +23,7 @@ const Job = ({ job, company, identity }) => {
         console.log(err?.response)
       })
   }
+
   return (
     <article className={`card ${styles.job__card}`}>
       {company && (

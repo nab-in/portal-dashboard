@@ -1,4 +1,3 @@
-import React from "react"
 import Filter from "../filter/Filter"
 
 const Categories = ({ categories, setCategories, selected, setSelected }) => {

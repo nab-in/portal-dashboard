@@ -1,7 +1,7 @@
 import styles from "./sub.module.sass"
 
 const SubCategory = ({ sub }) => {
-  let { name, id } = sub
+  let { name } = sub
 
   return (
     <div className={styles.sub__category}>

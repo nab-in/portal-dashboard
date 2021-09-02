@@ -8,12 +8,11 @@ import Search from "../components/job-filters/search/Search"
 import Filter from "../components/job-filters/filter/Filter"
 import { useAuthState } from "../context/auth"
 import axios from "axios"
-import Cookies from "js-cookie"
+import { config } from "../components/config"
 import { API } from "../components/api"
 import Pagination from "../components/pagination/Pagination"
 import Loader from "../components/loaders/cardLoader"
 import { useAlertsDispatch } from "../context/alerts"
-
 
 const jobs = () => {
   let router = useRouter()
@@ -68,13 +67,6 @@ const jobs = () => {
   }, [router.query])
 
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ` + token,
-      },
-    }
     if (identity?.name == "admin") {
       if (
         search?.name?.trim().length == 0 ||
@@ -100,19 +92,17 @@ const jobs = () => {
                 type: "danger",
                 msg: err?.response?.data?.message,
               })
-            } 
-            else if (err?.message == "Network Error") {
+            } else if (err?.message == "Network Error") {
               setErrors({
                 type: "danger",
                 msg: "Network Error",
               })
+            } else {
+              setErrors({
+                type: "danger",
+                msg: "Internal server error, please try again",
+              })
             }
-             else {
-               setErrors({
-                 type: "danger",
-                 msg: "Internal server error, please try again",
-                })
-              }
             // console.log(err)
           })
     }
@@ -123,7 +113,6 @@ const jobs = () => {
           setLoading(false)
           setJobs(res.data.jobs)
           setError(null)
-          
         })
         .catch((err) => {
           setLoading(false)
@@ -131,32 +120,23 @@ const jobs = () => {
             setErrors({
               type: "danger",
               msg: err?.response?.data?.message,
-             })
-            
-            } 
-            else if (err?.message == "Network Error") {
-              setErrors({
-                type: "danger",
-                msg: "Network Error",
-              })
-            } else {
-              setErrors({
-                type: "danger",
-                msg: "Internal server error, please try again",
-               })
-              }
+            })
+          } else if (err?.message == "Network Error") {
+            setErrors({
+              type: "danger",
+              msg: "Network Error",
+            })
+          } else {
+            setErrors({
+              type: "danger",
+              msg: "Internal server error, please try again",
+            })
+          }
         })
     }
   }, [])
 
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ` + token,
-      },
-    }
     if (
       identity?.name == "admin" &&
       (search?.name?.trim().length > 0 ||
@@ -179,21 +159,21 @@ const jobs = () => {
         .catch((err) => {
           // console.log(err.response)
           if (err?.response) {
-          setErrors({
-            type: "danger",
-            msg: err?.response?.data?.message,
-          })
-        } else if (err?.message == "Network Error") {
-          setErrors({
-            type: "danger",
-            msg: "Network Error",
-          })
-        } else {
-          setErrors({
-            type: "danger",
-            msg: "Internal server error, please try again",
-          })
-        }
+            setErrors({
+              type: "danger",
+              msg: err?.response?.data?.message,
+            })
+          } else if (err?.message == "Network Error") {
+            setErrors({
+              type: "danger",
+              msg: "Network Error",
+            })
+          } else {
+            setErrors({
+              type: "danger",
+              msg: "Internal server error, please try again",
+            })
+          }
           setLoading(false)
           setResults(null)
           setPager({

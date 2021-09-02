@@ -57,24 +57,23 @@ const Roles = () => {
   //     })
   // }
   useEffect(() => {
-    const token = Cookies.get("token")
-    const config = {
-      headers: {
-        authorization: `Bearer ` + token,
-      },
-    }
-    if (roles.length == 0) {
-      axios
-        .get(`${API}/userRoles`, config)
-        .then((res) => {
-          dispatch({
-            type: "ROLES",
-            payload: res.data?.userRoles,
+    let isMounted = true
+    if (isMounted)
+      if (roles.length == 0) {
+        axios
+          .get(`${API}/userRoles`, config)
+          .then((res) => {
+            dispatch({
+              type: "ROLES",
+              payload: res.data?.userRoles,
+            })
           })
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+    return () => {
+      isMounted = false
     }
   }, [])
   return (

@@ -17,6 +17,7 @@ const User = ({ userData }) => {
   const remove = () => {
     setCompanyOpen(false)
   }
+
   return (
     <article className={`card ${styles.card}`}>
       <div className={styles.dp}>

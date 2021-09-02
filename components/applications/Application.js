@@ -24,8 +24,6 @@ const Application = ({ app }) => {
     setReject(false)
   }
 
-  console.log(app)
-
   return (
     <article className={`card ${styles.card}`}>
       <div className={styles.user}>

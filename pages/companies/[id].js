@@ -3,7 +3,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { API } from "../../components/api"
 import axios from "axios"
-import Cookies from "js-cookie"
+import { config } from "../../components/config"
 import MainContents from "../../components/templates/MainContents"
 import SubContents from "../../components/templates/SubContents"
 import Profile from "../../components/profile_template/profile/Profile"
@@ -14,13 +14,6 @@ const companyDetails = () => {
   const [company, setCompany] = useState(null)
   const router = useRouter()
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ` + token,
-      },
-    }
     axios
       .get(`${API}/companies/${router.query.id}`, config)
       .then((res) => {
@@ -30,6 +23,7 @@ const companyDetails = () => {
         console.log(err)
       })
   }, [])
+
   return (
     <div>
       <div className="content">

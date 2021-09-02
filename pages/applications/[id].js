@@ -4,8 +4,8 @@ import { useRouter } from "next/router"
 import MainContents from "../../components/templates/MainContents"
 import SubContents from "../../components/templates/SubContents"
 import { API } from "../../components/api"
-import Cookies from "js-cookie"
 import axios from "axios"
+import { config } from "../../components/config"
 import { useAuthState } from "../../context/auth"
 import Profile from "../../components/profile_template/profile/Profile"
 import Modal from "../../components/modal/Modal"
@@ -22,14 +22,8 @@ const application = () => {
   })
   const router = useRouter()
   const { user } = useAuthState()
+
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ` + token,
-      },
-    }
     axios
       .get(
         `${API}/jobs/${router.query?.job}/applications/${router.query?.id}`,
