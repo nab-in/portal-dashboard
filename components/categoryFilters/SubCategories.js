@@ -70,7 +70,7 @@ const SubCategories = ({ categories, parent }) => {
       })
       .catch((err) => {
         setLoading(false)
-        console.log(err)
+        console.log(err?.response)
       })
   }
 

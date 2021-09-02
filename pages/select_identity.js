@@ -29,7 +29,6 @@ const select_identity = () => {
 
   useEffect(() => {
     if (!isAuthenticated && !loading && !user) {
-      console.log("here")
       router.push("/login")
     }
   }, [loading])
@@ -51,7 +50,6 @@ const select_identity = () => {
       })
       .catch((err) => {
         setLoading(false)
-        // console.log(err)
         if (err?.response) {
           setErrors({
             type: "danger",
@@ -90,7 +88,7 @@ const select_identity = () => {
                     <h2>Your Companies</h2>
                     {companyLoading}
                     <div className={styles.showcase}>
-                      {companies.map(({ id, name }) => (
+                      {companies.map(({ id, name, logo }) => (
                         <div
                           key={id}
                           className={`card ${styles.card}`}
@@ -99,7 +97,7 @@ const select_identity = () => {
                           <div className={styles.company}>
                             <div className={styles.logo}>
                               <img
-                                src={`/assets/companies/logo1.png`}
+                                src={logo}
                                 loading="lazy"
                               />
                             </div>

@@ -45,6 +45,7 @@ const Layout = ({ loading, children }) => {
       setMobile(true)
     }
   }, [setMobile])
+  
   return (
     <div className="dashboard">
       {isAuthenticated && (

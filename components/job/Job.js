@@ -26,7 +26,7 @@ const Job = ({ job, company, identity }) => {
         console.log(res.data)
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err?.response)
       })
   }
   return (
