@@ -33,7 +33,6 @@ const companies = () => {
       axios
         .get(`${API}/companies?page=${page}&pageSize=4${url}`, config)
         .then((res) => {
-          console.log(res.data)
           setPager(res.data.pager)
           setResults(res.data.companies)
           setSize(res.data.users.length)
