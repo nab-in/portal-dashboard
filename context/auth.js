@@ -76,12 +76,14 @@ const authReducer = (state, action) => {
       return {
         ...state,
         user: userCopy,
+        loading: false,
       }
 
     case "ROLES":
       return {
         ...state,
         roles: payload,
+        loading: false,
       }
 
     case "ADD_ROLE":
@@ -95,7 +97,6 @@ const authReducer = (state, action) => {
     case "REMOVE_ROLE":
       rolesCopy = [...state.roles]
       rolesCopy = rolesCopy.filter((el) => el.id != payload)
-      console.log(payload, rolesCopy)
       return {
         ...state,
         roles: rolesCopy,
@@ -128,6 +129,11 @@ const authReducer = (state, action) => {
       return {
         ...state,
         loading: false,
+      }
+    case "LOADING":
+      return {
+        ...state,
+        loading: true,
       }
     default:
       return {

@@ -4,6 +4,7 @@ import styles from "../styles/select.module.sass"
 import { useRouter } from "next/router"
 import { useAuthState, useAuthDispatch } from "../context/auth"
 import { API } from "../components/api"
+import { config } from "../components/config"
 import axios from "axios"
 import Cookies from "js-cookie"
 
@@ -15,6 +16,10 @@ const select_identity = () => {
   let dispatch = useAuthDispatch()
   let router = useRouter()
   const [errors, setErrors] = useState({})
+
+  let role = router.query?.role
+  let company = router.query?.company
+
   const select = (id, name, value) => {
     dispatch({
       type: "SELECT",
@@ -24,7 +29,8 @@ const select_identity = () => {
         value,
       },
     })
-    if (id && name) router.push("/")
+    if (id && name === "company") router.push("/")
+    if (id && name === "admin" && value) router.push("/")
   }
 
   useEffect(() => {
@@ -33,13 +39,6 @@ const select_identity = () => {
     }
   }, [loading])
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ` + token,
-      },
-    }
     setLoading(true)
     axios
       .get(`${API}/me?fields=userRoles,companies`, config)
@@ -47,6 +46,36 @@ const select_identity = () => {
         setLoading(false)
         setCompanies(res.data?.companies)
         setRoles(res.data?.userRoles)
+        let roleData = res.data?.userRoles.find((el) => el.id === role)
+        let companyData = res.data?.companies.find((el) => el.id === company)
+        if (roleData) {
+          dispatch({
+            type: "SELECT",
+            payload: {
+              id: roleData.id,
+              name: "admin",
+              value: roleData.name,
+            },
+          })
+          if (roleData.id && roleData.name) router.push("/")
+        }
+        if (companyData) {
+          dispatch({
+            type: "SELECT",
+            payload: {
+              id: companyData.id,
+              name: "company",
+              value: "",
+            },
+          })
+          if (companyData.id && companyData.name) {
+            dispatch({
+              type: "COMPANY",
+              payload: companyData,
+            })
+            router.push("/")
+          }
+        }
       })
       .catch((err) => {
         setLoading(false)
@@ -96,10 +125,7 @@ const select_identity = () => {
                         >
                           <div className={styles.company}>
                             <div className={styles.logo}>
-                              <img
-                                src={logo}
-                                loading="lazy"
-                              />
+                              <img src={logo} loading="lazy" />
                             </div>
                             <div className={styles.name}>{name}</div>
                           </div>

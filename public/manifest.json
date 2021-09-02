@@ -4,9 +4,9 @@
     "display": "standalone",
     "scope": "/",
     "start_url": "/",
-    "name": "Job Portal",
-    "short_name": "Portal",
-    "description": "A platform where job seekers and companies  meet",
+    "name": "Job Portal Dashboard",
+    "short_name": "Dashboard",
+    "description": "A platform where job seekers and companies meet",
     "icons": [
         {
             "src": "/icons/icon-192x192.png",
