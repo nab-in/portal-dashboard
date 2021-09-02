@@ -110,9 +110,6 @@ const Category = ({ category }) => {
         })
     }
   }
-
-  console.log(category.verified)
-
   return (
     <div className={styles.category}>
       <Accordion

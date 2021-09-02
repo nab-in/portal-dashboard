@@ -4,13 +4,62 @@ import { GoVerified } from "react-icons/go"
 import styles from "./company.module.sass"
 import Modal from "../modal/Modal"
 import Action from "../actions/Action"
+import axios from "axios"
+import { config } from "../config"
+import { API } from "../api"
 
-const Company = ({ company }) => {
-  const { id, logo, name } = company
+const Company = ({ company, setCompanies }) => {
+  const { id, logo, name, verified } = company
   const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
   const verify = () => {
-    setOpen(false)
+    if (verified === "true") {
+      let body = {
+        verified: false,
+      }
+      axios
+        .put(`${API}/companies/${id}`, body, config)
+        .then((res) => {
+          setOpen(false)
+          setCompanies((prev) => {
+            let companiesCopy = prev.slice()
+            let companyIndex = companiesCopy.findIndex((el) => el.id === id)
+            companiesCopy[companyIndex] = {
+              ...companiesCopy[companyIndex],
+              verified: res.data?.payload?.verified,
+            }
+            return companiesCopy
+          })
+        })
+        .catch((err) => {
+          console.log(err?.response)
+          setOpen(false)
+        })
+    } else {
+      let body = {
+        verified: true,
+      }
+      axios
+        .put(`${API}/companies/${id}`, body, config)
+        .then((res) => {
+          setOpen(false)
+          setCompanies((prev) => {
+            let companiesCopy = prev.slice()
+            let companyIndex = companiesCopy.findIndex((el) => el.id === id)
+            companiesCopy[companyIndex] = {
+              ...companiesCopy[companyIndex],
+              verified: res.data?.payload?.verified,
+            }
+            return companiesCopy
+          })
+        })
+        .catch((err) => {
+          console.log(err?.response)
+          setOpen(false)
+        })
+    }
   }
+
   return (
     <div className={`card ${styles.card}`}>
       <div className={styles.company}>
@@ -24,8 +73,20 @@ const Company = ({ company }) => {
         </div>
       </div>
       <div className={styles.job}>
-        <div className={`badge verified ${styles.badge}`}>
-          Verified <GoVerified className="icon" />
+        <div
+          className={
+            verified === "true"
+              ? `badge verified ${styles.badge}`
+              : `badge unverified ${styles.badge}`
+          }
+        >
+          {verified === "true" ? (
+            <>
+              Verified <GoVerified className="icon" />
+            </>
+          ) : (
+            "Unverified"
+          )}
         </div>
         <div className={styles.jobs}>
           <Link href={`/companies/${id}/jobs`}>
@@ -34,15 +95,18 @@ const Company = ({ company }) => {
         </div>
       </div>
       <div className={styles.actions}>
-        <button onClick={() => setOpen(true)}>Unverify</button>
+        <button onClick={() => setOpen(true)}>
+          {verified === "true" ? "Unverify" : "Verify"}
+        </button>
       </div>
       {open && (
         <Modal setOpen={setOpen}>
           <Action
-            title={`Verify ${name}`}
-            btnText="Verify"
+            title={verified === "true" ? `Verify ${name}` : `Verify ${name}`}
+            btnText={verified === "true" ? "Unverify" : "Verify"}
             action={verify}
             setOpen={setOpen}
+            loading={loading}
           />
         </Modal>
       )}

@@ -119,7 +119,12 @@ const companies = () => {
                   {results.length > 0 ? (
                     <>
                       {results.map((company) => (
-                        <Company key={company.id} company={company} />
+                        <Company
+                          key={company.id}
+                          company={company}
+                          setCompanies={setResults}
+                          companies={companies}
+                        />
                       ))}
                     </>
                   ) : (
@@ -138,7 +143,12 @@ const companies = () => {
                   {companies.length > 0 ? (
                     <>
                       {companies.map((company) => (
-                        <Company key={company.id} company={company} />
+                        <Company
+                          key={company.id}
+                          company={company}
+                          setCompanies={setCompanies}
+                          companies={companies}
+                        />
                       ))}
                     </>
                   ) : (

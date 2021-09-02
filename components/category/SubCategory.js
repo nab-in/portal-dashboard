@@ -58,8 +58,6 @@ const SubCategory = ({ name, id, verified, parent }) => {
       })
   }
 
-  console.log(verified)
-
   const verify = () => {
     if (verified === "true") {
       let body = {
