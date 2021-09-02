@@ -17,6 +17,7 @@ const Company = ({ company, setCompanies }) => {
       let body = {
         verified: false,
       }
+      setLoading(true)
       axios
         .put(`${API}/companies/${id}`, body, config)
         .then((res) => {
@@ -30,15 +31,18 @@ const Company = ({ company, setCompanies }) => {
             }
             return companiesCopy
           })
+          setLoading(false)
         })
         .catch((err) => {
           console.log(err?.response)
           setOpen(false)
+          setLoading(false)
         })
     } else {
       let body = {
         verified: true,
       }
+      setLoading(true)
       axios
         .put(`${API}/companies/${id}`, body, config)
         .then((res) => {
@@ -52,10 +56,12 @@ const Company = ({ company, setCompanies }) => {
             }
             return companiesCopy
           })
+          setLoading(false)
         })
         .catch((err) => {
           console.log(err?.response)
           setOpen(false)
+          setLoading(false)
         })
     }
   }
