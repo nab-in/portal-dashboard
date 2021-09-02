@@ -13,6 +13,8 @@ import Action from "../../components/actions/Action"
 
 const application = () => {
   const [job, setJob] = useState(null)
+  const [applicant, setApplicant] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [accept, setAccept] = useState(false)
   const [reject, setReject] = useState(false)
   const [interview, setInterview] = useState(false)
@@ -30,8 +32,8 @@ const application = () => {
         config
       )
       .then((res) => {
-        console.log(res.data)
         setJob(res.data?.job)
+        setApplicant(res.data?.user)
       })
       .catch((err) => {
         console.log(err)
@@ -39,15 +41,70 @@ const application = () => {
   }, [])
 
   const callInterview = () => {
-    setInterview(false)
+    setLoading(true)
+    axios
+      .post(
+        `${API}/users/${applicant?.id}/interview`,
+        {
+          job: job?.id,
+          ...data,
+        },
+        config
+      )
+      .then((res) => {
+        console.log(res.data)
+        setLoading(false)
+        setInterview(false)
+      })
+      .catch((err) => {
+        console.log(err?.response)
+        setLoading(false)
+        setInterview(false)
+      })
   }
 
   const acceptApplication = () => {
-    setAccept(false)
+    setLoading(true)
+    axios
+      .post(
+        `${API}/users/${applicant?.id}/accept`,
+        {
+          job: job?.id,
+        },
+        config
+      )
+      .then((res) => {
+        console.log(res.data)
+        setLoading(false)
+        setAccept(false)
+      })
+      .catch((err) => {
+        console.log(err?.response)
+        setLoading(false)
+        setAccept(false)
+      })
   }
 
   const rejectApplication = () => {
-    setReject(false)
+    setLoading(true)
+    axios
+      .post(
+        `${API}/users/${applicant?.id}/reject`,
+        {
+          job: job?.id,
+        },
+        config
+      )
+      .then((res) => {
+        console.log(res.data)
+        setLoading(false)
+        setReject(false)
+      })
+      .catch((err) => {
+        console.log(err?.response)
+        setLoading(false)
+        setReject(false)
+      })
   }
 
   return (
@@ -63,7 +120,7 @@ const application = () => {
               <Link href="/applications">Applications</Link>
             </span>
             <span>/</span>
-            {user?.firstname && <span>{user.firstname}</span>}
+            {applicant?.firstname && <span>{applicant.firstname}</span>}
           </div>
           <div className="mobile__link">
             <div className="app_btn">
@@ -89,7 +146,9 @@ const application = () => {
               </div>
             </div>
           </div>
-          <Profile details={user} job={job} page="applications" />
+          {applicant && job && (
+            <Profile details={applicant} job={job} page="applications" />
+          )}
         </MainContents>
         <SubContents>
           <div className="app_btn">
@@ -125,6 +184,7 @@ const application = () => {
             action={callInterview}
             setOpen={setInterview}
             btnText="Submit"
+            loading={loading}
           />
         </Modal>
       )}
@@ -135,6 +195,7 @@ const application = () => {
             action={acceptApplication}
             setOpen={setAccept}
             btnText="Yes"
+            loading={loading}
           />
         </Modal>
       )}
@@ -145,6 +206,7 @@ const application = () => {
             action={rejectApplication}
             setOpen={setReject}
             btnText="Yes"
+            loading={loading}
           />
         </Modal>
       )}

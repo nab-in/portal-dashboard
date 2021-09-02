@@ -44,7 +44,6 @@ const applications = ({ data, error, page }) => {
     axios
       .get(`${API}/companies/${user?.company?.id}?fields=jobs[users]`, config)
       .then((res) => {
-        console.log(res.data)
         let results = []
         res.data?.jobs.forEach((el) => {
           if (el.users?.length > 0) {
