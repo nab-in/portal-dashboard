@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import axios from "axios"
 import { API } from "../components/api"
 import Link from "next/link"
@@ -19,7 +19,7 @@ const categories = () => {
     if (categories?.length == 0) {
       axios
         .get(
-          `${API}/jobCategories?pageSize=200&fields=id,name,children[id, name]`
+          `${API}/jobCategories?pageSize=200&fields=id,name,children[id, name],verified`
         )
         .then((res) => {
           dispatch({

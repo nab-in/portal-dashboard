@@ -5,6 +5,8 @@ const CategoriesDispatchContext = createContext()
 const categoriesReducer = (state, action) => {
   let { type, payload } = action
   let categoriesCopy
+  let categoryIndex
+  let subCategoryIndex
   let data
   let filter = []
   switch (type) {
@@ -13,7 +15,7 @@ const categoriesReducer = (state, action) => {
       if (payload?.type == "parent") {
         categoriesCopy = categoriesCopy.filter((el) => el.id != payload?.id)
       } else if (payload?.type == "child") {
-        let categoryIndex = categoriesCopy.findIndex(
+        categoryIndex = categoriesCopy.findIndex(
           (el) => el.id == payload?.parent
         )
         categoriesCopy[categoryIndex] = {
@@ -49,7 +51,7 @@ const categoriesReducer = (state, action) => {
     case "ADD_SUBCATEGORY":
       let { subcategory, id } = payload
       categoriesCopy = [...state.categories]
-      let categoryIndex = categoriesCopy.findIndex((el) => el.id === id)
+      categoryIndex = categoriesCopy.findIndex((el) => el.id === id)
 
       if (!id) {
         categoriesCopy = categoriesCopy.concat(subcategory)
@@ -73,6 +75,42 @@ const categoriesReducer = (state, action) => {
         categories: categoriesCopy,
         loading: false,
       }
+
+    case "TOGGLE_VERIFY":
+      categoriesCopy = [...state.categories]
+      if (payload?.parent) {
+        // find parent
+        categoryIndex = categoriesCopy.findIndex(
+          (el) => el.id === payload?.parent
+        )
+        // find child
+        subCategoryIndex = categoriesCopy[categoryIndex].children?.findIndex(
+          (el) => el.id === payload?.category?.id
+        )
+
+        // update state
+        categoriesCopy[categoryIndex].children[subCategoryIndex] = {
+          ...categoriesCopy[categoryIndex].children[subCategoryIndex],
+          verified: payload?.category?.verified,
+        }
+      } else {
+        // find parent
+        categoryIndex = categoriesCopy.findIndex(
+          (el) => el.id === payload?.category?.id
+        )
+
+        // update state
+        categoriesCopy[categoryIndex] = {
+          ...categoriesCopy[categoryIndex],
+          verified: payload?.category.verified,
+        }
+      }
+
+      return {
+        ...state,
+        categories: categoriesCopy,
+      }
+
     case "LOAD":
       data = payload
       data.forEach((el) => {

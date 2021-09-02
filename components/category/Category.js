@@ -13,11 +13,10 @@ import { config } from "../config"
 import axios from "axios"
 import { useAlertsDispatch } from "../../context/alerts"
 
-let verified = false
-
 const Category = ({ category }) => {
   const { categories } = useCategoriesState()
   const [open, setOpen] = useState(false)
+  const [verifyOpen, setVerifyOpen] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const dispatch = useAlertsDispatch()
@@ -65,7 +64,54 @@ const Category = ({ category }) => {
       })
   }
 
-  const verify = () => {}
+  const verify = () => {
+    if (category?.verified === "true") {
+      let body = {
+        verified: false,
+      }
+      setLoading(true)
+      axios
+        .put(`${API}/jobCategories/${category?.id}`, body, config)
+        .then((res) => {
+          setLoading(false)
+          setVerifyOpen(false)
+          categoriesDispatch({
+            type: "TOGGLE_VERIFY",
+            payload: {
+              category: res?.data?.payload,
+            },
+          })
+        })
+        .catch((err) => {
+          setLoading(false)
+          setVerifyOpen(false)
+        })
+    } else {
+      let body = {
+        verified: true,
+      }
+      setLoading(true)
+
+      axios
+        .put(`${API}/jobCategories/${category?.id}`, body, config)
+        .then((res) => {
+          setLoading(false)
+          setVerifyOpen(false)
+          categoriesDispatch({
+            type: "TOGGLE_VERIFY",
+            payload: {
+              category: res?.data?.payload,
+            },
+          })
+        })
+        .catch((err) => {
+          setLoading(false)
+          setVerifyOpen(false)
+        })
+    }
+  }
+
+  console.log(category.verified)
 
   return (
     <div className={styles.category}>
@@ -76,10 +122,14 @@ const Category = ({ category }) => {
       >
         <div className={styles.actions}>
           <button
-            className={verified ? "badge verified" : "badge unverified"}
-            onClick={verify}
+            className={
+              category?.verified === "true"
+                ? "badge verified"
+                : "badge unverified"
+            }
+            onClick={() => setVerifyOpen(true)}
           >
-            {verified ? <>Unverify</> : "Verify"}
+            {category?.verified === "true" ? "Unverify" : "Verify"}
           </button>
           <button
             className={`${styles.btn} btn btn-primary`}
@@ -89,8 +139,14 @@ const Category = ({ category }) => {
           </button>
         </div>
         {category?.children?.length > 0 &&
-          category.children.map(({ id, name }) => (
-            <SubCategory key={id} name={name} id={id} parent={category?.id} />
+          category.children.map(({ id, name, verified }) => (
+            <SubCategory
+              key={id}
+              name={name}
+              id={id}
+              verified={verified}
+              parent={category?.id}
+            />
           ))}
       </Accordion>
       {open && (
@@ -101,6 +157,21 @@ const Category = ({ category }) => {
             action={deleteCategory}
             loading={loading}
             btnText="Delete"
+          />
+        </Modal>
+      )}
+      {verifyOpen && (
+        <Modal setOpen={setVerifyOpen}>
+          <Action
+            setOpen={setVerifyOpen}
+            title={
+              category?.verified === "true"
+                ? `Unverify ${category.name}?`
+                : `Verify ${category.name}?`
+            }
+            action={verify}
+            loading={loading}
+            btnText={category?.verified === "true" ? "Unverify" : "Verify"}
           />
         </Modal>
       )}
