@@ -7,7 +7,7 @@ import styles from "../edit.module.sass"
 import Settings from "../settings/Settings"
 import CV from "./CV"
 import axios from "axios"
-import Cookies from "js-cookie"
+import { config } from "../../../config"
 import { API } from "../../../api"
 import { useAlertsDispatch } from "../../../../context/alerts"
 import { useAuthDispatch } from "../../../../context/auth"
@@ -46,12 +46,6 @@ const EditProfile = ({ details, page }) => {
   }
   const handleSubmit = (e) => {
     e.preventDefault(e)
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ` + token,
-      },
-    }
     setLoading(true)
     setFormData({ ...formData, token })
     axios

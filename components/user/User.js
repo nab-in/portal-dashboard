@@ -1,5 +1,8 @@
 import { useState } from "react"
 import Link from "next/link"
+import axios from "axios"
+import { API } from "../api"
+import { config } from "../config"
 import Modal from "../modal/Modal"
 import styles from "./user.module.sass"
 import Action from "../actions/Action"
@@ -10,9 +13,23 @@ const User = ({ userData }) => {
   const [companyOpen, setCompanyOpen] = useState(false)
   const [role, setRole] = useState("")
   const { roles, user } = useAuthState()
-
+  const [loading, setLoading] = useState(false)
   const addRole = () => {
-    setOpen(false)
+    if (user?.identity?.value === "SUPER USER") {
+      setLoading(true)
+      axios
+        .put(`${API}/users`, [{ id: role }], config)
+        .then((res) => {
+          console.log(res?.data)
+          setLoading(false)
+          setOpen(false)
+        })
+        .catch((err) => {
+          console.log(err?.response)
+          setLoading(false)
+          setOpen(false)
+        })
+    }
   }
   const remove = () => {
     setCompanyOpen(false)
@@ -32,7 +49,7 @@ const User = ({ userData }) => {
       </div>
       <div className={styles.role}>
         {user?.role == "admin" &&
-          user?.identity?.name == "admin" &&
+          user?.identity?.value == "SUPER USER" &&
           user?.id != userData.id && (
             <button onClick={() => setOpen(true)}>Add Role</button>
           )}
@@ -56,6 +73,7 @@ const User = ({ userData }) => {
             action={addRole}
             btnText="Add"
             roles={roles}
+            loading={loading}
           />
         </Modal>
       )}
@@ -66,6 +84,7 @@ const User = ({ userData }) => {
             setOpen={setCompanyOpen}
             action={remove}
             btnText="Remove"
+            loading={loading}
           />
         </Modal>
       )}

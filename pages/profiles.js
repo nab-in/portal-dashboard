@@ -53,7 +53,10 @@ const profiles = () => {
     if (keyword?.trim().length == 0) {
       if (user?.identity?.name == "admin") {
         axios
-          .get(`${API}/users?page=${page}&pageSize=4`, config)
+          .get(
+            `${API}/users?page=${page}&pageSize=4&fields=userRoles,firstname,lastname,id,dp`,
+            config
+          )
           .then((res) => {
             setPager(res.data.pager)
             setUsers(res.data.users)
