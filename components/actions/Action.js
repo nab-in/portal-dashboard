@@ -26,15 +26,6 @@ const Action = ({
   return (
     <div className={styles.action}>
       <p>{title}</p>
-      {setPassword && (
-        <Input
-          handleChange={(e) => setPassword(e.target.value)}
-          value={password}
-          type="password"
-          name="password"
-          placeholder="Enter your password"
-        />
-      )}
       {setUsername && (
         <Input
           handleChange={(e) => setUsername(e.target.value)}
@@ -65,7 +56,7 @@ const Action = ({
             <select onChange={(e) => handleSelectChange(e)}>
               {roles.map(({ id, name }) => (
                 <option
-                  value={name}
+                  value={id}
                   key={id}
                   defaultValue={role == name ? true : false}
                 >
@@ -75,6 +66,15 @@ const Action = ({
             </select>
           </label>
         </div>
+      )}
+      {setPassword && (
+        <Input
+          handleChange={(e) => setPassword(e.target.value)}
+          value={password}
+          type="password"
+          name="password"
+          placeholder="Enter your password"
+        />
       )}
       {setRole && roles.length == 0 && <p>No role to Add</p>}
       <div className={styles.btns}>

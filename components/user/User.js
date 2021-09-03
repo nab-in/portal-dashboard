@@ -13,14 +13,20 @@ const User = ({ userData }) => {
   const [companyOpen, setCompanyOpen] = useState(false)
   const [role, setRole] = useState("")
   const { roles, user } = useAuthState()
+  const [userpassword, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
 
-  console.log(userData)
+  console.log(userData, role)
+
   const addRole = () => {
     if (user?.identity?.value === "SUPER USER") {
       setLoading(true)
       axios
-        .put(`${API}/users`, [{ id: role }], config)
+        .put(
+          `${API}/users/${userData.id}`,
+          { userRoles: [{ id: role }], userpassword },
+          config
+        )
         .then((res) => {
           console.log(res?.data)
           setLoading(false)
@@ -71,6 +77,7 @@ const User = ({ userData }) => {
             title={`Add role to ${userData?.firstname}`}
             role={role}
             setRole={setRole}
+            setPassword={setPassword}
             setOpen={setOpen}
             action={addRole}
             btnText="Add"
