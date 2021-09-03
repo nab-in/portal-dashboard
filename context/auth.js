@@ -1,5 +1,6 @@
 import { createContext, useReducer, useContext } from "react"
 import Cookies from "js-cookie"
+
 const AuthStateContext = createContext()
 const AuthDispatchContext = createContext()
 
@@ -48,7 +49,7 @@ const authReducer = (state, action) => {
         user: userCopy,
       }
     case "ADD_PROFILE":
-      let id = Cookies.get("identity")
+      id = Cookies.get("identity")
       if (id) id = JSON.parse(id)
       userCopy = { ...payload, identity: id }
       return {
@@ -117,8 +118,19 @@ const authReducer = (state, action) => {
     // Get user data
     case "AUTH":
       id = Cookies.get("identity")
+      userCopy = { ...payload }
       if (id) id = JSON.parse(id)
-      userCopy = { ...payload, identity: id, role: id?.name }
+      if (id?.name === "company") {
+        let companyCheck = payload.companies?.find((el) => el.id === id?.id)
+        if (companyCheck) {
+          userCopy = { ...payload, identity: id, role: id?.name }
+        }
+      } else if (id?.name === "admin") {
+        let roleCheck = payload.userRoles?.find((el) => el.id === id?.id)
+        if (roleCheck) {
+          userCopy = { ...payload, identity: id, role: id?.name }
+        }
+      }
       return {
         ...state,
         user: userCopy,

@@ -33,68 +33,80 @@ const select_identity = () => {
   }
 
   useEffect(() => {
-    if (!isAuthenticated && !loading && !user) {
-      router.push("/login")
+    let isMounted = true
+    if (isMounted)
+      if (!isAuthenticated && !loading && !user) {
+        router.push("/login")
+      }
+    return () => {
+      isMounted = false
     }
   }, [loading])
+
   useEffect(() => {
-    setLoading(true)
-    axios
-      .get(`${API}/me?fields=userRoles,companies`, config)
-      .then((res) => {
-        setLoading(false)
-        setCompanies(res.data?.companies)
-        setRoles(res.data?.userRoles)
-        let roleData = res.data?.userRoles.find((el) => el.id === role)
-        let companyData = res.data?.companies.find((el) => el.id === company)
-        if (roleData) {
-          dispatch({
-            type: "SELECT",
-            payload: {
-              id: roleData.id,
-              name: "admin",
-              value: roleData.name,
-            },
-          })
-          if (roleData.id && roleData.name) router.push("/")
-        }
-        if (companyData) {
-          dispatch({
-            type: "SELECT",
-            payload: {
-              id: companyData.id,
-              name: "company",
-              value: "",
-            },
-          })
-          if (companyData.id && companyData.name) {
+    let isMounted = true
+    if (isMounted) {
+      setLoading(true)
+      axios
+        .get(`${API}/me?fields=userRoles,companies`, config)
+        .then((res) => {
+          setLoading(false)
+          setCompanies(res.data?.companies)
+          setRoles(res.data?.userRoles)
+          let roleData = res.data?.userRoles.find((el) => el.id === role)
+          let companyData = res.data?.companies.find((el) => el.id === company)
+          if (roleData) {
             dispatch({
-              type: "COMPANY",
-              payload: companyData,
+              type: "SELECT",
+              payload: {
+                id: roleData.id,
+                name: "admin",
+                value: roleData.name,
+              },
             })
-            router.push("/")
+            if (roleData.id && roleData.name) router.push("/")
           }
-        }
-      })
-      .catch((err) => {
-        setLoading(false)
-        if (err?.response) {
-          setErrors({
-            type: "danger",
-            msg: err?.response?.data?.message,
-          })
-        } else if (err?.message == "Network Error") {
-          setErrors({
-            type: "danger",
-            msg: "Network Error",
-          })
-        } else {
-          setErrors({
-            type: "danger",
-            msg: "Internal server error, please try again",
-          })
-        }
-      })
+          if (companyData) {
+            dispatch({
+              type: "SELECT",
+              payload: {
+                id: companyData.id,
+                name: "company",
+                value: "",
+              },
+            })
+            if (companyData.id && companyData.name) {
+              dispatch({
+                type: "COMPANY",
+                payload: companyData,
+              })
+              router.push("/")
+            }
+          }
+        })
+        .catch((err) => {
+          setLoading(false)
+          if (err?.response) {
+            setErrors({
+              type: "danger",
+              msg: err?.response?.data?.message,
+            })
+          } else if (err?.message == "Network Error") {
+            setErrors({
+              type: "danger",
+              msg: "Network Error",
+            })
+          } else {
+            setErrors({
+              type: "danger",
+              msg: "Internal server error, please try again",
+            })
+          }
+        })
+    }
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   return (

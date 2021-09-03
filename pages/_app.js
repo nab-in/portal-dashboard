@@ -25,7 +25,10 @@ function MyApp({ Component, pageProps }) {
         })
       if (!user && token)
         axios
-          .get(`${API}/me`, config)
+          .get(
+            `${API}/me?fields=companies,userRoles,firstname,lastname,username,dp,cv,websitelink,bio,cvlink,id,title,location,enabled,verified`,
+            config
+          )
           .then((res) => {
             dispatch({
               type: "AUTH",
