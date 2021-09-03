@@ -8,94 +8,6 @@ import { API } from "../components/api"
 import { config } from "../components/config"
 import axios from "axios"
 
-const Loader = () => (
-  <div className={styles.select}>
-    <section>
-      <div
-        style={{
-          height: "70px",
-          width: "100%",
-          background: "rgba(226, 232, 236, .7)",
-        }}
-      >
-        <span className="loader" />
-      </div>
-      <h1
-        style={{
-          margin: "1rem auto",
-          width: "60%",
-          background: "rgba(226, 232, 236, .7)",
-          height: "20px",
-        }}
-      >
-        <span className="loader" />
-      </h1>
-      <div
-        style={{
-          padding: ".5rem 1rem",
-          display: "flex",
-          width: "100%",
-          margin: "1rem 0",
-          alignItems: "center",
-        }}
-        className="card"
-      >
-        <div
-          style={{
-            height: "40px",
-            width: "40px",
-            background: "rgba(226, 232, 236, .7)",
-          }}
-        >
-          <span className="loader" />
-        </div>
-        <p
-          style={{
-            width: "200px",
-            margin: 0,
-            marginLeft: "1.5rem",
-            background: "rgba(226, 232, 236, .7)",
-            height: "18px",
-          }}
-        >
-          <span className="loader" />
-        </p>
-      </div>
-      <div
-        style={{
-          padding: ".5rem 1rem",
-          display: "flex",
-          width: "100%",
-          margin: "1rem 0",
-          alignItems: "center",
-        }}
-        className="card"
-      >
-        <div
-          style={{
-            height: "40px",
-            width: "40px",
-            background: "rgba(226, 232, 236, .7)",
-          }}
-        >
-          <span className="loader" />
-        </div>
-        <p
-          style={{
-            width: "200px",
-            margin: 0,
-            marginLeft: "1.5rem",
-            background: "rgba(226, 232, 236, .7)",
-            height: "18px",
-          }}
-        >
-          <span className="loader" />
-        </p>
-      </div>
-    </section>
-  </div>
-)
-
 const CardLoader = () => (
   <div
     style={{
@@ -112,6 +24,7 @@ const CardLoader = () => (
         height: "40px",
         width: "40px",
         background: "rgba(226, 232, 236, .7)",
+        overflow: "hidden",
       }}
     >
       <span className="loader" />
@@ -123,10 +36,41 @@ const CardLoader = () => (
         marginLeft: "1.5rem",
         background: "rgba(226, 232, 236, .7)",
         height: "18px",
+        overflow: "hidden",
       }}
     >
       <span className="loader" />
     </p>
+  </div>
+)
+
+const Loader = () => (
+  <div className={styles.select}>
+    <section>
+      <div
+        style={{
+          height: "70px",
+          width: "100%",
+          background: "rgba(226, 232, 236, .7)",
+          overflow: "hidden",
+        }}
+      >
+        <span className="loader" />
+      </div>
+      <h1
+        style={{
+          margin: "1rem auto",
+          width: "60%",
+          background: "rgba(226, 232, 236, .7)",
+          height: "20px",
+          overflow: "hidden",
+        }}
+      >
+        <span className="loader" />
+      </h1>
+      <CardLoader />
+      <CardLoader />
+    </section>
   </div>
 )
 
