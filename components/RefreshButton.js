@@ -1,6 +1,6 @@
 import { GrRefresh } from "react-icons/gr"
 
-const RefreshButton = ({ loading }) => {
+const RefreshButton = ({ loading, onclick }) => {
   return (
     <div
       style={{
@@ -9,7 +9,7 @@ const RefreshButton = ({ loading }) => {
       }}
     >
       <button
-        onClick={refresh}
+        onClick={onclick}
         style={{
           fontSize: "1.5rem",
         }}

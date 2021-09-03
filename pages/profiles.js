@@ -22,6 +22,7 @@ const profiles = () => {
   const [pager, setPager] = useState(null)
   const [loading, setLoading] = useState(true)
   const [errors, setErrors] = useState("")
+  const [message, setMessage] = useState("")
   const [results, setResults] = useState(null)
   const [keyword, setKeyword] = useState(
     router.query?.keyword ? router.query.keyword : ""
@@ -58,14 +59,18 @@ const profiles = () => {
   }&url=${url}&keyword=${keyword}`
 
   const refreshUsers = (search) => {
+    setMessage("")
     if (search && keyword?.trim().length > 0) {
       url = `&filter=firstname:ilike:${keyword}`
+      setLoading(true)
       axios
         .get(`${API}/users?page=${page}&pageSize=10${url}`, config)
         .then((res) => {
           setPager(res.data.pager)
           setResults(res.data.users)
           setSize(res.data.users.length)
+          if (res?.data?.users?.length === 0)
+            setMessage("No user match your criteria")
           setLoading(false)
         })
         .catch((err) => {
@@ -96,6 +101,7 @@ const profiles = () => {
         })
     } else if (keyword?.trim().length == 0) {
       if (user?.identity?.name == "admin") {
+        setLoading(true)
         axios
           .get(
             `${API}/users?page=${page}&pageSize=10&fields=userRoles,firstname,lastname,id,dp`,
@@ -104,6 +110,7 @@ const profiles = () => {
           .then((res) => {
             setPager(res.data.pager)
             setUsers(res.data.users)
+            if (res?.data?.users?.length === 0) setMessage("No user found")
             setSize(res.data.users.length)
             setLoading(false)
           })
@@ -135,10 +142,12 @@ const profiles = () => {
           })
       }
       if (user?.identity?.name == "company") {
+        setLoading(true)
         axios
           .get(`${API}/companies/${user?.identity?.id}?fields=users`, config)
           .then((res) => {
             setUsers(res.data.users)
+            if (res?.data?.users?.length === 0) setMessage("No user found")
             setLoading(false)
           })
           .catch((err) => {
@@ -201,53 +210,50 @@ const profiles = () => {
             <>
               {results !== null ? (
                 <>
-                  {results.length > 0 ? (
+                  {results.length > 0 && (
                     <>
                       {results.map((user) => (
                         <User key={user.id} userData={user} />
                       ))}
                     </>
-                  ) : (
-                    <p
-                      style={{
-                        background: "white",
-                        padding: "1rem",
-                      }}
-                    >
-                      No user found
-                    </p>
                   )}
                 </>
               ) : (
                 <>
-                  {users.length > 0 ? (
+                  {users.length > 0 && (
                     <>
                       {users.map((user) => (
                         <User key={user.id} userData={user} />
                       ))}
                     </>
-                  ) : (
-                    <p
-                      style={{
-                        background: "white",
-                        padding: "1rem",
-                      }}
-                    >
-                      No user found
-                    </p>
                   )}
                 </>
               )}
             </>
           )}
-          {pager && (
-            <Pagination
-              size={size}
-              pager={pager}
-              nextUrl={nextUrl}
-              prevUrl={prevUrl}
-            />
+          {(errors || message) && (
+            <div
+              style={{
+                background: "white",
+                padding: "1rem",
+              }}
+            >
+              {message && !loading && <p>{message}</p>}
+              {errors?.msg && <p className="alerts danger">{errors.msg}</p>}
+              <RefreshButton onclick={refreshUsers} />
+            </div>
           )}
+
+          {pager &&
+            ((users?.length > 0 && results?.length > 0) ||
+              (users?.length > 0 && results === null)) && (
+              <Pagination
+                size={size}
+                pager={pager}
+                nextUrl={nextUrl}
+                prevUrl={prevUrl}
+              />
+            )}
         </MainContents>
         <SubContents>
           <div className="desktop-filter">
