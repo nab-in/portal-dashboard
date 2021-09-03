@@ -264,68 +264,8 @@ const select_identity = () => {
                 <p>Welcome {user?.username}</p>
                 {identityLoading ? (
                   <>
-                    <div
-                      style={{
-                        padding: ".5rem 1rem",
-                        display: "flex",
-                        width: "100%",
-                        margin: "1rem 0",
-                        alignItems: "center",
-                      }}
-                      className="card"
-                    >
-                      <div
-                        style={{
-                          height: "40px",
-                          width: "40px",
-                          background: "rgba(226, 232, 236, .7)",
-                        }}
-                      >
-                        <span className="loader" />
-                      </div>
-                      <p
-                        style={{
-                          width: "200px",
-                          margin: 0,
-                          marginLeft: "1.5rem",
-                          background: "rgba(226, 232, 236, .7)",
-                          height: "18px",
-                        }}
-                      >
-                        <span className="loader" />
-                      </p>
-                    </div>
-                    <div
-                      style={{
-                        padding: ".5rem 1rem",
-                        display: "flex",
-                        width: "100%",
-                        margin: "1rem 0",
-                        alignItems: "center",
-                      }}
-                      className="card"
-                    >
-                      <div
-                        style={{
-                          height: "40px",
-                          width: "40px",
-                          background: "rgba(226, 232, 236, .7)",
-                        }}
-                      >
-                        <span className="loader" />
-                      </div>
-                      <p
-                        style={{
-                          width: "200px",
-                          margin: 0,
-                          marginLeft: "1.5rem",
-                          background: "rgba(226, 232, 236, .7)",
-                          height: "18px",
-                        }}
-                      >
-                        <span className="loader" />
-                      </p>
-                    </div>
+                    <CardLoader />
+                    <CardLoader />
                   </>
                 ) : (
                   <>

@@ -20,7 +20,7 @@ const profiles = () => {
   const [size, setSize] = useState(0)
   const [pager, setPager] = useState(null)
   const [loading, setLoading] = useState(true)
-  let [error, setError] = useState("")
+  let [errors, setErrors] = useState("")
   const [results, setResults] = useState(null)
   const [keyword, setKeyword] = useState(
     router.query?.keyword ? router.query.keyword : ""
@@ -34,7 +34,7 @@ const profiles = () => {
     if (keyword?.trim().length > 0) {
       url = `&filter=firstname:ilike:${keyword}`
       axios
-        .get(`${API}/users?page=${page}&pageSize=4${url}`, config)
+        .get(`${API}/users?page=${page}&pageSize=10${url}`, config)
         .then((res) => {
           setPager(res.data.pager)
           setResults(res.data.users)
@@ -43,7 +43,7 @@ const profiles = () => {
         })
         .catch((err) => {
           console.log(err.response)
-          setError(err?.response?.data?.message)
+          setErrors(err?.response?.data?.message)
           setLoading(false)
         })
     }
@@ -54,7 +54,7 @@ const profiles = () => {
       if (user?.identity?.name == "admin") {
         axios
           .get(
-            `${API}/users?page=${page}&pageSize=4&fields=userRoles,firstname,lastname,id,dp`,
+            `${API}/users?page=${page}&pageSize=10&fields=userRoles,firstname,lastname,id,dp`,
             config
           )
           .then((res) => {
@@ -65,7 +65,7 @@ const profiles = () => {
           })
           .catch((err) => {
             console.log(err.response)
-            setError(err?.response?.data?.message)
+            setErrors(err?.response?.data?.message)
             setLoading(false)
           })
       }
@@ -78,7 +78,7 @@ const profiles = () => {
           })
           .catch((err) => {
             console.log(err.response)
-            setError(err?.response?.data?.message)
+            setErrors(err?.response?.data?.message)
             setLoading(false)
           })
       }
