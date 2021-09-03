@@ -96,6 +96,40 @@ const Loader = () => (
   </div>
 )
 
+const CardLoader = () => (
+  <div
+    style={{
+      padding: ".5rem 1rem",
+      display: "flex",
+      width: "100%",
+      margin: "1rem 0",
+      alignItems: "center",
+    }}
+    className="card"
+  >
+    <div
+      style={{
+        height: "40px",
+        width: "40px",
+        background: "rgba(226, 232, 236, .7)",
+      }}
+    >
+      <span className="loader" />
+    </div>
+    <p
+      style={{
+        width: "200px",
+        margin: 0,
+        marginLeft: "1.5rem",
+        background: "rgba(226, 232, 236, .7)",
+        height: "18px",
+      }}
+    >
+      <span className="loader" />
+    </p>
+  </div>
+)
+
 const select_identity = () => {
   let { user, isAuthenticated, loading } = useAuthState()
   let [companies, setCompanies] = useState([])
@@ -149,8 +183,8 @@ const select_identity = () => {
       .get(`${API}/me?fields=userRoles,companies`, config)
       .then((res) => {
         setLoading(false)
-        // setCompanies(res.data?.companies)
-        // setRoles(res.data?.userRoles)
+        setCompanies(res.data?.companies)
+        setRoles(res.data?.userRoles)
         if (
           res?.data?.companies?.length === 0 &&
           res?.data?.userRoles?.length === 0
@@ -221,24 +255,71 @@ const select_identity = () => {
                   <img src={user?.dp} alt="" />
                 </div>
                 <p>Welcome {user?.username}</p>
-                <p className="alerts danger">Failed to fetch</p>
-                <div
-                  className={styles.refresh}
-                  style={{
-                    textAlign: "center",
-                  }}
-                >
-                  <button
-                    onClick={refresh}
-                    style={{
-                      fontSize: "1.5rem",
-                    }}
-                  >
-                    <GrRefresh className="icon" />
-                  </button>
-                </div>
                 {identityLoading ? (
-                  <></>
+                  <>
+                    <div
+                      style={{
+                        padding: ".5rem 1rem",
+                        display: "flex",
+                        width: "100%",
+                        margin: "1rem 0",
+                        alignItems: "center",
+                      }}
+                      className="card"
+                    >
+                      <div
+                        style={{
+                          height: "40px",
+                          width: "40px",
+                          background: "rgba(226, 232, 236, .7)",
+                        }}
+                      >
+                        <span className="loader" />
+                      </div>
+                      <p
+                        style={{
+                          width: "200px",
+                          margin: 0,
+                          marginLeft: "1.5rem",
+                          background: "rgba(226, 232, 236, .7)",
+                          height: "18px",
+                        }}
+                      >
+                        <span className="loader" />
+                      </p>
+                    </div>
+                    <div
+                      style={{
+                        padding: ".5rem 1rem",
+                        display: "flex",
+                        width: "100%",
+                        margin: "1rem 0",
+                        alignItems: "center",
+                      }}
+                      className="card"
+                    >
+                      <div
+                        style={{
+                          height: "40px",
+                          width: "40px",
+                          background: "rgba(226, 232, 236, .7)",
+                        }}
+                      >
+                        <span className="loader" />
+                      </div>
+                      <p
+                        style={{
+                          width: "200px",
+                          margin: 0,
+                          marginLeft: "1.5rem",
+                          background: "rgba(226, 232, 236, .7)",
+                          height: "18px",
+                        }}
+                      >
+                        <span className="loader" />
+                      </p>
+                    </div>
+                  </>
                 ) : (
                   <>
                     {companies?.length > 0 || roles?.length > 0 ? (
@@ -291,8 +372,30 @@ const select_identity = () => {
                       </>
                     ) : (
                       <>
-                        {/* {errors} */}
+                        {errors?.msg && (
+                          <p className={`${styles.alert} alerts danger`}>
+                            {errors.msg}
+                          </p>
+                        )}
                         {message && <h2>{message}</h2>}
+
+                        <div
+                          className={styles.refresh}
+                          style={{
+                            textAlign: "center",
+                            margin: "1rem",
+                          }}
+                        >
+                          <button
+                            onClick={refresh}
+                            style={{
+                              fontSize: "1.5rem",
+                            }}
+                          >
+                            <GrRefresh className="icon" />
+                          </button>
+                        </div>
+
                         <p>
                           <a href="http://localhost:3000">Visit home</a> OR
                           &nbsp;
