@@ -1,6 +1,6 @@
 import { GrRefresh } from "react-icons/gr"
 
-const Refresh = ({ loading }) => {
+const RefreshButton = ({ loading }) => {
   return (
     <div
       style={{
@@ -21,4 +21,4 @@ const Refresh = ({ loading }) => {
   )
 }
 
-export default Refresh
+export default RefreshButton

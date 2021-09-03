@@ -50,11 +50,18 @@ const Login = () => {
             type: "danger",
             msg: err?.response?.data?.message,
           })
-        } else if (err?.message == "Network Error") {
-          setErrors({
-            type: "danger",
-            msg: "Network Error",
-          })
+        } else if (err?.message) {
+          if (err?.code === "ECONNREFUSED") {
+            setErrors({
+              type: "danger",
+              msg: "Failed to connect, please try again",
+            })
+          } else {
+            setErrors({
+              type: "danger",
+              msg: err.message,
+            })
+          }
         } else {
           setErrors({
             type: "danger",

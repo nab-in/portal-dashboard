@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { API } from "../components/api"
+import RefreshButton from "../components/RefreshButton"
 import axios from "axios"
 import { config } from "../components/config"
 import MainContents from "../components/templates/MainContents"
@@ -20,7 +21,7 @@ const profiles = () => {
   const [size, setSize] = useState(0)
   const [pager, setPager] = useState(null)
   const [loading, setLoading] = useState(true)
-  let [errors, setErrors] = useState("")
+  const [errors, setErrors] = useState("")
   const [results, setResults] = useState(null)
   const [keyword, setKeyword] = useState(
     router.query?.keyword ? router.query.keyword : ""
@@ -31,7 +32,33 @@ const profiles = () => {
   let url = router.query?.url ? router.query.url : ""
 
   useEffect(() => {
-    if (keyword?.trim().length > 0) {
+    let isMounted = true
+    let search = true
+    if (isMounted) refreshUsers(search)
+    return () => {
+      isMounted = false
+    }
+  }, [keyword])
+
+  useEffect(() => {
+    let isMounted = true
+    if (isMounted) refreshUsers()
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  let nextUrl = `/profiles?page=${
+    page < Math.ceil(pager?.total / pager?.pageSize)
+      ? pager?.page + 1
+      : pager?.page
+  }&url=${url}&keyword=${keyword}`
+  let prevUrl = `/profiles?page=${
+    pager?.page > 1 ? pager?.page - 1 : 1
+  }&url=${url}&keyword=${keyword}`
+
+  const refreshUsers = (search) => {
+    if (search && keyword?.trim().length > 0) {
       url = `&filter=firstname:ilike:${keyword}`
       axios
         .get(`${API}/users?page=${page}&pageSize=10${url}`, config)
@@ -42,15 +69,32 @@ const profiles = () => {
           setLoading(false)
         })
         .catch((err) => {
-          console.log(err.response)
-          setErrors(err?.response?.data?.message)
           setLoading(false)
+          if (err?.response) {
+            setErrors({
+              type: "danger",
+              msg: err?.response?.data?.message,
+            })
+          } else if (err?.message) {
+            if (err?.code === "ECONNREFUSED") {
+              setErrors({
+                type: "danger",
+                msg: "Failed to connect, please try again",
+              })
+            } else {
+              setErrors({
+                type: "danger",
+                msg: err.message,
+              })
+            }
+          } else {
+            setErrors({
+              type: "danger",
+              msg: "Internal server error, please try again",
+            })
+          }
         })
-    }
-  }, [keyword])
-
-  useEffect(() => {
-    if (keyword?.trim().length == 0) {
+    } else if (keyword?.trim().length == 0) {
       if (user?.identity?.name == "admin") {
         axios
           .get(
@@ -64,9 +108,30 @@ const profiles = () => {
             setLoading(false)
           })
           .catch((err) => {
-            console.log(err.response)
-            setErrors(err?.response?.data?.message)
             setLoading(false)
+            if (err?.response) {
+              setErrors({
+                type: "danger",
+                msg: err?.response?.data?.message,
+              })
+            } else if (err?.message) {
+              if (err?.code === "ECONNREFUSED") {
+                setErrors({
+                  type: "danger",
+                  msg: "Failed to connect, please try again",
+                })
+              } else {
+                setErrors({
+                  type: "danger",
+                  msg: err.message,
+                })
+              }
+            } else {
+              setErrors({
+                type: "danger",
+                msg: "Internal server error, please try again",
+              })
+            }
           })
       }
       if (user?.identity?.name == "company") {
@@ -77,21 +142,34 @@ const profiles = () => {
             setLoading(false)
           })
           .catch((err) => {
-            console.log(err.response)
-            setErrors(err?.response?.data?.message)
             setLoading(false)
+            if (err?.response) {
+              setErrors({
+                type: "danger",
+                msg: err?.response?.data?.message,
+              })
+            } else if (err?.message) {
+              if (err?.code === "ECONNREFUSED") {
+                setErrors({
+                  type: "danger",
+                  msg: "Failed to connect, please try again",
+                })
+              } else {
+                setErrors({
+                  type: "danger",
+                  msg: err.message,
+                })
+              }
+            } else {
+              setErrors({
+                type: "danger",
+                msg: "Internal server error, please try again",
+              })
+            }
           })
       }
     }
-  }, [])
-  let nextUrl = `/profiles?page=${
-    page < Math.ceil(pager?.total / pager?.pageSize)
-      ? pager?.page + 1
-      : pager?.page
-  }&url=${url}&keyword=${keyword}`
-  let prevUrl = `/profiles?page=${
-    pager?.page > 1 ? pager?.page - 1 : 1
-  }&url=${url}&keyword=${keyword}`
+  }
 
   return (
     <div>
@@ -104,11 +182,6 @@ const profiles = () => {
             <span>/</span>
             <span>Profiles</span>
           </div>
-          {/* <div className="mobile__link">
-            <Link href="/jobs/new_job">
-              <a>Add New Job</a>
-            </Link>
-          </div> */}
           <div className="mobile-filter">
             <Search setKeyword={setKeyword} />
           </div>
