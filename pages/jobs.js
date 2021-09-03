@@ -12,18 +12,16 @@ import { config } from "../components/config"
 import { API } from "../components/api"
 import Pagination from "../components/pagination/Pagination"
 import Loader from "../components/loaders/cardLoader"
-import { useAlertsDispatch } from "../context/alerts"
 
 const jobs = () => {
   let router = useRouter()
   const [size, setSize] = useState(0)
-  const [error, setError] = useState(null)
+  const [errors, setErrors] = useState(null)
   const [jobs, setJobs] = useState([])
   const [results, setResults] = useState(null)
   let [url, setUrl] = useState("")
   const [pager, setPager] = useState(null)
   const [loading, setLoading] = useState(true)
-  const dispatch = useAlertsDispatch()
 
   let [search, setSearch] = useState({
     name: "",
@@ -83,7 +81,7 @@ const jobs = () => {
             setJobs(res.data.jobs)
             setSize(res.data.jobs.length)
             setLoading(false)
-            setError(null)
+            setErrors(null)
           })
           .catch((err) => {
             setLoading(false)
@@ -92,18 +90,24 @@ const jobs = () => {
                 type: "danger",
                 msg: err?.response?.data?.message,
               })
-            } else if (err?.message == "Network Error") {
-              setErrors({
-                type: "danger",
-                msg: "Network Error",
-              })
+            } else if (err?.message) {
+              if (err?.code === "ECONNREFUSED") {
+                setErrors({
+                  type: "danger",
+                  msg: "Failed to connect, please try again",
+                })
+              } else {
+                setErrors({
+                  type: "danger",
+                  msg: err.message,
+                })
+              }
             } else {
               setErrors({
                 type: "danger",
                 msg: "Internal server error, please try again",
               })
             }
-            // console.log(err)
           })
     }
     if (identity?.name == "company") {
@@ -112,7 +116,7 @@ const jobs = () => {
         .then((res) => {
           setLoading(false)
           setJobs(res.data.jobs)
-          setError(null)
+          setErrors(null)
         })
         .catch((err) => {
           setLoading(false)
@@ -150,7 +154,7 @@ const jobs = () => {
         )
         .then((res) => {
           console.log(res.data)
-          setError(null)
+          setErrors(null)
           setPager(res.data.pager)
           setResults(res.data.jobs)
           setSize(res.data.jobs.length)
@@ -182,11 +186,11 @@ const jobs = () => {
             pageSize: 1,
           })
           setSize(0)
-          setError(err?.response?.statusText)
+          setErrors(err?.response?.statusText)
         })
     } else {
       setResults(null)
-      setError(null)
+      setErrors(null)
     }
   }, [search, url])
 
@@ -241,7 +245,7 @@ const jobs = () => {
             </>
           ) : (
             <>
-              {error ? (
+              {errors?.msg ? (
                 <>
                   <p
                     style={{
@@ -249,7 +253,7 @@ const jobs = () => {
                       padding: "1rem",
                     }}
                   >
-                    {error}
+                    {errors.msg}
                   </p>
                 </>
               ) : (

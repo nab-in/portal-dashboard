@@ -60,6 +60,7 @@ const profiles = () => {
 
   const refreshUsers = (search) => {
     setMessage("")
+    setErrors(null)
     if (search && keyword?.trim().length > 0) {
       url = `&filter=firstname:ilike:${keyword}`
       setLoading(true)
