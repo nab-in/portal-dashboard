@@ -229,10 +229,17 @@ const select_identity = () => {
             msg: err?.response?.data?.message,
           })
         } else if (err?.message) {
-          setErrors({
-            type: "danger",
-            msg: "Network Error",
-          })
+          if (err?.code === "ECONNREFUSED") {
+            setErrors({
+              type: "danger",
+              msg: "Failed to connect, please try again",
+            })
+          } else {
+            setErrors({
+              type: "danger",
+              msg: err.message,
+            })
+          }
         } else {
           setErrors({
             type: "danger",
