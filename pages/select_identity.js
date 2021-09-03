@@ -10,7 +10,7 @@ import axios from "axios"
 const select_identity = () => {
   let { user, isAuthenticated, loading } = useAuthState()
   let [companies, setCompanies] = useState([])
-  let [companyLoading, setLoading] = useState(false)
+  let [identityLoading, setLoading] = useState(false)
   let [roles, setRoles] = useState([])
   let dispatch = useAuthDispatch()
   let router = useRouter()
@@ -111,7 +111,7 @@ const select_identity = () => {
 
   return (
     <>
-      {loading ? (
+      {loading || identityLoading ? (
         <></>
       ) : (
         <>
@@ -126,7 +126,6 @@ const select_identity = () => {
                 {companies?.length > 0 && (
                   <>
                     <h2>Your Companies</h2>
-                    {companyLoading}
                     <div className={styles.showcase}>
                       {companies.map(({ id, name, logo }) => (
                         <div

@@ -14,6 +14,8 @@ const User = ({ userData }) => {
   const [role, setRole] = useState("")
   const { roles, user } = useAuthState()
   const [loading, setLoading] = useState(false)
+
+  console.log(userData)
   const addRole = () => {
     if (user?.identity?.value === "SUPER USER") {
       setLoading(true)
