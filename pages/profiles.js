@@ -105,7 +105,7 @@ const profiles = () => {
         setLoading(true)
         axios
           .get(
-            `${API}/users?page=${page}&pageSize=10&fields=userRoles,firstname,lastname,id,dp`,
+            `${API}/users?page=${page}&pageSize=10&fields=userRoles,firstname,lastname,id,dp,enabled`,
             config
           )
           .then((res) => {

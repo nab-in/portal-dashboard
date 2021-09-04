@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import axios from "axios"
 import { API } from "../api"
@@ -10,13 +10,54 @@ import { useAuthState } from "../../context/auth"
 
 const User = ({ userData }) => {
   const [open, setOpen] = useState(false)
+  const [enableOpen, setEnableOpen] = useState(false)
   const [companyOpen, setCompanyOpen] = useState(false)
   const [role, setRole] = useState("")
   const { roles, user } = useAuthState()
+  const [userRole, setUserRole] = useState("")
   const [userpassword, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
 
-  console.log(userData, role)
+  const updateUserRole = () => {
+    let superuser = userData?.userRoles.find((el) => el.name === "SUPER USER")
+    let admin = userData?.userRoles.find((el) => el.name === "ADMIN")
+    if (superuser?.name === "SUPER USER") {
+      setUserRole("Super User")
+      return
+    }
+    if (admin?.name === "ADMIN") {
+      setUserRole("Admin")
+      return
+    }
+  }
+
+  const toggleEnabled = () => {
+    if (
+      user?.identity?.value === "SUPER USER" ||
+      user?.identity?.value === "ADMIN"
+    ) {
+      setLoading(true)
+      axios
+        .put(
+          `${API}/users/${userData.id}`,
+          {
+            enabled: !userData?.enabled,
+            userpassword,
+          },
+          config
+        )
+        .then((res) => {
+          console.log(res?.data)
+          setLoading(false)
+          setEnableOpen(false)
+        })
+        .catch((err) => {
+          console.log(err?.response)
+          setLoading(false)
+          setEnableOpen(false)
+        })
+    }
+  }
 
   const addRole = () => {
     if (user?.identity?.value === "SUPER USER") {
@@ -43,6 +84,14 @@ const User = ({ userData }) => {
     setCompanyOpen(false)
   }
 
+  useEffect(() => {
+    let isMounted = true
+    if (isMounted) updateUserRole()
+    return () => {
+      isMounted = false
+    }
+  }, [userData])
+
   return (
     <article className={`card ${styles.card}`}>
       <div className={styles.dp}>
@@ -54,22 +103,32 @@ const User = ({ userData }) => {
             {userData?.firstname} {userData?.lastname}
           </a>
         </Link>
+        {user?.role == "admin" &&
+          (user?.identity?.value === "ADMIN" ||
+            user?.identity?.value === "SUPER USER") && (
+            <div className={styles.user__role}>
+              {userData?.userRoles?.length > 0 && <>{userRole}</>}
+            </div>
+          )}
       </div>
       <div className={styles.role}>
-        {user?.role == "admin" &&
-          user?.identity?.value == "SUPER USER" &&
-          user?.id != userData.id && (
-            <button onClick={() => setOpen(true)}>Add Role</button>
+        {user?.identity?.name == "admin" &&
+          user?.id != userData.id &&
+          !(userRole === "Admin" || userRole === "Super user") && (
+            <button
+              onClick={() => setEnableOpen(true)}
+              className="btn btn-secondary"
+            >
+              {userData?.enabled ? `Disable` : `Enable`}
+            </button>
           )}
-        {user?.role == "admin" &&
-          user?.identity?.name == "admin" &&
-          user?.id == userData?.id && <p>You</p>}
-        {user?.identity?.name == "company" && user?.id != userData?.id && (
+        {user?.identity?.value == "SUPER USER" && user?.id != userData.id && (
+          <button onClick={() => setOpen(true)}>Add Role</button>
+        )}
+        {/* {user?.identity?.name == "company" && user?.id != userData?.id && (
           <button onClick={() => setCompanyOpen(true)}>Remove member</button>
-        )}
-        {user?.identity?.name == "company" && user?.id == userData.id && (
-          <p>You</p>
-        )}
+        )} */}
+        {user?.id == userData.id && <p>You</p>}
       </div>
       {open && (
         <Modal setOpen={setOpen}>
@@ -82,6 +141,22 @@ const User = ({ userData }) => {
             action={addRole}
             btnText="Add"
             roles={roles}
+            loading={loading}
+          />
+        </Modal>
+      )}
+      {enableOpen && (
+        <Modal setOpen={setEnableOpen}>
+          <Action
+            title={
+              userData?.enabled
+                ? `Disable ${userData?.firstname}`
+                : `Enable ${userData?.firstname}`
+            }
+            setPassword={setPassword}
+            setOpen={setEnableOpen}
+            action={toggleEnabled}
+            btnText={userData?.enabled ? "Disable" : "Enable"}
             loading={loading}
           />
         </Modal>
