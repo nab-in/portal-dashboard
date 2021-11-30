@@ -35,13 +35,12 @@ const Login = () => {
     axios
       .post(`${API}/login`, formData)
       .then((res) => {
-        console.log(res)
         dispatch({
           type: "LOGIN",
           payload: res.data,
         })
         setLoading(false)
-        router.push("/select_identity")
+        window.href = "/select_identity"
       })
       .catch((err) => {
         setLoading(false)

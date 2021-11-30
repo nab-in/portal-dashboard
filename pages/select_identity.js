@@ -124,7 +124,7 @@ const select_identity = () => {
   const refresh = () => {
     setLoading(true)
     axios
-      .get(`${API}/me?fields=userRoles,companies`, config)
+      .get(`${API}/me?fields=userRoles,companies,username,dp`, config)
       .then((res) => {
         setLoading(false)
         setCompanies(res.data?.companies)
@@ -145,7 +145,7 @@ const select_identity = () => {
               value: roleData.name,
             },
           })
-          if (roleData.id && roleData.name) router.push("/")
+          if (roleData.id && roleData.name) window.href = "/"
         }
         if (companyData) {
           dispatch({
@@ -161,12 +161,13 @@ const select_identity = () => {
               type: "COMPANY",
               payload: companyData,
             })
-            router.push("/")
+            window.href = "/"
           }
         }
       })
       .catch((err) => {
         setLoading(false)
+        console.log(err?.response)
         if (err?.response) {
           setErrors({
             type: "danger",

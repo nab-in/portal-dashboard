@@ -24,39 +24,39 @@ const Header = ({ navOpen }) => {
   let node = UseClickOutside(() => setOpen(false))
 
   const logout = () => {
-    axios(`${API}/logout`, config)
-      .then((res) => {
-        dispatch({
-          type: "LOGOUT",
-        })
-      })
-      .catch((err) => {
-        if (err?.response) {
-          alertsDispatch({
-            type: "ADD",
-            payload: {
-              type: "danger",
-              message: err?.response?.data?.message,
-            },
-          })
-        } else if (err?.message == "Network Error") {
-          alertsDispatch({
-            type: "ADD",
-            payload: {
-              type: "danger",
-              message: "Network Error",
-            },
-          })
-        } else {
-          alertsDispatch({
-            type: "ADD",
-            payload: {
-              type: "danger",
-              message: "Internal server error, please try again",
-            },
-          })
-        }
-      })
+    // axios(`${API}/logout`, config)
+    // .then((res) => {
+    dispatch({
+      type: "LOGOUT",
+    })
+    // })
+    // .catch((err) => {
+    //   if (err?.response) {
+    //     alertsDispatch({
+    //       type: "ADD",
+    //       payload: {
+    //         type: "danger",
+    //         message: err?.response?.data?.message,
+    //       },
+    //     })
+    // } else if (err?.message == "Network Error") {
+    //   alertsDispatch({
+    //     type: "ADD",
+    //     payload: {
+    //       type: "danger",
+    //       message: "Network Error",
+    //     },
+    //   })
+    // } else {
+    //   alertsDispatch({
+    //     type: "ADD",
+    //     payload: {
+    //       type: "danger",
+    //       message: "Internal server error, please try again",
+    //     },
+    //   })
+    //   }
+    // })
   }
 
   useEffect(() => {
