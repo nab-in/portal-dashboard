@@ -1,4 +1,4 @@
-name: Portal Frontend Docker Image
+name: Portal Dashboard Docker Image
 
 on:
   push:
@@ -27,3 +27,12 @@ jobs:
       - name: Build and push
         id: docker_build
         run: sh deploy.sh
+      - name: 🚀 Dashboard image update
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          passphrase: ${{secrets.PASSPHRASE}}
+          script: sh update-dashboard.sh
