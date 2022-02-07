@@ -8,8 +8,6 @@ updates:
     labels:
       - "npm"
       - "dependencies"
-    reviewers:
-      - "bmsteven"
     commit-message:
       prefix: "npm dev"
       prefix-development: "dev"
