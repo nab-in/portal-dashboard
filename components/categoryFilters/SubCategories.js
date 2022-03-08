@@ -1,60 +1,42 @@
-import { useState, useEffect, useCallback, useMemo } from "react"
+import { useState, useEffect, useMemo } from "react"
 import SubCategory from "./SubCategory"
 import Input from "../inputs/Input"
 import { API } from "../api"
 import axios from "axios"
-import Cookies from "js-cookie"
+import { config } from "../config"
 import rippleEffect from "../rippleEffect.js"
 import Loader from "../loaders/ButtonLoader"
 import styles from "./category.module.sass"
 import { useAlertsDispatch } from "../../context/alerts"
+import { useCategoriesDispatch } from "../../context/categories"
+import checkSymbols, { checkChange } from "../checkSymbols"
 
-const SubCategories = ({ categories, parent, setcategories }) => {
+const SubCategories = ({ categories, parent }) => {
   let { id, name } = parent
+  const categoriesDispatch = useCategoriesDispatch()
+  const dispatch = useAlertsDispatch()
+  const [error, setError] = useState(null)
   const [category, setCategory] = useState([])
   let [loading, setLoading] = useState(false)
   let [formData, setFormData] = useState({
     name: "",
   })
-  const dispatch = useAlertsDispatch()
-
-  useEffect(() => {
-    if (categories.length > 0) {
-      let i = categories.filter((el) => {
-        return id == el.id
-      })
-      setCategory(i[0])
-    }
-  }, [parent])
-
-  console.log(categories)
 
   const handleChange = useMemo(() => {
     return (e) => {
       let { value } = e.target
       setFormData({ name: value })
+      checkChange(formData.name, setError)
     }
   }, [formData])
 
-  let categoryIndex = categories.findIndex((el) => el.id == category?.id)
-
-  let categoriesCopy = categories
-
   const handleSubmit = (e) => {
     e.preventDefault()
-
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ` + token,
-      },
-    }
     let body = {
       name: formData.name,
       parent: { id },
     }
-    setLoading(true)
+
     axios
       .post(`${API}/jobCategories`, body, config)
       .then((res) => {
@@ -67,38 +49,38 @@ const SubCategories = ({ categories, parent, setcategories }) => {
           },
         })
 
-        if (categoriesCopy[categoryIndex]?.children?.length > 0) {
-          categoriesCopy[categoryIndex] = {
-            ...categoriesCopy[categoryIndex],
-            children: categoriesCopy[categoryIndex].children.concat(
-              res.data.payload
-            ),
-          }
-          setcategories(categoriesCopy)
-        } else {
-          categoriesCopy[categoryIndex] = {
-            ...categoriesCopy[categoryIndex],
-            children: [res.data.payload],
-          }
-          setcategories(categoriesCopy)
-        }
-
-        let index = categoriesCopy.findIndex((el) => el.id == category?.id)
-
-        categoriesCopy[categoryIndex] = categories[index]
-
-        setCategory(categoriesCopy[index])
+        categoriesDispatch({
+          type: "ADD_SUBCATEGORY",
+          payload: {
+            subcategory: res.data?.payload,
+            id,
+          },
+        })
         setFormData({
           name: "",
         })
       })
       .catch((err) => {
         setLoading(false)
-        console.log(err)
+        console.log(err?.response)
       })
   }
 
-  // console.log(categories)
+  useEffect(() => {
+    let isMounted = true
+    if (isMounted)
+      if (categories.length > 0) {
+        let i = categories.filter((el) => {
+          return id == el.id
+        })
+        setCategory(i[0])
+      }
+    return () => {
+      isMounted = false
+    }
+  }, [parent, categories])
+
+  checkSymbols(formData.name, setError)
 
   return (
     <div className={`card ${styles.card}`}>
@@ -131,6 +113,7 @@ const SubCategories = ({ categories, parent, setcategories }) => {
           {loading ? <Loader /> : "Add"}
         </button>
       </form>
+      {error && <p className={`alerts ${error.type}`}>{error.msg}</p>}
     </div>
   )
 }

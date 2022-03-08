@@ -1,4 +1,3 @@
-import React from "react"
 import Accordion from "./Accordion"
 import Input from "../../../inputs/Input"
 import Button from "../../../buttons/FormButton"

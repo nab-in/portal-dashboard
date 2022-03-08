@@ -4,8 +4,8 @@ import { useRouter } from "next/router"
 import MainContents from "../../components/templates/MainContents"
 import SubContents from "../../components/templates/SubContents"
 import { API } from "../../components/api"
-import Cookies from "js-cookie"
 import axios from "axios"
+import { config } from "../../components/config"
 import { useAuthState } from "../../context/auth"
 import Profile from "../../components/profile_template/profile/Profile"
 import Modal from "../../components/modal/Modal"
@@ -13,6 +13,8 @@ import Action from "../../components/actions/Action"
 
 const application = () => {
   const [job, setJob] = useState(null)
+  const [applicant, setApplicant] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [accept, setAccept] = useState(false)
   const [reject, setReject] = useState(false)
   const [interview, setInterview] = useState(false)
@@ -22,18 +24,16 @@ const application = () => {
   })
   const router = useRouter()
   const { user } = useAuthState()
+
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ` + token,
-      },
-    }
     axios
-      .get(`${API}/jobs/${router.query.id}?fields=id,name`, config)
+      .get(
+        `${API}/jobs/${router.query?.job}/applications/${router.query?.id}`,
+        config
+      )
       .then((res) => {
-        setJob(res.data)
+        setJob(res.data?.job)
+        setApplicant(res.data?.user)
       })
       .catch((err) => {
         console.log(err)
@@ -41,15 +41,70 @@ const application = () => {
   }, [])
 
   const callInterview = () => {
-    setInterview(false)
+    setLoading(true)
+    axios
+      .post(
+        `${API}/users/${applicant?.id}/interview`,
+        {
+          job: job?.id,
+          ...data,
+        },
+        config
+      )
+      .then((res) => {
+        console.log(res.data)
+        setLoading(false)
+        setInterview(false)
+      })
+      .catch((err) => {
+        console.log(err?.response)
+        setLoading(false)
+        setInterview(false)
+      })
   }
 
   const acceptApplication = () => {
-    setAccept(false)
+    setLoading(true)
+    axios
+      .post(
+        `${API}/users/${applicant?.id}/accept`,
+        {
+          job: job?.id,
+        },
+        config
+      )
+      .then((res) => {
+        console.log(res.data)
+        setLoading(false)
+        setAccept(false)
+      })
+      .catch((err) => {
+        console.log(err?.response)
+        setLoading(false)
+        setAccept(false)
+      })
   }
 
   const rejectApplication = () => {
-    setReject(false)
+    setLoading(true)
+    axios
+      .post(
+        `${API}/users/${applicant?.id}/reject`,
+        {
+          job: job?.id,
+        },
+        config
+      )
+      .then((res) => {
+        console.log(res.data)
+        setLoading(false)
+        setReject(false)
+      })
+      .catch((err) => {
+        console.log(err?.response)
+        setLoading(false)
+        setReject(false)
+      })
   }
 
   return (
@@ -65,7 +120,7 @@ const application = () => {
               <Link href="/applications">Applications</Link>
             </span>
             <span>/</span>
-            {user?.firstname && <span>{user.firstname}</span>}
+            {applicant?.firstname && <span>{applicant.firstname}</span>}
           </div>
           <div className="mobile__link">
             <div className="app_btn">
@@ -91,7 +146,9 @@ const application = () => {
               </div>
             </div>
           </div>
-          <Profile details={user} job={job} page="applications" />
+          {applicant && job && (
+            <Profile details={applicant} job={job} page="applications" />
+          )}
         </MainContents>
         <SubContents>
           <div className="app_btn">
@@ -103,13 +160,13 @@ const application = () => {
             </button>
             <div>
               <button
-                className="btn btn-tertiary"
+                className="sub_btn btn btn-tertiary"
                 onClick={() => setReject(true)}
               >
                 Reject
               </button>
               <button
-                className="btn btn-primary"
+                className="sub_btn btn btn-primary"
                 onClick={() => setInterview(true)}
               >
                 Interview
@@ -127,6 +184,7 @@ const application = () => {
             action={callInterview}
             setOpen={setInterview}
             btnText="Submit"
+            loading={loading}
           />
         </Modal>
       )}
@@ -137,6 +195,7 @@ const application = () => {
             action={acceptApplication}
             setOpen={setAccept}
             btnText="Yes"
+            loading={loading}
           />
         </Modal>
       )}
@@ -147,6 +206,7 @@ const application = () => {
             action={rejectApplication}
             setOpen={setReject}
             btnText="Yes"
+            loading={loading}
           />
         </Modal>
       )}

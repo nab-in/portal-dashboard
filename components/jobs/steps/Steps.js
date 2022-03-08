@@ -4,6 +4,7 @@ const Steps = ({ id, selected, setSelected }) => {
   const select = (value) => {
     setSelected(value)
   }
+
   return (
     <div className={styles.steps}>
       <ul>

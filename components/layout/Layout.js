@@ -18,10 +18,13 @@ const Layout = ({ loading, children }) => {
   }
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) router.push("/login")
+    if (!loading && !isAuthenticated && !user) router.push("/login")
+  }, [])
 
-    if (!loading && isAuthenticated && !user?.identity)
+  useEffect(() => {
+    if (!loading && isAuthenticated && !user?.identity) {
       router.push("/select_identity")
+    }
   }, [])
 
   useEffect(() => {
@@ -29,7 +32,6 @@ const Layout = ({ loading, children }) => {
       axios
         .get(`${API}/companies/${user.identity.id}`)
         .then((res) => {
-          // console.log(res)
           dispatch({
             type: "COMPANY",
             payload: res.data,
@@ -46,9 +48,10 @@ const Layout = ({ loading, children }) => {
       setMobile(true)
     }
   }, [setMobile])
+
   return (
     <div className="dashboard">
-      {isAuthenticated && (
+      {isAuthenticated && user?.identity && !loading && (
         <>
           <Header navOpen={navOpen} />
           <div className={styles.layout}>

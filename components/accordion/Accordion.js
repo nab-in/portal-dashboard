@@ -1,17 +1,31 @@
-import React, { useState, useRef } from "react"
+import { useEffect, useState, useRef } from "react"
 import { BiPlus, BiMinus } from "react-icons/bi"
 import styles from "./accordion.module.sass"
 
-const Accordion = ({ title, children }) => {
-  const [active, setActive] = useState("")
+const Accordion = ({ title, categories, children }) => {
+  const [active, setActive] = useState(false)
   const [height, setHeight] = useState("0px")
 
   const content = useRef(null)
 
   const toggleAccordion = () => {
-    setActive(active === "" ? "active" : "")
-    setHeight(active === "active" ? "0px" : `${content.current.scrollHeight}px`)
+    setActive(active ? false : true)
+    setHeight(
+      active ? "0px" : `calc( ${content.current.scrollHeight}px + 1rem )`
+    )
   }
+  useEffect(() => {
+    let isMounted
+    if (isMounted)
+      if (categories)
+        setHeight(
+          !active ? "0px" : `calc( ${content.current.scrollHeight}px + 1rem )`
+        )
+    return () => {
+      isMounted = false
+    }
+  }, [categories, content])
+
   return (
     <div className={styles.accordion}>
       <p onClick={() => toggleAccordion()}>
@@ -23,7 +37,7 @@ const Accordion = ({ title, children }) => {
       <div
         ref={content}
         style={{
-          minHeight: `${height}`,
+          minHeight: `100%`,
           maxHeight: height,
         }}
         className={styles.accordion__content}

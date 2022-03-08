@@ -1,12 +1,8 @@
 import { AiOutlineClose } from "react-icons/ai"
-const FilterItem = ({ keyword, setKeywords, keywords }) => {
-  let keywordsCopy = keywords
-  let keywordIndex = keywordsCopy.findIndex((u) => u == keyword)
+const FilterItem = ({ keyword, setKeyword, setResults }) => {
   const removeCriteria = () => {
-    if (keywordIndex >= 0) {
-      keywordsCopy = keywordsCopy.filter((u) => u != keyword)
-      setKeywords(keywordsCopy)
-    }
+    setKeyword("")
+    setResults(null)
   }
   return (
     <span>

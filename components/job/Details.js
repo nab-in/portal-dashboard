@@ -1,14 +1,13 @@
 import Card from "../cards/Card"
 import Link from "next/link"
-import moment from "moment"
+import dayjs from "dayjs"
 import Linkify from "react-linkify"
 import styles from "./details.module.sass"
 import { useAuthState } from "../../context/auth"
 
 const Details = ({ job }) => {
   let {
-    id,
-    job_type,
+    jobType,
     location,
     company,
     email,
@@ -44,9 +43,9 @@ const Details = ({ job }) => {
               Location: <span>{location}</span>
             </div>
           )}
-          {job_type && (
+          {jobType && (
             <div className={styles.title}>
-              Open To: <span>{job_type}</span>
+              Open To: <span>{jobType}</span>
             </div>
           )}
           {bio && (
@@ -56,13 +55,13 @@ const Details = ({ job }) => {
           )}
           {created && (
             <div className={styles.title}>
-              Posted: <span>{moment(created).format("MMM DD, YYYY")}</span>
+              Posted: <span>{dayjs(created).format("MMM DD, YYYY")}</span>
             </div>
           )}
           {closeDate && (
             <div className={styles.title}>
               Deadline:{" "}
-              <span>{moment(closeDate).format("MMM DD, YYYY HH:mm")}</span>
+              <span>{dayjs(closeDate).format("MMM DD, YYYY HH:mm")}</span>
             </div>
           )}
           {email && (

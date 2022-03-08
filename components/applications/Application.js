@@ -7,21 +7,78 @@ import Action from "../actions/Action"
 const Application = ({ app }) => {
   const [interview, setInterview] = useState(false)
   const [reject, setReject] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [accept, setAccept] = useState(false)
   const [data, setData] = useState({
     date: "",
     location: "",
   })
+
   const callInterview = () => {
-    setInterview(false)
+    setLoading(true)
+    axios
+      .post(
+        `${API}/users/${applicant?.id}/interview`,
+        {
+          job: job?.id,
+          ...data,
+        },
+        config
+      )
+      .then((res) => {
+        console.log(res.data)
+        setLoading(false)
+        setInterview(false)
+      })
+      .catch((err) => {
+        console.log(err?.response)
+        setLoading(false)
+        setInterview(false)
+      })
   }
 
   const acceptApplication = () => {
-    setAccept(false)
+    setLoading(true)
+    axios
+      .post(
+        `${API}/users/${applicant?.id}/accept`,
+        {
+          job: job?.id,
+        },
+        config
+      )
+      .then((res) => {
+        console.log(res.data)
+        setLoading(false)
+        setAccept(false)
+      })
+      .catch((err) => {
+        console.log(err?.response)
+        setLoading(false)
+        setAccept(false)
+      })
   }
 
   const rejectApplication = () => {
-    setReject(false)
+    setLoading(true)
+    axios
+      .post(
+        `${API}/users/${applicant?.id}/reject`,
+        {
+          job: job?.id,
+        },
+        config
+      )
+      .then((res) => {
+        console.log(res.data)
+        setLoading(false)
+        setReject(false)
+      })
+      .catch((err) => {
+        console.log(err?.response)
+        setLoading(false)
+        setReject(false)
+      })
   }
 
   return (
@@ -31,7 +88,7 @@ const Application = ({ app }) => {
           <img src={app.user.dp} />
         </div>
         <div className={styles.name}>
-          <Link href={`/applications/${app.id}`}>
+          <Link href={`/applications/${app?.user?.id}?job=${app?.id}`}>
             <a>
               {app.user.firstname} {app.user.lastname}
             </a>
@@ -39,7 +96,9 @@ const Application = ({ app }) => {
         </div>
       </div>
       <div className={styles.job}>
-        <Link href={`/applications/${app.id}`}>{app.name}</Link>
+        <Link href={`/applications/${app?.user?.id}?job=${app?.id}`}>
+          {app.name}
+        </Link>
       </div>
       <div className={styles.actions}>
         <button onClick={() => setInterview(true)}>
@@ -59,6 +118,7 @@ const Application = ({ app }) => {
             action={callInterview}
             setOpen={setInterview}
             btnText="Submit"
+            loading={loading}
           />
         </Modal>
       )}
@@ -69,6 +129,7 @@ const Application = ({ app }) => {
             action={acceptApplication}
             setOpen={setAccept}
             btnText="Yes"
+            loading={loading}
           />
         </Modal>
       )}
@@ -79,6 +140,7 @@ const Application = ({ app }) => {
             action={rejectApplication}
             setOpen={setReject}
             btnText="Yes"
+            loading={loading}
           />
         </Modal>
       )}

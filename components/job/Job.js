@@ -1,34 +1,18 @@
 import { useState } from "react"
 import Link from "next/link"
-import moment from "moment"
+import dayjs from "dayjs"
 import styles from "./job.module.sass"
 import Modal from "../modal/Modal"
 import Action from "../actions/Action"
 import { API } from "../api"
-import Cookies from "js-cookie"
+import { config } from "../config"
 import axios from "axios"
 
 const Job = ({ job, company, identity }) => {
   const [open, setOpen] = useState(false)
-  let {
-    id,
-    name,
-    created,
-    closeDate,
-    job_type,
-    location,
-    // reviews: 0.8
-  } = job
-  let reviews = 0.85
-  let style = { "--rating": reviews * 5 }
+  let { id, name, created, closeDate, jobType, location } = job
 
   const deleteJob = () => {
-    const token = Cookies.get("token")
-    const config = {
-      headers: {
-        authorization: `Bearer ` + token,
-      },
-    }
     axios
       .delete(`${API}/jobs/${id}`, config)
       .then((res) => {
@@ -36,9 +20,10 @@ const Job = ({ job, company, identity }) => {
         console.log(res.data)
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err?.response)
       })
   }
+
   return (
     <article className={`card ${styles.job__card}`}>
       {company && (
@@ -46,7 +31,6 @@ const Job = ({ job, company, identity }) => {
           <div className={styles.logo}>
             <img
               src={company.logo}
-              // src="/assets/companies/logo1.png"
               alt={`${job.company?.name} logo`}
               loading="lazy"
             />
@@ -63,13 +47,11 @@ const Job = ({ job, company, identity }) => {
         <h2>
           <Link href={`/jobs/${id}`}>{name}</Link>
         </h2>
-        {/* {reviews && <div className="stars" style={style}></div>} */}
         <p>
-          Posted: <span>{moment(created).format("MMM DD, YYYY")}</span>
+          Posted: <span>{dayjs(created).format("MMM DD, YYYY")}</span>
         </p>
         <p>
-          Deadline:{" "}
-          <span>{moment(closeDate).format("MMM DD, YYYY HH:mm")}</span>
+          Deadline: <span>{dayjs(closeDate).format("MMM DD, YYYY HH:mm")}</span>
         </p>
       </div>
       <div
@@ -87,9 +69,9 @@ const Job = ({ job, company, identity }) => {
             </Link>
           </p>
         )}
-        {job_type && (
+        {jobType && (
           <p>
-            Job Type: <span>{job_type}</span>
+            Job Type: <span>{jobType}</span>
           </p>
         )}
         {location && (

@@ -1,19 +1,16 @@
-import React, { useEffect } from "react"
 import Category from "./Category"
 import Card from "../cards/Card"
+import { useCategoriesState } from "../../context/categories"
 
-const Categories = ({ categories, setcategories }) => {
+const Categories = () => {
+  const { categories } = useCategoriesState()
   return (
     <div>
       <Card title="Categories">
         {categories.length > 0 ? (
           <>
             {categories.map((category) => (
-              <Category
-                category={category}
-                categories={categories}
-                key={category.id}
-              />
+              <Category category={category} key={category.id} />
             ))}
           </>
         ) : (

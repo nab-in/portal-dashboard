@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { API } from "../components/api"
-import Cookies from "js-cookie"
+import { config } from "../components/config"
 import axios from "axios"
 import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
@@ -13,22 +13,39 @@ import Pagination from "../components/pagination/Pagination"
 import Loader from "../components/loaders/UsersLoader"
 
 const companies = () => {
-  const [keywords, setKeywords] = useState([])
+  const router = useRouter()
+  const [results, setResults] = useState(null)
+  const [keyword, setKeyword] = useState(
+    router.query?.keyword ? router.query.keyword : ""
+  )
+  let [error, setError] = useState("")
   const [companies, setCompanies] = useState([])
   const [size, setSize] = useState(0)
   const [pager, setPager] = useState({})
   const [loading, setLoading] = useState(true)
-  const router = useRouter()
   const [page] = useState(router?.query?.page ? router.query.page : 1)
 
+  let url = router.query?.url ? router.query.url : ""
+
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ` + token,
-      },
+    if (keyword?.trim().length > 0) {
+      url = `&filter=name:ilike:${keyword}`
+      axios
+        .get(`${API}/companies?page=${page}&pageSize=4${url}`, config)
+        .then((res) => {
+          setPager(res.data.pager)
+          setResults(res.data.companies)
+          setSize(res.data.users.length)
+          setLoading(false)
+        })
+        .catch((err) => {
+          setError(err?.response?.data?.message)
+          setLoading(false)
+        })
     }
+  }, [keyword])
+
+  useEffect(() => {
     axios
       .get(`${API}/companies?page=${page}&pageSize=8`, config)
       .then((res) => {
@@ -40,6 +57,23 @@ const companies = () => {
       .catch((err) => {
         console.log(err)
         setLoading(false)
+        //Displaying Errors
+        if (err?.response) {
+          setErrors({
+            type: "danger",
+            msg: err?.response?.data?.message,
+          })
+        } else if (err?.message == "Network Error") {
+          setErrors({
+            type: "danger",
+            msg: "Network Error",
+          })
+        } else {
+          setErrors({
+            type: "danger",
+            msg: "Internal server error, please try again",
+          })
+        }
       })
   }, [])
 
@@ -47,8 +81,10 @@ const companies = () => {
     page < Math.ceil(pager.total / pager.pageSize)
       ? pager?.page + 1
       : pager?.page
-  }`
-  let prevUrl = `/companies?page=${pager.page > 1 ? pager?.page - 1 : 1}`
+  }&url=${url}&keyword=${keyword}`
+  let prevUrl = `/companies?page=${
+    pager.page > 1 ? pager?.page - 1 : 1
+  }&url=${url}&keyword=${keyword}`
 
   return (
     <div>
@@ -62,9 +98,13 @@ const companies = () => {
             <span>Companies</span>
           </div>
           <div className="mobile-filter">
-            <Search setKeywords={setKeywords} keywords={keywords} />
+            <Search setKeyword={setKeyword} />
           </div>
-          <Filter keywords={keywords} setKeywords={setKeywords} />
+          <Filter
+            keyword={keyword}
+            setKeyword={setKeyword}
+            setResults={setResults}
+          />
           {loading ? (
             <>
               <Loader />
@@ -73,22 +113,56 @@ const companies = () => {
             </>
           ) : (
             <>
-              {companies.length > 0 ? (
+              {results != null ? (
                 <>
-                  {companies.map((company) => (
-                    <Company key={company.id} company={company} />
-                  ))}
+                  {results.length > 0 ? (
+                    <>
+                      {results.map((company) => (
+                        <Company
+                          key={company.id}
+                          company={company}
+                          setCompanies={setResults}
+                          companies={companies}
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <p
+                      style={{
+                        background: "white",
+                        padding: "1rem",
+                      }}
+                    >
+                      No user found
+                    </p>
+                  )}
                 </>
               ) : (
-                <p
-                  style={{
-                    background: "white",
-                    padding: "1rem",
-                  }}
-                >
-                  No Company Found
-                </p>
+                <>
+                  {companies.length > 0 ? (
+                    <>
+                      {companies.map((company) => (
+                        <Company
+                          key={company.id}
+                          company={company}
+                          setCompanies={setCompanies}
+                          companies={companies}
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <p
+                      style={{
+                        background: "white",
+                        padding: "1rem",
+                      }}
+                    >
+                      No Company Found
+                    </p>
+                  )}
+                </>
               )}
+
               <Pagination
                 size={size}
                 pager={pager}
@@ -100,7 +174,7 @@ const companies = () => {
         </MainContents>
         <SubContents>
           <div className="desktop-filter">
-            <Search setKeywords={setKeywords} keywords={keywords} />
+            <Search setKeyword={setKeyword} />
           </div>
         </SubContents>
       </div>

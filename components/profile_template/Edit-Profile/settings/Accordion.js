@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import { useState, useRef } from "react"
 import { BiPlus, BiMinus } from "react-icons/bi"
 import styles from "./accordion.module.sass"
 

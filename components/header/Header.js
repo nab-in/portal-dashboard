@@ -1,43 +1,89 @@
-import React, { useState, useRef, useEffect } from "react"
-import Image from "next/image"
+import { useState, useEffect } from "react"
+import { API } from "../api"
+import axios from "axios"
+import { config } from "../config"
 import Link from "next/link"
 import { useAuthDispatch, useAuthState } from "../../context/auth"
+import { useAlertsDispatch } from "../../context/alerts"
 import { FaAngleDown, FaBell } from "react-icons/fa"
 import styles from "./header.module.sass"
 import UseClickOutside from "../UseClickOutside"
 
 const Header = ({ navOpen }) => {
   const [open, setOpen] = useState(false)
-  const [notify, setNotify] = useState(false)
-  let number = 5
+  let [img, setImg] = useState(null)
+  const [data, setData] = useState({})
+  // const [notify, setNotify] = useState(false)
 
   const dispatch = useAuthDispatch()
+  const alertsDispatch = useAlertsDispatch()
 
   const { user } = useAuthState()
+
   // check if outside is clicked
   let node = UseClickOutside(() => setOpen(false))
 
   const logout = () => {
+    // axios(`${API}/logout`, config)
+    // .then((res) => {
     dispatch({
       type: "LOGOUT",
     })
+    // })
+    // .catch((err) => {
+    //   if (err?.response) {
+    //     alertsDispatch({
+    //       type: "ADD",
+    //       payload: {
+    //         type: "danger",
+    //         message: err?.response?.data?.message,
+    //       },
+    //     })
+    // } else if (err?.message == "Network Error") {
+    //   alertsDispatch({
+    //     type: "ADD",
+    //     payload: {
+    //       type: "danger",
+    //       message: "Network Error",
+    //     },
+    //   })
+    // } else {
+    //   alertsDispatch({
+    //     type: "ADD",
+    //     payload: {
+    //       type: "danger",
+    //       message: "Internal server error, please try again",
+    //     },
+    //   })
+    //   }
+    // })
   }
 
-  let data
+  useEffect(() => {
+    let isMounted = true
+    if (isMounted)
+      if (user?.identity?.name == "company") {
+        setData(user?.company)
+      } else {
+        setData(user)
+      }
+    return () => {
+      isMounted = false
+    }
+  }, [user])
 
-  let n
-
-  let img
-
-  if (user?.identity?.name == "company") {
-    data = user.company
-    n = data?.name?.split("")[0].toUpperCase()
-    img = data?.logo
-  } else {
-    data = user
-    n = data?.username.split("")[0].toUpperCase()
-    img = data?.dp
-  }
+  useEffect(() => {
+    let isMounted = true
+    if (isMounted)
+      if (user?.identity?.name == "company") {
+        setImg(data?.logo)
+      } else {
+        setImg(data?.dp)
+      }
+    return () => {
+      isMounted = false
+    }
+  }, [data])
 
   return (
     <header
@@ -54,7 +100,7 @@ const Header = ({ navOpen }) => {
           </div>
         </div>
         <div className={styles.right__nav}>
-          <div className={styles.notify} onClick={() => setNotify(true)}>
+          {/* <div className={styles.notify} onClick={() => setNotify(true)}>
             <Link href="/notifications">
               <a>
                 <FaBell className={styles.icon} />
@@ -62,15 +108,11 @@ const Header = ({ navOpen }) => {
                 {number > 99 && <span>99+</span>}
               </a>
             </Link>
-          </div>
+          </div> */}
           <div className={styles.profile__container} ref={node}>
             <div onClick={() => setOpen(!open)} className={styles.profile}>
               <div className={styles.dp__container}>
-                {img ? (
-                  <img src={img} alt={`logo`} />
-                ) : (
-                  <div className={styles.default}>{n}</div>
-                )}
+                {img && <img src={img} alt={`logo`} />}{" "}
               </div>
               <div className={styles.name}>
                 <span>{data?.name ? data.name : data?.username}</span>
@@ -86,11 +128,7 @@ const Header = ({ navOpen }) => {
             >
               <div className={styles.profile}>
                 <div className={styles.dp__container}>
-                  {img ? (
-                    <img src={user.dp} alt={`dp`} />
-                  ) : (
-                    <div className={styles.default}>{n}</div>
-                  )}
+                  {img && <img src={user.dp} alt={`dp`} />}
                 </div>
                 <div className={styles.name}>
                   {user.firstname} {user.lastname}
@@ -107,11 +145,6 @@ const Header = ({ navOpen }) => {
                     <li>
                       <Link href="/jobs">
                         <a onClick={() => setOpen(false)}>Jobs</a>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/drafts">
-                        <a onClick={() => setOpen(false)}>Drafts</a>
                       </Link>
                     </li>
                     <li>

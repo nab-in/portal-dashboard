@@ -4,6 +4,10 @@ import axios from "axios"
 import Categories from "../categories/Categories"
 import SubCategories from "../categories/SubCategories"
 import styles from "./filter.module.sass"
+import {
+  useCategoriesDispatch,
+  useCategoriesState,
+} from "../../context/categories"
 
 const Filter = ({
   selected,
@@ -11,38 +15,44 @@ const Filter = ({
   selectedCategories,
   setCategories,
 }) => {
-  let [categories, setcategories] = useState([])
-  let [parent, setParent] = useState(categories.length > 0 && categories[0])
+  const { categories } = useCategoriesState()
+  let [parent, setParent] = useState(
+    categories?.length > 0 ? categories[0] : {}
+  )
+  const dispatch = useCategoriesDispatch()
+
   useEffect(() => {
-    axios
-      .get(`${API}/jobCategories?fields=id,name,children[id, name]`)
-      .then((res) => {
-        // console.log(res.data)
-        let data = res.data?.jobCategories
-        let filter = []
-        data.forEach((el) => {
-          // console.log(el.children)
-          if (el.children) filter = filter.concat(el.children)
-        })
-        filter.forEach((el) => {
-          data = data.filter((o) => o.id != el.id)
-        })
-        console.log(data)
-        setcategories(data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    let isMounted = true
+    if (isMounted) {
+      if (categories?.length == 0) {
+        axios
+          .get(
+            `${API}/jobCategories?pageSize=200&fields=id,name,children[id, name]`
+          )
+          .then((res) => {
+            dispatch({
+              type: "LOAD",
+              payload: res.data?.jobCategories,
+            })
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+        setParent(categories?.length > 0 && categories[0])
+      }
+      if (categories > 0) {
+        setParent(categories?.length > 0 && categories[0])
+      }
+    }
+    return () => {
+      isMounted = false
+    }
   }, [])
+
   return (
     <div className={styles.card}>
       <h2>Add Job Category</h2>
-      <Categories
-        categories={categories}
-        setParent={setParent}
-        setSelected={setSelected}
-        selected={selected}
-      />
+      <Categories categories={categories} setParent={setParent} />
       <SubCategories
         parent={parent}
         categories={categories}

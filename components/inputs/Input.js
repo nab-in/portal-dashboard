@@ -1,4 +1,3 @@
-import React from "react"
 import styles from "./input.module.sass"
 
 const Input = ({

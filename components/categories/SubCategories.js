@@ -8,6 +8,8 @@ import rippleEffect from "../rippleEffect.js"
 import Loader from "../loaders/ButtonLoader"
 import styles from "./category.module.sass"
 import { useAlertsDispatch } from "../../context/alerts"
+import { useCategoriesDispatch } from "../../context/categories"
+import checkSymbols, { checkChange } from "../checkSymbols"
 
 const SubCategories = ({
   categories,
@@ -21,18 +23,20 @@ const SubCategories = ({
   let category
   if (categories.length > 0) category = categories.filter((el) => el.id == id)
   let [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
   let [formData, setFormData] = useState({
     name: "",
   })
   const dispatch = useAlertsDispatch()
+  const categoriesDispatch = useCategoriesDispatch()
 
   const handleChange = (e) => {
     let { value } = e.target
     setFormData({ name: value })
+    checkChange(formData.name, setError)
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault()
     e.preventDefault()
     let token = Cookies.get("token")
     let config = {
@@ -58,17 +62,32 @@ const SubCategories = ({
             message: res.data.message,
           },
         })
+        categoriesDispatch({
+          type: "ADD_SUBCATEGORY",
+          payload: {
+            subcategory: res.data?.payload,
+            id,
+          },
+        })
+        setFormData({
+          name: "",
+        })
       })
       .catch((err) => {
         setLoading(false)
         console.log(err)
       })
   }
+
+  checkSymbols(formData.name, setError)
+
   return (
     <div className={`card ${styles.card}`}>
-      <p>
-        <span>Category:</span> {name}
-      </p>
+      {name && (
+        <p>
+          <span>Category:</span> {name}
+        </p>
+      )}
       {category && category[0]?.children?.length > 0 && (
         <>
           <div className={styles.showcase}>
@@ -101,6 +120,7 @@ const SubCategories = ({
           {loading ? <Loader /> : "Add"}
         </button>
       </form>
+      {error && <p className={`alerts ${error.type}`}>{error.msg}</p>}
     </div>
   )
 }

@@ -1,26 +1,35 @@
 import { AiOutlineClose } from "react-icons/ai"
 import FilterItem from "./FilterItem"
 
-const Filter = ({ search, setSearch }) => {
+const Filter = ({ search, setSearch, setUrl, url }) => {
+  // working on search url
+
   return (
     <>
-      {(search.keyword || search.location || search.categories.length > 0) && (
+      {(search?.name || search?.location || search.categories?.length > 0) && (
         <div className="filter__criteria">
           <h2>Criteria</h2>
-          {search?.keyword && (
+          {search?.name && (
             <div className="criteria">
               <div className="criteria__title">Keyword:</div>
               <div className="criteria__showcase">
                 <span>
-                  {search.keyword}
+                  {search.name}
                   <span
                     className="close"
-                    onClick={() =>
+                    onClick={() => {
+                      setUrl(
+                        url.replace(
+                          url?.split("&")?.find((el) => el.includes("name")),
+                          ``
+                        )
+                      )
+
                       setSearch({
                         ...search,
-                        keyword: "",
+                        name: "",
                       })
-                    }
+                    }}
                   >
                     <AiOutlineClose className="icon" />
                   </span>
@@ -36,12 +45,20 @@ const Filter = ({ search, setSearch }) => {
                   {search.location}
                   <span
                     className="close"
-                    onClick={() =>
+                    onClick={() => {
+                      setUrl(
+                        url.replace(
+                          url
+                            ?.split("&")
+                            ?.find((el) => el.includes("location")),
+                          ``
+                        )
+                      )
                       setSearch({
                         ...search,
                         location: "",
                       })
-                    }
+                    }}
                   >
                     <AiOutlineClose className="icon" />
                   </span>
@@ -63,6 +80,8 @@ const Filter = ({ search, setSearch }) => {
                           setSearch={setSearch}
                           category={category}
                           search={search}
+                          url={url}
+                          setUrl={setUrl}
                         />
                       ))}
                     </div>

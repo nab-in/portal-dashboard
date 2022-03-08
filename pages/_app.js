@@ -5,31 +5,30 @@ import { AuthProvider, useAuthDispatch, useAuthState } from "../context/auth"
 import Layout from "../components/layout/Layout"
 import Alert from "../components/alerts/GlobalAlert"
 import Cookies from "js-cookie"
+import { config } from "../components/config"
 import { API } from "../components/api"
 import axios from "axios"
 import { AlertsProvider } from "../context/alerts"
+import { CategoriesProvider } from "../context/categories"
 
 function MyApp({ Component, pageProps }) {
   const Site = () => {
     const dispatch = useAuthDispatch()
-    const { user, isAuthenticated, loading } = useAuthState()
+    const { user, loading } = useAuthState()
     const router = useRouter()
 
     useEffect(() => {
       let token = Cookies.get("token")
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ` + token,
-        },
-      }
       if (!user && !token)
         dispatch({
           type: "NOT_LOADED",
         })
       if (!user && token)
         axios
-          .get(`${API}/me`, config)
+          .get(
+            `${API}/me?fields=companies,userRoles,firstname,lastname,username,dp,cv,websitelink,bio,cvlink,id,title,location,enabled,verified`,
+            config
+          )
           .then((res) => {
             dispatch({
               type: "AUTH",
@@ -67,10 +66,12 @@ function MyApp({ Component, pageProps }) {
   }
   return (
     <AuthProvider>
-      <AlertsProvider>
-        <Site />
-        <Alert />
-      </AlertsProvider>
+      <CategoriesProvider>
+        <AlertsProvider>
+          <Site />
+          <Alert />
+        </AlertsProvider>
+      </CategoriesProvider>
     </AuthProvider>
   )
 }

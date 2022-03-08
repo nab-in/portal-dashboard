@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { useRouter } from "next/router"
 import Input from "../components/inputs/Input"
 import FormButton from "../components/buttons/FormButton"
@@ -35,27 +35,36 @@ const Login = () => {
     axios
       .post(`${API}/login`, formData)
       .then((res) => {
-        console.log(res)
         dispatch({
           type: "LOGIN",
           payload: res.data,
         })
         setLoading(false)
-        router.push("/select_identity")
+        window.href = "/select_identity"
       })
       .catch((err) => {
         setLoading(false)
-        // console.log(err?.message)
         if (err?.response) {
           setErrors({
             type: "danger",
             msg: err?.response?.data?.message,
           })
-        }
-        if (err?.message == "Network Error") {
+        } else if (err?.message) {
+          if (err?.code === "ECONNREFUSED") {
+            setErrors({
+              type: "danger",
+              msg: "Failed to connect, please try again",
+            })
+          } else {
+            setErrors({
+              type: "danger",
+              msg: err.message,
+            })
+          }
+        } else {
           setErrors({
             type: "danger",
-            msg: "Network Error",
+            msg: "Internal server error, please try again",
           })
         }
       })

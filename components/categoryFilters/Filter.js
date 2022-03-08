@@ -3,33 +3,38 @@ import Categories from "./Categories"
 import SubCategories from "./SubCategories"
 import styles from "./filter.module.sass"
 
-const Filter = ({ categories, setcategories }) => {
+const Filter = ({ categories }) => {
   let [parent, setParent] = useState(null)
 
   useEffect(() => {
-    if (categories)
-      setParent(parent ? parent : categories.length > 0 ? categories[0] : {})
-  }, [parent])
-
-  useEffect(() => {
-    console.log("here")
+    let isMounted = true
+    if (isMounted) {
+      if (categories)
+        if (parent) {
+          let check = categories?.filter((el) => el.id == parent.id)
+          setParent(
+            check.length > 0
+              ? parent
+              : categories.length > 0
+              ? categories[0]
+              : {}
+          )
+        } else if (categories?.length > 0) {
+          setParent(categories[0])
+        } else {
+          setParent({})
+        }
+    }
+    return () => {
+      isMounted = false
+    }
   }, [categories])
 
   return (
     <div className={styles.card}>
       <h2>Add Job Category</h2>
-      <Categories
-        categories={categories}
-        setcategories={setcategories}
-        setParent={setParent}
-      />
-      {parent && (
-        <SubCategories
-          parent={parent}
-          categories={categories}
-          setcategories={setcategories}
-        />
-      )}
+      <Categories categories={categories} setParent={setParent} />
+      {parent && <SubCategories parent={parent} categories={categories} />}
     </div>
   )
 }

@@ -3,16 +3,16 @@ import styles from "./search.module.sass"
 import Input from "../inputs/Input"
 import rippleEffect from "../rippleEffect"
 
-const Search = ({ setKeywords, keywords }) => {
-  let [keyword, setKeyword] = useState("")
+const Search = ({ setKeyword }) => {
+  let [name, setName] = useState("")
   const handleChange = (e) => {
-    setKeyword(e.target.value)
+    setName(e.target.value)
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (keyword.trim() != "") {
-      setKeywords(keywords.concat(keyword))
-      setKeyword("")
+    if (name.trim() != "") {
+      setKeyword(name)
+      setName("")
     }
   }
   return (
@@ -23,8 +23,7 @@ const Search = ({ setKeywords, keywords }) => {
           handleChange={(e) => handleChange(e)}
           placeholder="Add criteria"
           inputClass="form__control__filter"
-          //   name="name"
-          value={keyword}
+          value={name}
         />
         <button
           className={`${styles.btn__primary} btn btn-primary`}

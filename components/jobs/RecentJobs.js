@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import Cookies from "js-cookie"
 import axios from "axios"
 import { API } from "../api"
+import { config } from "../config"
 import Link from "next/link"
-import moment from "moment"
+import dayjs from "dayjs"
 import styles from "./recent_jobs.module.sass"
 import { useAuthState } from "../../context/auth"
 import CardLoader from "../loaders/cardLoader"
@@ -13,14 +13,8 @@ const RelatedJobs = () => {
   const [loading, setLoading] = useState(true)
 
   const { user } = useAuthState()
+
   useEffect(() => {
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ` + token,
-      },
-    }
     axios
       .get(
         `${API}/jobs?pageSize=3&fields=id,name,created,closeDate,company,location`,
@@ -66,12 +60,12 @@ const RelatedJobs = () => {
                   <div className={styles.time__details}>
                     <p className={styles.time}>
                       Posted:{" "}
-                      <span>{moment(created).format("MMM DD, YYYY")}</span>
+                      <span>{dayjs(created).format("MMM DD, YYYY")}</span>
                     </p>
                     <p className={styles.time}>
                       Deadline:{" "}
                       <span>
-                        {moment(closeDate).format("MMM DD, YYYY HH:mm")}
+                        {dayjs(closeDate).format("MMM DD, YYYY HH:mm")}
                       </span>
                     </p>
                   </div>

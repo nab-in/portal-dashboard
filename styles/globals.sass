@@ -243,6 +243,38 @@ span.ripple
 .no_border
     border: none
 
+.loader
+    width: 100%
+    height: 100%
+    display: block
+    background: rgba(226, 232, 236, .5)
+    animation: wave .1.2s ease-in 0s infinite both
+    position: relative
+    border-radius: 5px
+    overflow: hidden
+    &::before
+        content: ""
+        position: absolute
+        width: 100%
+        height: 100%
+        display: block
+        background: #E2E8EC
+        animation: wave 1.2s ease-in .4s infinite both
+
+@keyframes spin
+    0%
+        transform: rotate(0deg)
+    100%
+        transform: rotate(360deg)
+
+@keyframes wave
+    0%
+        transform: translateX(-100%)
+    50%
+        transform: translateX(0)
+    100%
+        transform: translateX(100%)
+
 .content
     margin: 2rem 0
     padding: 0 1.5rem

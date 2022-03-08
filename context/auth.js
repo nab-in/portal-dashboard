@@ -1,13 +1,14 @@
 import { createContext, useReducer, useContext } from "react"
-import { useRouter } from "next/router"
 import Cookies from "js-cookie"
+
 const AuthStateContext = createContext()
 const AuthDispatchContext = createContext()
-// const router = useRouter()
 
 const authReducer = (state, action) => {
   let { type, payload } = action
   let userCopy
+  let rolesCopy
+  let id
   switch (type) {
     case "LOGIN":
       Cookies.set("token", payload.token)
@@ -17,11 +18,49 @@ const authReducer = (state, action) => {
         user: payload,
         loading: false,
       }
-
+    case "ADD_DP":
+      userCopy = {
+        ...state.user,
+        dp: `http://localhost:5000${payload.path}`,
+      }
+      return {
+        ...state,
+        user: userCopy,
+      }
+    case "ADD_LOGO":
+      userCopy = {
+        ...state.user,
+        company: {
+          ...state.user.company,
+          logo: `http://localhost:5000${payload.path}`,
+        },
+      }
+      return {
+        ...state,
+        user: userCopy,
+      }
+    case "ADD_CV":
+      userCopy = {
+        ...state.user,
+        cv: `http://localhost:5000${payload.path}`,
+      }
+      return {
+        ...state,
+        user: userCopy,
+      }
+    case "ADD_PROFILE":
+      id = Cookies.get("identity")
+      if (id) id = JSON.parse(id)
+      userCopy = { ...payload, identity: id }
+      return {
+        ...state,
+        user: userCopy,
+      }
     case "SELECT":
       userCopy = {
         ...state.user,
-        identity: { id: payload.id, name: payload.name },
+        identity: { id: payload.id, name: payload.name, value: payload.value },
+        role: "admin",
       }
       Cookies.set("identity", JSON.stringify(payload))
       return {
@@ -41,6 +80,29 @@ const authReducer = (state, action) => {
         loading: false,
       }
 
+    case "ROLES":
+      return {
+        ...state,
+        roles: payload,
+        loading: false,
+      }
+
+    case "ADD_ROLE":
+      rolesCopy = [...state.roles]
+      rolesCopy = rolesCopy.concat(payload)
+      return {
+        ...state,
+        roles: rolesCopy,
+      }
+
+    case "REMOVE_ROLE":
+      rolesCopy = [...state.roles]
+      rolesCopy = rolesCopy.filter((el) => el.id != payload)
+      return {
+        ...state,
+        roles: rolesCopy,
+      }
+
     // Logout
     case "LOGOUT":
       Cookies.set("token", "")
@@ -55,9 +117,20 @@ const authReducer = (state, action) => {
 
     // Get user data
     case "AUTH":
-      let id = Cookies.get("identity")
+      id = Cookies.get("identity")
+      userCopy = { ...payload }
       if (id) id = JSON.parse(id)
-      userCopy = { ...payload, identity: id }
+      if (id?.name === "company") {
+        let companyCheck = payload.companies?.find((el) => el.id === id?.id)
+        if (companyCheck) {
+          userCopy = { ...payload, identity: id, role: id?.name }
+        }
+      } else if (id?.name === "admin") {
+        let roleCheck = payload.userRoles?.find((el) => el.id === id?.id)
+        if (roleCheck) {
+          userCopy = { ...payload, identity: id, role: id?.name }
+        }
+      }
       return {
         ...state,
         user: userCopy,
@@ -69,6 +142,11 @@ const authReducer = (state, action) => {
         ...state,
         loading: false,
       }
+    case "LOADING":
+      return {
+        ...state,
+        loading: true,
+      }
     default:
       return {
         state,
@@ -79,6 +157,7 @@ const authReducer = (state, action) => {
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
+    roles: [],
     isAuthenticated: false,
     loading: true,
   })

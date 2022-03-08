@@ -1,6 +1,36 @@
 @import "../../styles/_colors"
 
 .category
+    .actions
+        display: flex
+        justify-content: flex-end
+        padding-bottom: 1rem
+        align-items: center
+        button
+            margin-left: .7rem
+            cursor: pointer
+            &.btn
+                min-width: 50px
+                padding: .7rem 1rem
     article
         background: $bg
-        // border-radius: 5px
+        display: flex
+        justify-content: space-between
+        flex-direction: column
+        .sub_actions
+            display: flex
+            justify-content: flex-end
+            margin-top: .3rem
+            button
+                margin-left: .7rem
+                cursor: pointer
+                &.btn
+                    min-width: 50px
+                    padding: .5rem 1rem
+                    background: none
+                    box-shadow: none
+                    color: $secondary
+                    border: 1px solid $secondary
+                    &:hover
+                        background: $secondary
+                        color: white

@@ -1,11 +1,15 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { FaCamera } from "react-icons/fa"
 import axios from "axios"
 import Cookies from "js-cookie"
 import { API } from "../../api"
 import styles from "./upload.module.sass"
+import { useAuthDispatch } from "../../../context/auth"
+import { useAlertsDispatch } from "../../../context/alerts"
 
 const Upload = ({ id, img, name, page }) => {
+  const dispatch = useAuthDispatch()
+  const alertDispatch = useAlertsDispatch()
   name = name?.split("")[0]
   let [imgData, setImgData] = useState(null)
 
@@ -35,11 +39,19 @@ const Upload = ({ id, img, name, page }) => {
         axios
           .post(`${API}/users/dp`, data, config)
           .then((res) => {
-            // console.log(res.data)
-            // setLoading(false)
+            dispatch({
+              type: "ADD_DP",
+              payload: res.data,
+            })
+            alertDispatch({
+              type: "ADD",
+              payload: {
+                type: "success",
+                message: res.data.message,
+              },
+            })
           })
           .catch((err) => {
-            // setLoading(false)
             console.log(err)
           })
       }
@@ -48,10 +60,8 @@ const Upload = ({ id, img, name, page }) => {
           .post(`${API}/companies/${id}/logo`, data, config)
           .then((res) => {
             console.log(res.data)
-            // setLoading(false)
           })
           .catch((err) => {
-            // setLoading(false)
             console.log(err)
           })
       }

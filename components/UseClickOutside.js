@@ -5,7 +5,7 @@ let UseClickOutside = (handler) => {
   let node = useRef()
   useEffect(() => {
     let handle = (e) => {
-      if (!node.current.contains(e.target)) {
+      if (!node?.current?.contains(e.target)) {
         handler()
       }
     }

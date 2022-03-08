@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import styles from "./sub_category.module.sass"
 
-const SubCategory = ({ sub, setSearch, search, category }) => {
+const SubCategory = ({ sub, setSearch, search, category, url, setUrl }) => {
   let { name, id } = sub //sub category destructuring
+  let [urlCopy, setUrlCopy] = useState("")
   let [checked, setChecked] = useState(false)
 
   let searchCopy = search?.categories
@@ -18,6 +19,28 @@ const SubCategory = ({ sub, setSearch, search, category }) => {
     )
   }
 
+  // working on search url
+  let urlBreak = url?.split("&")
+
+  let categoriesArray = []
+
+  let filterCategories = []
+
+  let categoriesStr = urlBreak?.find((el) => {
+    return el.includes("categories")
+  })
+
+  if (categoriesStr) {
+    categoriesArray = categoriesStr?.split(":")
+    categoriesArray = categoriesArray[categoriesArray?.length - 1]
+    categoriesArray = categoriesArray?.split("[")
+    categoriesArray = categoriesArray[1]?.split("]")
+    if (categoriesArray[0]?.length > 1) {
+      categoriesArray = categoriesArray[0]?.split(",")
+    }
+    filterCategories = categoriesArray
+  }
+
   // toggling sub category
   const toggleSubCategory = () => {
     // if category exists this run
@@ -28,9 +51,38 @@ const SubCategory = ({ sub, setSearch, search, category }) => {
           categoryIndex
         ].sub_categories.filter((el) => el.id !== id)
 
+        filterCategories = filterCategories.filter((el) => {
+          return el !== id
+        })
+
+        setUrl(
+          url.replace(
+            url?.split("&")?.find((el) => el.includes("eq")),
+            `filter=categories:eq:[${filterCategories}]`
+          )
+        )
+
         //   removing category in categories array
-        if (searchCopy[categoryIndex].sub_categories.length === 0)
+        if (searchCopy[categoryIndex].sub_categories.length === 0) {
           searchCopy = searchCopy.filter((el) => el.id != category.id)
+          filterCategories = filterCategories.filter((el) => {
+            return el !== category?.id
+          })
+          setUrl(
+            url.replace(
+              url?.split("&")?.find((el) => el.includes("eq")),
+              `filter=categories:eq:[${filterCategories}]`
+            )
+          )
+          if (filterCategories?.length < 1) {
+            setUrl(
+              url.replace(
+                url?.split("&")?.find((el) => el.includes("eq")),
+                ``
+              )
+            )
+          }
+        }
 
         //   updating state with new categories
         setSearch({
@@ -50,6 +102,15 @@ const SubCategory = ({ sub, setSearch, search, category }) => {
           sub_categories: searchCopy[categoryIndex].sub_categories.concat(sub),
         }
 
+        // setUrl(url + `&filter=categories:eq:[${filterCategories.push(id)}]`)
+        filterCategories.push(id)
+        setUrl(
+          url.replace(
+            url?.split("&")?.find((el) => el.includes("eq")),
+            `filter=categories:eq:[${filterCategories}]`
+          )
+        )
+
         setSearch({
           ...search,
           categories: searchCopy,
@@ -68,9 +129,23 @@ const SubCategory = ({ sub, setSearch, search, category }) => {
           sub_categories: [sub],
         }),
       })
+      filterCategories.push(id)
+      filterCategories.push(category?.id)
       setChecked(true)
+      if (categoriesStr) {
+        setUrl(
+          url.replace(
+            url?.split("&")?.find((el) => el.includes("eq")),
+            `filter=categories:eq:[${filterCategories}]`
+          )
+        )
+      } else {
+        setUrl(url + `&filter=categories:eq:[${filterCategories}]`)
+      }
     }
   }
+
+  // console.log(filterCategories)
 
   useEffect(() => {
     // updating UI when subcategory is removed from filter criteria

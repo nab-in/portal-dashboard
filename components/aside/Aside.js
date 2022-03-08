@@ -1,5 +1,3 @@
-import React from "react"
-import Image from "next/image"
 import {
   RiHome2Line,
   RiBriefcase2Line,
@@ -32,13 +30,6 @@ let urls = [
     icon: <RiBriefcase2Line className={styles.icon} />,
   },
   {
-    id: 3,
-    path: "drafts",
-    name: "Drafts",
-    type: "company",
-    icon: <RiDraftLine className={styles.icon} />,
-  },
-  {
     id: 4,
     path: "companies",
     name: "Companies",
@@ -56,7 +47,7 @@ let urls = [
     id: 6,
     path: "profiles",
     name: "Users",
-    type: "admin",
+    type: "",
     icon: <FiUsers className={styles.icon} />,
   },
   {
@@ -102,12 +93,7 @@ const Aside = ({ navOpen, handleNav, isMobile, setnavOpen }) => {
         </div>
         <div className={styles.logo__container}>
           <div className={styles.logo}>
-            <Image
-              src="/assets/images/logo.png"
-              alt={`logo`}
-              layout="fill"
-              objectFit="contain"
-            />
+            <img src="/assets/images/logo.png" alt={`logo`} loading="lazy" />
           </div>
         </div>
         <nav>

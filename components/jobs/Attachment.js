@@ -1,8 +1,8 @@
 import { useState } from "react"
-import Cookies from "js-cookie"
 import Card from "../cards/Card"
 import Button from "../buttons/FormButton"
 import { API } from "../api"
+import { config } from "../config"
 import axios from "axios"
 import { useAlertsDispatch } from "../../context/alerts"
 
@@ -21,14 +21,6 @@ const Attachment = ({ job, setJob }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    let token = Cookies.get("token")
-    let config = {
-      headers: {
-        // "Content-Type": "application/json",
-        Authorization: `Bearer ` + token,
-      },
-    }
-
     if (job?.id) {
       // console.log(body)
       setLoading(true)

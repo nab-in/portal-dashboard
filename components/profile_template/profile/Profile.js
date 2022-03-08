@@ -28,6 +28,8 @@ const Profile = ({ details, job, page }) => {
     bio,
     about,
     website,
+    websitelink,
+    cvlink,
     dp,
     logo,
     cv,
@@ -75,6 +77,12 @@ const Profile = ({ details, job, page }) => {
           {location && <Card title="Location" content={location} />}
           {about && <Card title="About" content={about} />}
           {website && <Card title="Website" content={website} url={website} />}
+          {websitelink && (
+            <Card title="Website" content={websitelink} url={websitelink} />
+          )}
+          {cvlink && (
+            <Card title="CV" content={`${firstname} cv`} url={cvlink} />
+          )}
           {cv && <Card title="CV" content={`${firstname} cv`} url={cv} />}
         </article>
       </Section>

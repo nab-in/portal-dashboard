@@ -1,4 +1,3 @@
-import React from "react"
 import styles from "./metricsCard.module.sass"
 
 const MetricsCard = ({ title, number }) => {

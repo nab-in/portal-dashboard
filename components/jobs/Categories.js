@@ -1,13 +1,6 @@
-import React from "react"
 import Filter from "../filter/Filter"
 
-const Categories = ({
-  categories,
-  setCategories,
-  job,
-  selected,
-  setSelected,
-}) => {
+const Categories = ({ categories, setCategories, selected, setSelected }) => {
   return (
     <div>
       <Filter

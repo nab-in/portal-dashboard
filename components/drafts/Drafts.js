@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import MainContents from "../components/templates/MainContents"
 import SubContents from "../components/templates/SubContents"
@@ -18,32 +18,39 @@ const drafts = ({ data, error, page }) => {
     location: "",
     categories: [],
   })
+
   useEffect(() => {
-    if (data) {
-      setDrafts(data.jobs)
-      setSize(data.jobs.length)
-    }
-    if (error) {
-      setErrors(error)
-    }
-    axios
-      .get(`${API}/jobCategories?fields=id,name,children[id, name]`)
-      .then((res) => {
-        // console.log(res.data)
-        let data = res.data?.jobCategories
-        let filter = []
-        data.forEach((el) => {
-          // console.log(el.children)
-          if (el.children) filter = filter.concat(el.children)
+    let isMounted = true
+    if (isMounted) {
+      if (data) {
+        setDrafts(data.jobs)
+        setSize(data.jobs.length)
+      }
+      if (error) {
+        setErrors(error)
+      }
+      axios
+        .get(`${API}/jobCategories?fields=id,name,children[id, name]`)
+        .then((res) => {
+          // console.log(res.data)
+          let data = res.data?.jobCategories
+          let filter = []
+          data.forEach((el) => {
+            // console.log(el.children)
+            if (el.children) filter = filter.concat(el.children)
+          })
+          filter.forEach((el) => {
+            data = data.filter((o) => o.id != el.id)
+          })
+          setCategories(data)
         })
-        filter.forEach((el) => {
-          data = data.filter((o) => o.id != el.id)
+        .catch((err) => {
+          console.log(err)
         })
-        setCategories(data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    }
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   let nextUrl = `/drafts?page=${
