@@ -21,6 +21,6 @@
     "react-linkify": "^1.0.0-alpha",
     "react-paginate": "^8.1.2",
     "recharts": "^2.1.9",
-    "sass": "^1.49.11"
+    "sass": "^1.50.1"
   }
 }
