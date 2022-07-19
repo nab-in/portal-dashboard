@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.26.1",
-    "dayjs": "^1.11.1",
+    "dayjs": "^1.11.4",
     "js-cookie": "^3.0.1",
     "next": "12.1.5",
     "next-pwa": "^5.5.2",
